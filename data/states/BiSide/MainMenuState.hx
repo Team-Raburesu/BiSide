@@ -69,56 +69,51 @@ function create() {
     bidyEyes.scale.set(0.6, 0.6);
     bidyEyes.antialiasing = true;
 
-for (i in 0...optionShit.length) {
-    menuItem = new FunkinSprite(0, 0);
-    menuItem.frames = Paths.getSparrowAtlas('menus/mainmenu/menubuttons');
-    menuItem.animation.addByPrefix('idle', optionShit[i] + 'UnSelected', 8, true);
-    menuItem.animation.addByPrefix('hover', optionShit[i] + 'Selected', 8, true);
-    menuItem.ID = i;
-    menuItems.add(menuItem);
-    menuItem.scale.set(1, 1);
-    menuItem.antialiasing = true;
+    for (i in 0...optionShit.length) {
+        menuItem = new FunkinSprite(0, 0);
+        menuItem.frames = Paths.getSparrowAtlas('menus/mainmenu/menubuttons');
+        menuItem.animation.addByPrefix('idle', optionShit[i] + 'UnSelected', 8, true);
+        menuItem.animation.addByPrefix('hover', optionShit[i] + 'Selected', 8, true);
+        menuItem.ID = i;
+        menuItems.add(menuItem);
+        menuItem.scale.set(1, 1);
+        menuItem.antialiasing = true;
 
-    var targetX:Int = 0;
+        var targetX:Int = 0;
 
-    switch (optionShit[i]) {
-        case "StoryMode":
-            menuItem.setPosition(-500, 250);
-            targetX = 100;
-        case "Freeplay":
-            menuItem.setPosition(-500, 295);
-            targetX = 100;
-        case "Credits":
-            menuItem.setPosition(-500, 340);
-            targetX = 100;
-        case "Options":
-            menuItem.setPosition(-500, 385);
-            targetX = 100;
-        case "Exit":
-            menuItem.setPosition(-500, 450);
-            targetX = 100;
+        switch (optionShit[i]) {
+            case "StoryMode":
+                menuItem.setPosition(-500, 250);
+                targetX = 100;
+            case "Freeplay":
+                menuItem.setPosition(-500, 295);
+                targetX = 100;
+            case "Credits":
+                menuItem.setPosition(-500, 340);
+                targetX = 100;
+            case "Options":
+                menuItem.setPosition(-500, 385);
+                targetX = 100;
+            case "Exit":
+                menuItem.setPosition(-500, 450);
+                targetX = 100;
+        }
 
+        var delay:Float = i * 0.05;
+        FlxTween.tween(menuItem, {x: targetX}, 1, {
+            startDelay: delay,
+            ease: FlxEase.expoOut
+        });
     }
 
-    var delay:Float = i * 0.05;
-    FlxTween.tween(menuItem, {x: targetX}, 1, {
-        startDelay: delay,
-        ease: FlxEase.expoOut
-    });
-}
-
-
-
-add(menuItems);
+    add(menuItems);
     updateItems();
 }
 
 var selectedSomethin:Bool = false;
-var exitHoverCount:Int = 0;  // Compteur pour le nombre de survols
-var isHoveringExit:Bool = false;  // État pour savoir si on survole actuellement "Exit"
-var wigglingExit:Bool = false;  // Indique si le bouton est en train de bouger
-
-
+var exitHoverCount:Int = 0;
+var isHoveringExit:Bool = false;
+var wigglingExit:Bool = false;
 
 function update(elapsed) {
     FlxG.sound.music.volume = 0.5;
@@ -172,79 +167,65 @@ function update(elapsed) {
     FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, (FlxG.mouse.screenX - (FlxG.width / 2)) * 0, 1);
     FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, (FlxG.mouse.screenY - (FlxG.height / 2)) * 0, 1);
 
-     // Détecte si on survole le bouton "Exit"
-    var exitButton = menuItems.members[4]; // Le bouton "Exit" est le 5e élément de la liste
+    var exitButton = menuItems.members[4];
     if (FlxG.mouse.overlaps(exitButton)) {
         if (!isHoveringExit) {
             isHoveringExit = true;
             exitHoverCount++;
 
-            // Si on atteint 3 survols, on commence à "éviter"
             if (exitHoverCount >= 6 && !wigglingExit) {
                 wiggleExitButton(exitButton);
             }
         }
     } else {
-        isHoveringExit = false; // On ne survole plus le bouton
+        isHoveringExit = false;
     }
     if (!FlxG.mouse.overlaps(exitButton)) {
         bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
         bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
     }
-
 }
 
-// Fonction pour faire "éviter" le bouton "Exit"
 function wiggleExitButton(button:FlxSprite) {
     wigglingExit = true;
 
-    // Position d'origine du bouton
     var originalX = button.x;
     var originalY = button.y;
 
-    // Rayon maximal autour de la position d'origine où le bouton peut bouger
     var maxRadius:Float = 50;
 
-    // Calculer la nouvelle position autour de la souris avec un déplacement fluide
     function calculateNewPosition():Dynamic {
         var mouseX = FlxG.mouse.screenX;
         var mouseY = FlxG.mouse.screenY;
 
-        // Calculer un angle aléatoire pour éviter la souris
         var angle:Float = FlxG.random.float(0, Math.PI * 2);
-        var offsetRadius:Float = FlxG.random.float(30, maxRadius); // Rayon d'évitement (30 = distance min)
-        
-        // Nouvelle position basée sur l'angle et le rayon
+        var offsetRadius:Float = FlxG.random.float(30, maxRadius);
+
         var newX:Float = originalX + Math.cos(angle) * offsetRadius;
         var newY:Float = originalY + Math.sin(angle) * offsetRadius;
 
-        // Si le bouton est trop proche de la souris, recalculer
         var dx = mouseX - newX;
         var dy = mouseY - newY;
         var distanceToMouse:Float = Math.sqrt(dx * dx + dy * dy);
 
-        if (distanceToMouse < 30) { // 30 = distance minimale pour éviter la souris
-            return calculateNewPosition(); // Recalcul si trop proche
+        if (distanceToMouse < 30) {
+            return calculateNewPosition();
         }
 
         return {x: newX, y: newY};
     }
 
-    // Calculer la nouvelle position
     var newPosition = calculateNewPosition();
 
-    // Appliquer le mouvement fluide
     FlxTween.tween(button, {
         x: newPosition.x,
         y: newPosition.y
     }, 0.2, {
-        ease: FlxEase.expoInOut, // Transition fluide vers la nouvelle position
+        ease: FlxEase.expoInOut,
         onComplete: function(tween:FlxTween) {
             if (FlxG.mouse.overlaps(button)) {
-                // Continuer de s'éviter tant que la souris est sur le bouton
                 wiggleExitButton(button);
             } else {
-                // Revenir doucement à la position d'origine si la souris s'éloigne
                 wigglingExit = false;
                 FlxTween.tween(button, {x: originalX, y: originalY}, 0.5, {ease: FlxEase.expoOut});
             }
@@ -252,34 +233,27 @@ function wiggleExitButton(button:FlxSprite) {
     });
 }
 
-
-
 function updateItems() {
     menuItems.forEach(function(spr:FunkinSprite) {
         if (spr.ID == curSelected) {
             spr.animation.play('hover');
         }
         
-        if (curSelected == 4) {  // Si "Exit" est sélectionné
+        if (curSelected == 4) {
             bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes_frowning'));
             bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head_frowning'));
         } else {
-            // Si ce n'est pas "Exit", charge les images de base
             bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
             bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
         }
 
-        // Gérer le hover de "Exit"
         var exitButton = menuItems.members[4];
-        if (!FlxG.mouse.overlaps(exitButton)) {  // Si la souris n'est plus sur le bouton "Exit"
+        if (!FlxG.mouse.overlaps(exitButton)) {
             bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
             bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
         }
     });
 }
-
-
-
 
 function switchState() {
     var daChoice:String = optionShit[curSelected];
@@ -289,7 +263,7 @@ function switchState() {
             FlxG.switchState(new StoryMenuState());
         case 'Freeplay':
             openSubState(new ModSubState("BiSide/FreeplayScreen"));
-             persistentUpdate = !(persistentDraw = true);
+            persistentUpdate = !(persistentDraw = true);
         case 'Option':
             FlxG.switchState(new OptionsMenu());
         case 'Credits':
@@ -365,7 +339,6 @@ function updateHead() {
 
     bidyhead.angle = FlxMath.lerp(bidyhead.angle, angleDeg * -0.5, 0.1);
     previousAngle = angleDeg;
-    
 }
 
 function clamp(value:Float, min:Float, max:Float):Float {
@@ -375,7 +348,6 @@ function clamp(value:Float, min:Float, max:Float):Float {
 function sign(value:Float):Int {
     return (value > 0) ? 1 : (value < 0) ? -1 : 0;
 }
-
 
 function selectItem() {
     selectedSomethin = true;
@@ -390,9 +362,8 @@ function selectItem() {
 
     for (i in 0...menuItems.length) {
         var menuItem = menuItems.members[i];
-        var delay:Float = i * 0.05; // Délai basé sur l'index
+        var delay:Float = i * 0.05;
 
-        // Cible : hors de l'écran à droite et alpha diminué
         var targetX = FlxG.width -700;
 
         FlxTween.tween(menuItem, {x: targetX, alpha: 0}, 1, {
@@ -402,4 +373,3 @@ function selectItem() {
         switchState();
     }
 }
-
