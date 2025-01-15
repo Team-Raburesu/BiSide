@@ -1,0 +1,19 @@
+{
+	"beatsPerMeasure": 3,
+	"opponentModeAllowed": true,
+	"coopAllowed": false,
+	"stepsPerBeat": 4,
+	"bpm": 190,
+	"difficulties": [
+		"Easy",
+		"Normal",
+		"Hard"
+	],
+	"needsVoices": true,
+	"parsedColor": -14569500,
+	"displayName": "my side",
+	"icon": "beef",
+	"name": "my side",
+	"color": "#21AFE4",
+	"customValues": {}
+}

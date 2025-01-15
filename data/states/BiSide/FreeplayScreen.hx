@@ -5,6 +5,8 @@ var optionShit:Array<String> = ["MySide", "LoopingChorus", "NoFriendship", "Toge
 var menuItems:FlxTypedGroup<FlxSprite> = new FlxTypedGroup();
 var confirm:FlxSound;
 var usingMouse:Bool = true;
+var photoDisplay:FlxSprite; // Sprite pour afficher l'image sélectionnée
+
 
 function create() {
     for (i in 0...optionShit.length) {
@@ -42,10 +44,18 @@ function create() {
             ease: FlxEase.expoOut
         });
     }
+
+    // Initialiser le sprite pour afficher les images
+    photoDisplay = new FlxSprite(FlxG.width - 650, 100);
+    photoDisplay.scale.set(1, 1);
+    photoDisplay.antialiasing = true;
+    add(photoDisplay);
+
     trace(optionShit);
     add(menuItems);
     updateItems();
 }
+
 
 function update(elapsed) {
     if (FlxG.mouse.justMoved) {
@@ -68,15 +78,64 @@ function update(elapsed) {
 
         changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
     }
+    if (controls.BACK)
+			 FlxG.resetState();
 }
+
+var lastSelected:Int = -1; // -1 signifie qu'aucun élément n'est sélectionné initialement
+
 
 function updateItems() {
     menuItems.forEach(function(spr:FunkinSprite) {
         if (spr.ID == curSelected) {
             spr.animation.play('hover');
+
+            // Vérifie si la sélection a changé
+            if (lastSelected != curSelected) {
+                lastSelected = curSelected; // Met à jour la sélection actuelle
+
+                // Annule les tweens existants pour éviter les conflits
+                FlxTween.cancelTweensOf(photoDisplay);
+
+                // Mise à jour de l'image affichée
+                var photoPath:String = switch (optionShit[curSelected]) {
+                    case "MySide": Paths.image("menus/freeplay/MySidePhotograph");
+                    case "LoopingChorus": Paths.image("menus/freeplay/LoopingChorusPhotograph");
+                    case "NoFriendship": Paths.image("menus/freeplay/NoFriendshipPhotograph");
+                    case "TogetherAtLast": Paths.image("menus/freeplay/TogetherAtLastPhoto");
+                    default: null; // Par défaut, aucune image
+                };
+
+                if (photoPath != null) {
+                    // Charger l'image correspondante
+                    photoDisplay.loadGraphic(photoPath);
+                    photoDisplay.visible = true; // Rendre visible
+                    photoDisplay.updateHitbox();
+
+                    // Appliquer une rotation et un "bop" d'échelle
+                    var randomRotation:Float = FlxG.random.float(5, -5); // Rotation entre -15° et 15°
+                    photoDisplay.angle = randomRotation;
+
+                    // Animation d'échelle
+                     
+                    photoDisplay.scale.set(1.1, 1.1); // Réinitialiser l'échelle avant le tween
+                    FlxTween.cancelTweensOf(photoDisplay);
+                    FlxTween.tween(photoDisplay.scale, {x: 1, y: 1}, 0.3, {ease: FlxEase.elasticOut});
+                    
+                } else {
+                    // Cacher le sprite si aucune image n'est sélectionnée
+                    photoDisplay.visible = false;
+                }
+            }
+        } else {
+            spr.animation.play("idle", true);
         }
     });
 }
+
+
+
+
 
 function selectItem() {
     selectedSomethin = true;

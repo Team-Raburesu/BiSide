@@ -1,17 +1,16 @@
 {
 	"beatsPerMeasure": 4,
-	"opponentModeAllowed": false,
-	"coopAllowed": false,
+	"opponentModeAllowed": true,
+	"coopAllowed": true,
 	"stepsPerBeat": 4,
 	"bpm": 180,
 	"difficulties": [
-		"HARD"
+		"hard"
 	],
 	"needsVoices": true,
-	"parsedColor": -7179779,
-	"displayName": "no friendship",
-	"icon": "beni",
-	"name": "no friendship",
-	"color": "#9271FD",
-	"customValues": {}
+	"parsedColor": -7268865,
+	"displayName": "No FriendShip",
+	"icon": "bf",
+	"name": "No FriendShip",
+	"color": "#9115FF"
 }

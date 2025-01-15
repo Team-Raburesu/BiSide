@@ -16,3 +16,17 @@ bloomShader = new FunkinShader(Assets.getText(Paths.fragShader("bloom")));
             FlxG.camera.addShader(bloomShader); 
 
 }
+
+function onCountdown(event) {
+    // Augmenter la taille du compteur (Ready, Set, Go)
+    var scaleFactor = 1.5; // Change cette valeur pour ajuster la taille
+    event.scale = scaleFactor;
+
+    // Garder le texte par défaut (sans chemin personnalisé)
+    event.spritePath = switch(event.swagCounter) {
+        case 0: null; // Rien pour 0
+        case 1: 'game/ready'; // Ready
+        case 2: 'game/set';   // Set
+        case 3: 'game/go';    // Go
+    };
+}

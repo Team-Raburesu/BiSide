@@ -5,22 +5,25 @@ var rightHealth:FlxSprite;
 
 var __healthScale:Float = 0.65;
 
-
 function postCreate() {
+    // Determine the health bar style based on the current song
+    var leftFillerPath = Paths.image("game/healthbar/filler_right");
+    var rightFillerPath = Paths.image("game/healthbar/filler_left");
 
+    if (curSong == "no friendship") {
+        leftFillerPath = Paths.image("game/healthbar/filler_beni");
+    }
 
-
-    leftHealth = new FlxSprite(0,-150, Paths.image("game/healthbar/filler_right"));
+    leftHealth = new FlxSprite(0, -150, leftFillerPath);
     leftHealth.camera = camHUD;
     leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
     leftHealth.updateHitbox();
     leftHealth.scale.set(1, 1);
-    
     leftHealth.screenCenter();
-    leftHealth.y = FlxG.height - leftHealth.height -46;
-    leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth*0.5, leftHealth.frameHeight);
+    leftHealth.y = FlxG.height - leftHealth.height - 46;
+    leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
 
-    rightHealth = new FlxSprite(0,-150, Paths.image("game/healthbar/filler_left"));
+    rightHealth = new FlxSprite(0, -150, rightFillerPath);
     rightHealth.camera = camHUD;
     rightHealth.setGraphicSize(Std.int(rightHealth.width * __healthScale));
     rightHealth.updateHitbox();
@@ -29,20 +32,17 @@ function postCreate() {
         spr.setPosition(leftHealth.x, leftHealth.y);
         spr.draw();
     };
-    
     rightHealth.clipRect = new FlxRect(0, 0, rightHealth.frameWidth, rightHealth.frameHeight);
 
-    healthhBarBG = new FlxSprite(0,-150, Paths.image("game/healthbar/Healthbar"));
+    var healthhBarBG = new FlxSprite(0, -150, Paths.image("game/healthbar/Healthbar"));
     healthhBarBG.camera = camHUD;
     healthhBarBG.scale.set(1, 1);
     healthhBarBG.screenCenter();
-    healthhBarBG.y = FlxG.height - healthhBarBG.height -29;
-  
-
+    healthhBarBG.y = FlxG.height - healthhBarBG.height - 29;
 
     insert(members.indexOf(iconP1), rightHealth);
     insert(members.indexOf(iconP1), leftHealth);
-    insert(members.indexOf(iconP1) , healthhBarBG);
+    insert(members.indexOf(iconP1), healthhBarBG);
 }
 
 function update(elapsed) {
