@@ -6,6 +6,7 @@ var rightHealth:FlxSprite;
 var __healthScale:Float = 0.65;
 
 function postCreate() {
+       PauseSubState.script = 'data/scripts/Pause';
     // Determine the health bar style based on the current song
     var leftFillerPath = Paths.image("game/healthbar/filler_right");
     var rightFillerPath = Paths.image("game/healthbar/filler_left");
@@ -39,12 +40,19 @@ function postCreate() {
     healthhBarBG.scale.set(1, 1);
     healthhBarBG.screenCenter();
     healthhBarBG.y = FlxG.height - healthhBarBG.height - 29;
+    healthBarBG.visible = false;    
 
     insert(members.indexOf(iconP1), rightHealth);
     insert(members.indexOf(iconP1), leftHealth);
     insert(members.indexOf(iconP1), healthhBarBG);
+
+     if (downscroll){
+        leftHealth.y = FlxG.height - leftHealth.height - 40;
+    } 
 }
 
 function update(elapsed) {
     leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * (1 - (health / maxHealth)), leftHealth.frameHeight);
 }
+
+
