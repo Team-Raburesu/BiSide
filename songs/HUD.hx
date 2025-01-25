@@ -6,7 +6,9 @@ var rightHealth:FlxSprite;
 var __healthScale:Float = 0.65;
 
 function postCreate() {
-       PauseSubState.script = "data/scripts/pause";
+    
+
+
     var leftFillerPath = Paths.image("game/healthbar/filler_right");
     var rightFillerPath = Paths.image("game/healthbar/filler_left");
 
@@ -55,3 +57,12 @@ function update(elapsed) {
 }
 
 
+function onGamePause(event) {
+	event.cancel();
+
+	persistentUpdate = false;
+	persistentDraw = true;
+	paused = true;
+
+	openSubState(new ModSubState('PauseMenu'));
+}

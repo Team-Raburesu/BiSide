@@ -1,0 +1,139 @@
+import flixel.FlxG;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.text.FlxTextBorderStyle;
+import openfl.text.TextFormat;
+import openfl.geom.Rectangle;
+import funkin.options.OptionsMenu;
+import funkin.options.keybinds.KeybindsOptions;
+
+var itemArray:Array<{sprite: FunkinSprite, lerp: Float}> = [];
+var camPause:FlxCamera;
+var menuItems:Array<String> = ["Resume", "Restart", "Options", "Controls", "Exit"];
+var curSelected:Int = 0;
+var pauseMusic:FlxSound;
+var wall:FlxSprite;
+var render:FunkinSprite;
+var canSelect:Bool = false;
+
+function create() {
+    // Configuration de l'état pause
+    FlxG.state.persistentUpdate = false;
+    FlxG.state.persistentDraw = true;
+    FlxG.state.paused = true;
+
+    
+    // Initialisation de la caméra pause
+    camPause = new FlxCamera();
+    camPause.bgColor = 0x0000FFFF;
+    FlxG.cameras.add(camPause, false);
+    camPause.alpha = 1;
+    camPause.zoom = 1;
+
+    canSelect  = true;
+
+  
+
+
+
+    blackBarThingie = new FlxSprite().makeSolid(FlxG.width +500, 0, FlxColor.BLACK);
+    blackBarThingie.setGraphicSize(Std.int(blackBarThingie.width + 400));
+    blackBarThingie.scrollFactor.set(0, 0);
+    blackBarThingie.screenCenter();
+    blackBarThingie.alpha = 0.4;
+    add(blackBarThingie);
+    blackBarThingie.cameras = [camPause];
+
+    menulogo = new FlxSprite(100, 180).loadGraphic(Paths.image('menus/PauseMenu/Menu'));
+    add(menulogo);
+    menulogo.scale.set(0.72, 0.72);
+    menulogo.cameras = [camPause];
+
+    pauselogo = new FlxSprite(80, 60).loadGraphic(Paths.image('menus/PauseMenu/Pause'));
+    add(pauselogo);
+    pauselogo.scale.set(0.72, 0.72);
+    pauselogo.cameras = [camPause];
+
+
+    // Ajout de la musique de pause
+    pauseMusic = FlxG.sound.load(Paths.music("breakfast"), 0, true);
+    pauseMusic.persist = false;
+    pauseMusic.group = FlxG.sound.defaultMusicGroup;
+    pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+
+    // Création des options du menu
+    for (index in 0...menuItems.length) {
+        var item:FunkinSprite = new FunkinSprite(0, 50);
+        item.frames = Paths.getSparrowAtlas("menus/PauseMenu/menubuttons");
+        item.animation.addByPrefix("idle", menuItems[index] + "UnSelected", 24, true);
+        item.animation.addByPrefix("hover", menuItems[index] + "Selected", 24, true);
+        item.playAnim("idle", true);
+
+        item.scale.set(1, 1);
+        item.updateHitbox();
+        item.x = 120; // Position hors écran pour les animations d'entrée
+        item.y = 250+ (50 * index); // Espacement entre les options
+        item.cameras = [camPause];
+        add(item);
+
+        // Animation d'entrée
+      
+
+        itemArray.push({sprite: item});
+    }
+      blur = new CustomShader("GaussianBlur");
+    camera.addShader(blur);
+    camPause.flash(FlxColor.WHITE, 0.2);
+}
+
+function update(elapsed:Float) {
+    if (!canSelect) return;
+
+    if (FlxG.keys.justPressed.UP) {
+        changeSelection(-1);
+    } else if (FlxG.keys.justPressed.DOWN) {
+        changeSelection(1);
+    } else if (FlxG.keys.justPressed.ENTER) {
+        selectItem(menuItems[curSelected]);
+    }
+
+    // Mise à jour des animations des éléments du menu
+    for (item in itemArray) {
+        var isSelected = itemArray.indexOf(item) == curSelected;
+        item.sprite.playAnim(isSelected ? "hover" : "idle");
+        var targetScale:Float = isSelected ? 1 : 1;
+        item.sprite.scale.set(
+            CoolUtil.fpsLerp(item.sprite.scale.x, targetScale, item.lerp),
+            CoolUtil.fpsLerp(item.sprite.scale.y, targetScale, item.lerp)
+        );
+    }
+}
+
+function changeSelection(change:Int) {
+    curSelected += change;
+
+    if (curSelected < 0) curSelected = menuItems.length - 1;
+    if (curSelected >= menuItems.length) curSelected = 0;
+}
+
+function selectItem(option:String) {
+    canSelect = false;
+
+    switch (option) {
+        case "Resume":
+           canSelect = false;
+           blackBarThingie.alpha = 0;
+             close();
+            FlxG.camera.removeShader(blur);
+        case "Restart":
+            PlayState.instance.registerSmoothTransition();
+            FlxG.resetState(); // Redémarrer le niveau
+        case "Options":
+            FlxG.switchState(new OptionsMenu());
+        case "Controls":
+            openSubState(new KeybindsOptions());
+            persistentDraw = false;
+        case "Exit":
+            FlxG.switchState(new MainMenuState()); // Retourner au menu principal
+    }
+}
