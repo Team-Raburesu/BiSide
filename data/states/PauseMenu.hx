@@ -22,7 +22,6 @@ function create() {
     FlxG.state.persistentDraw = true;
     FlxG.state.paused = true;
 
-    
     // Initialisation de la caméra pause
     camPause = new FlxCamera();
     camPause.bgColor = 0x0000FFFF;
@@ -30,12 +29,9 @@ function create() {
     camPause.alpha = 1;
     camPause.zoom = 1;
 
-    canSelect  = true;
+    canSelect = true;
 
-
-
-
-    blackBarThingie = new FlxSprite().makeSolid(FlxG.width +500, 0, FlxColor.BLACK);
+    blackBarThingie = new FlxSprite().makeSolid(FlxG.width + 500, 0, FlxColor.BLACK);
     blackBarThingie.setGraphicSize(Std.int(blackBarThingie.width + 400));
     blackBarThingie.scrollFactor.set(0, 0);
     blackBarThingie.screenCenter();
@@ -54,28 +50,25 @@ function create() {
     pauselogo.cameras = [camPause];
 
     if (PlayState.instance.curSong == "my side") {
-    render = new FlxSprite(400, -350).loadGraphic(Paths.image('menus/PauseMenu/PauseMySide'));
-    add(render);
-    render.scale.set(0.4, 0.4);
-    render.cameras = [camPause];
+        render = new FlxSprite(400, -350).loadGraphic(Paths.image('menus/PauseMenu/PauseMySide'));
+        add(render);
+        render.scale.set(0.4, 0.4);
+        render.cameras = [camPause];
+    }
 
-   }
+    if (PlayState.instance.curSong == "no friendship") {
+        render = new FlxSprite(320, -300).loadGraphic(Paths.image('menus/PauseMenu/PauseNoFriendship'));
+        add(render);
+        render.scale.set(0.4, 0.4);
+        render.cameras = [camPause];
+    }
 
-   if (PlayState.instance.curSong == "no friendship") {
-    render = new FlxSprite(320, -300).loadGraphic(Paths.image('menus/PauseMenu/PauseNoFriendship'));
-    add(render);
-    render.scale.set(0.4, 0.4);
-    render.cameras = [camPause];
-   }
-
-   if (PlayState.instance.curSong == "togetheratlastfr") {
-    render = new FlxSprite(250, -350).loadGraphic(Paths.image('menus/PauseMenu/PauseTogetherAtLast'));
-    add(render);
-    render.scale.set(0.4, 0.4);
-    render.cameras = [camPause];
-   }
-
-
+    if (PlayState.instance.curSong == "togetheratlastfr") {
+        render = new FlxSprite(250, -350).loadGraphic(Paths.image('menus/PauseMenu/PauseTogetherAtLast'));
+        add(render);
+        render.scale.set(0.4, 0.4);
+        render.cameras = [camPause];
+    }
 
     // Ajout de la musique de pause
     pauseMusic = FlxG.sound.load(Paths.music("breakfast"), 0, true);
@@ -93,24 +86,29 @@ function create() {
 
         item.scale.set(1, 1);
         item.updateHitbox();
-        item.x = 120; // Position hors écran pour les animations d'entrée
-        item.y = 250+ (50 * index); // Espacement entre les options
+        item.x = 120;
+        item.y = 250 + (50 * index);
         item.cameras = [camPause];
         add(item);
 
-        // Animation d'entrée
-      
-
-        itemArray.push({sprite: item});
+        itemArray.push({sprite: item, lerp: 0.2});
     }
-      blur = new CustomShader("GaussianBlur");
+
+    blur = new CustomShader("GaussianBlur");
     camera.addShader(blur);
     camPause.flash(FlxColor.WHITE, 0.2);
+}
+
+// Add this new function to handle returning from submenus
+function onSubStateClose() {
+    canSelect = true;  // Re-enable selection when returning from submenu
+    persistentDraw = true;
 }
 
 function update(elapsed:Float) {
     if (!canSelect) return;
 
+    // Keyboard controls
     if (FlxG.keys.justPressed.UP) {
         changeSelection(-1);
     } else if (FlxG.keys.justPressed.DOWN) {
@@ -119,7 +117,27 @@ function update(elapsed:Float) {
         selectItem(menuItems[curSelected]);
     }
 
-    // Mise à jour des animations des éléments du menu
+    // Mouse controls
+    var mousePos = FlxG.mouse.getScreenPosition(camPause);
+    var hoveredItem = -1;
+
+    for (i in 0...itemArray.length) {
+        var item = itemArray[i].sprite;
+        if (item.overlapsPoint(mousePos)) {
+            hoveredItem = i;
+            if (FlxG.mouse.justPressed) {
+                curSelected = i;
+                selectItem(menuItems[curSelected]);
+            }
+            break;
+        }
+    }
+
+    if (hoveredItem != -1 && hoveredItem != curSelected) {
+        changeSelection(hoveredItem - curSelected);
+    }
+
+    // Update menu item animations
     for (item in itemArray) {
         var isSelected = itemArray.indexOf(item) == curSelected;
         item.sprite.playAnim(isSelected ? "hover" : "idle");
@@ -139,23 +157,23 @@ function changeSelection(change:Int) {
 }
 
 function selectItem(option:String) {
-    canSelect = false;
-
     switch (option) {
         case "Resume":
-           canSelect = false;
-           blackBarThingie.alpha = 0;
-             close();
+            canSelect = false;
+            blackBarThingie.alpha = 0;
+            close();
             FlxG.camera.removeShader(blur);
         case "Restart":
             PlayState.instance.registerSmoothTransition();
-            FlxG.resetState(); // Redémarrer le niveau
+            FlxG.resetState();
         case "Options":
             FlxG.switchState(new OptionsMenu());
         case "Controls":
-            openSubState(new KeybindsOptions());
+            var keybindsSubState = new KeybindsOptions();
+            keybindsSubState.closeCallback = onSubStateClose;  // Set the callback
+            openSubState(keybindsSubState);
             persistentDraw = false;
         case "Exit":
-            FlxG.switchState(new MainMenuState()); // Retourner au menu principal
+            FlxG.switchState(new MainMenuState());
     }
 }
