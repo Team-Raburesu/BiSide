@@ -12,8 +12,8 @@ function postCreate() {
     // Create array for individual letters
     var letters = ['B', 'O', 'T', 'P', 'L', 'A', 'Y'];
     var letterSpacing = 25;
-    var posX = 550; // Change this to your desired X position
-    var posY = 80; // Change this to your desired Y position
+    var posX = 550;
+    var posY = 80;
     
     for (i in 0...letters.length) {
         var letter = new FlxText(posX + (i * letterSpacing), posY, null, letters[i], 32);
@@ -50,6 +50,14 @@ public var botplaySine:Float = 0;
 function update(elapsed:Float) {
     if (FlxG.keys.justPressed.B) curBotplay = !curBotplay;
     
+    // Update botplay status for all strumlines
+    for (strumLine in strumLines) {
+        if (!strumLine.opponentSide) {
+            strumLine.cpu = curBotplay;
+        }
+    }
+    
+    // Update text visibility
     for (letter in letterTexts) {
         letter.visible = curBotplay;
     }

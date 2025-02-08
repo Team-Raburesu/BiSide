@@ -9,7 +9,7 @@ function create() {
     for (event in events) {
         if (event.name == 'PA Lyrics') {
             dalyricsa = new FlxText(0, 165, 1200, "", 70);
-            dalyricsa.setFormat(Paths.font("Digital Sans EF Medium.ttf"), 50, 0xFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+            dalyricsa.setFormat(Paths.font("MPLUSRounded1c-Black.ttf"), 50, 0xFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
             dalyricsa.scrollFactor.set();
             dalyricsa.borderColor = 0x00000000;
             dalyricsa.borderSize = 0;
