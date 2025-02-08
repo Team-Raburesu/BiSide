@@ -1,5 +1,4 @@
 import flixel.text.FlxTextBorderStyle;
-
 var dalyricsa:FlxText;
 var enableit:Bool;
 var hideit:Bool;
@@ -8,14 +7,14 @@ public var coolassshader = new CustomShader("NewGlitch2");
 function create() {
     for (event in events) {
         if (event.name == 'PA Lyrics') {
-            dalyricsa = new FlxText(0, 165, 1200, "", 70);
-            dalyricsa.setFormat(Paths.font("MPLUSRounded1c-Black.ttf"), 50, 0xFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+            dalyricsa = new FlxText(0, 600, 1200, "", 70); // Default position at 0,0
+            dalyricsa.setFormat(Paths.font("MPLUSRounded1c-Black.ttf"), 50, 0xFF5883B0, "center", FlxTextBorderStyle.OUTLINE_FAST, 0xFFFFFFFF);
             dalyricsa.scrollFactor.set();
-            dalyricsa.borderColor = 0x00000000;
-            dalyricsa.borderSize = 0;
-            dalyricsa.screenCenter(FlxAxes.X);
+            dalyricsa.borderSize = 2.5;
+            dalyricsa.borderQuality = 1;
+	    dalyricsa.screenCenter(FlxAxes.X);
             add(dalyricsa);
-            dalyricsa.cameras = [camHUD];
+            dalyricsa.cameras = [camGame];
             break;
         }
     }
@@ -28,11 +27,12 @@ function onEvent(e) {
     if (params[1] == '') {
         dalyricsa.text = '';
     } else {
-        dalyricsa.text = params[1]; // Removed params[0] + ':' + '\n' +
+        dalyricsa.text = params[1];
     }
     
-    dalyricsa.color = params[2];
-    dalyricsa.borderColor = 0x00000000;
+    // Add position handling (params[5] for X, params[6] for Y)
+    if (params[5] != null) dalyricsa.x = Std.parseFloat(params[5]);
+    if (params[6] != null) dalyricsa.y = Std.parseFloat(params[6]);
     
     enableit = params[3] == true;
     hideit = params[4] == true;
@@ -45,4 +45,6 @@ function stepHit(step:Int) {
 
 function postUpdate(elapsed) {
     dalyricsa.shader = enableit ? coolassshader : null;
+    if (hideit) dalyricsa.visible = false;
+    else dalyricsa.visible = true;
 }
