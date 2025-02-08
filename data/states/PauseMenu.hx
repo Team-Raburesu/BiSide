@@ -32,7 +32,7 @@ function create() {
 
     canSelect  = true;
 
-  
+ 
 
 
 
@@ -135,5 +135,12 @@ function selectItem(option:String) {
             persistentDraw = false;
         case "Exit":
             FlxG.switchState(new MainMenuState()); // Retourner au menu principal
+    }
+}
+
+
+function postCreate() {
+
+    if (curSong == "optimistic") {
     }
 }
