@@ -1,0 +1,14 @@
+{
+    "params": [
+        {
+            "name": "Set Lerp:",
+            "type": "Float(0,5,1,100)",
+            "defaultValue": 0.04
+        },
+        {
+            "name": "Set Zoom:",
+            "type": "Float(0,100,1,10)",
+            "defaultValue": 1
+        }
+    ]
+}
