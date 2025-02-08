@@ -148,7 +148,7 @@ function switchState() {
 
     switch (daChoice) {
         case 'MySide':
-            PlayState.loadSong("MySide", "hard");
+            PlayState.loadSong("my side", "hard");
             FlxG.switchState(new PlayState());
         case 'LoopingChorus':
             PlayState.loadSong("LoopingChorus", "hard");
@@ -157,7 +157,7 @@ function switchState() {
             PlayState.loadSong("no friendship", "hard");
             FlxG.switchState(new PlayState());
         case 'TogetherAtLast':
-            PlayState.loadSong("together at last", "hard");
+            PlayState.loadSong("togetheratlastfr", "hard");
             FlxG.switchState(new PlayState());
     }
 }

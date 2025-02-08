@@ -10,7 +10,8 @@
 	"needsVoices": true,
 	"parsedColor": -7268865,
 	"displayName": "No FriendShip",
-	"icon": "bf",
+	"icon": "beni",
 	"name": "No FriendShip",
-	"color": "#9115FF"
+	"color": "#9115FF",
+	"customValues": {}
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE codename-engine-character>
-<character x="100" y="550" sprite="miside bf" scale="1.8" camy="-100" icon="beef" color="#48ACEC">
+<character x="100" y="550" sprite="miside bf" scale="1.8" camy="-100" camx="500" icon="beef" color="#48ACEC">
 	<anim name="idle" anim="Idle instance 0" x="0" y="0" fps="24" loop="false"/>
 	<anim name="singDOWN" anim="Down instance 0" x="-24" y="-26" fps="24" loop="false"/>
 	<anim name="singLEFT" anim="Left instance 0" x="21" y="-23" fps="24" loop="false"/>
