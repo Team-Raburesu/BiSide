@@ -7,7 +7,7 @@ public var coolassshader = new CustomShader("NewGlitch2");
 function create() {
     for (event in events) {
         if (event.name == 'PA Lyrics') {
-            dalyricsa = new FlxText(0, 600, 1200, "", 70); // Default position at 0,0
+            dalyricsa = new FlxText(0, 500, 1200, "", 70); // Default position at 0,0
             dalyricsa.setFormat(Paths.font("MPLUSRounded1c-Black.ttf"), 50, 0xFF5883B0, "center", FlxTextBorderStyle.OUTLINE_FAST, 0xFFFFFFFF);
             dalyricsa.scrollFactor.set();
             dalyricsa.borderSize = 2.5;
