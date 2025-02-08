@@ -46,14 +46,23 @@ function create() {
     }
 
     // Initialiser le sprite pour afficher les images
-    photoDisplay = new FlxSprite(FlxG.width - 650, 100);
+    photoDisplay = new FlxSprite(FlxG.width - 1200, 100);
     photoDisplay.scale.set(1, 1);
     photoDisplay.antialiasing = true;
     add(photoDisplay);
+    photoDisplay.alpha = 0;
+    FlxTween.tween(photoDisplay, {alpha: 1}, 1);
+    FlxTween.tween(photoDisplay, {x: FlxG.width - 650}, 1, {ease: FlxEase.expoOut});
+   
 
     trace(optionShit);
+
+    curSelected = 0; // Sélectionne "MySide" par défaut
+lastSelected = -1; // Force l'update au premier affichage
+updateItems(); // Met à jour immédiatement l'affichage
+
     add(menuItems);
-    updateItems();
+
 }
 
 
@@ -91,11 +100,11 @@ function updateItems() {
             spr.animation.play('hover');
 
             // Vérifie si la sélection a changé
-            if (lastSelected != curSelected) {
+            if (lastSelected != curSelected || lastSelected == -1) { 
+
                 lastSelected = curSelected; // Met à jour la sélection actuelle
 
                 // Annule les tweens existants pour éviter les conflits
-                FlxTween.cancelTweensOf(photoDisplay);
 
                 // Mise à jour de l'image affichée
                 var photoPath:String = switch (optionShit[curSelected]) {
@@ -111,7 +120,7 @@ function updateItems() {
                     photoDisplay.loadGraphic(photoPath);
                     photoDisplay.visible = true; // Rendre visible
                     photoDisplay.updateHitbox();
-
+                        
                     // Appliquer une rotation et un "bop" d'échelle
                     var randomRotation:Float = FlxG.random.float(5, -5); // Rotation entre -15° et 15°
                     photoDisplay.angle = randomRotation;
@@ -119,7 +128,6 @@ function updateItems() {
                     // Animation d'échelle
                      
                     photoDisplay.scale.set(1.1, 1.1); // Réinitialiser l'échelle avant le tween
-                    FlxTween.cancelTweensOf(photoDisplay);
                     FlxTween.tween(photoDisplay.scale, {x: 1, y: 1}, 0.3, {ease: FlxEase.elasticOut});
                     
                 } else {
@@ -140,6 +148,7 @@ function updateItems() {
 function selectItem() {
     selectedSomethin = true;
     confirm.play();
+    updateItems(); // S'assurer que l'image est correcte avant de changer d'état
     switchState();
 }
 
@@ -166,17 +175,11 @@ function changeSelection(change:Int = 0, force:Bool = false) {
     if (change == 0 && !force) return;
 
     hover.play();
-
     usingMouse = false;
 
     curSelected += change;
+    if (curSelected >= optionShit.length) curSelected = 0;
+    if (curSelected < 0) curSelected = optionShit.length - 1;
 
-    if (curSelected >= optionShit.length) {
-        curSelected = 0;
-    }
-    if (curSelected < 0) {
-        curSelected = optionShit.length - 1;
-    }
-
-    updateItems();
+    updateItems(); // Mise à jour immédiate
 }

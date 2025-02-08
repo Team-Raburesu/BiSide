@@ -113,6 +113,17 @@ var isHoveringExit:Bool = false;
 var wigglingExit:Bool = false;
 
 function update(elapsed) {
+
+	if (FlxG.keys.justPressed.ENTER) {
+    usingMouse = false;
+    var selectedItem = menuItems.members[curSelected];
+    
+    if (selectedItem != null) {
+        selectItem();
+    }
+}
+
+	
 	FlxG.sound.music.volume = 0.5;
 
 	if (FlxG.keys.justPressed.SEVEN) {
@@ -273,24 +284,27 @@ function switchState() {
 }
 
 function changeSelection(change:Int = 0, force:Bool = false) {
-	if (change == 0 && !force)
-		return;
+    if (change == 0 && !force)
+        return;
 
-	hover.play();
+    hover.play();
+    usingMouse = false;
 
-	usingMouse = false;
+    curSelected += change;
 
-	curSelected += change;
+    if (curSelected >= menuItems.length) curSelected = 0; // Loop back to first
+    if (curSelected < 0) curSelected = menuItems.length - 1; // Loop to last
 
-	if (curSelected >= optionShit.length) {
-		curSelected = 0;
-	}
-	if (curSelected < 0) {
-		curSelected = optionShit.length - 1;
-	}
-
-	updateItems();
+    for (item in menuItems.members) {
+        if (item.ID == curSelected) {
+            item.animation.play("hover", true);
+        } else {
+            item.animation.play("idle", true);
+        }
+    }
 }
+
+
 
 function updateEyes() {
 	var eyeInitialX = 720;
