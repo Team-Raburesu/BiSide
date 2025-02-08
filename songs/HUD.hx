@@ -66,3 +66,7 @@ function onGamePause(event) {
 
 	openSubState(new ModSubState('PauseMenu'));
 }
+
+function onGameOver(event:GameOverEvent) {
+  event.character.scrollFactor.set(0, 0);
+}

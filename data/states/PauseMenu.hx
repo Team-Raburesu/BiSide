@@ -32,7 +32,6 @@ function create() {
 
     canSelect  = true;
 
- 
 
 
 
@@ -53,6 +52,29 @@ function create() {
     add(pauselogo);
     pauselogo.scale.set(0.72, 0.72);
     pauselogo.cameras = [camPause];
+
+    if (PlayState.instance.curSong == "my side") {
+    render = new FlxSprite(400, -350).loadGraphic(Paths.image('menus/PauseMenu/PauseMySide'));
+    add(render);
+    render.scale.set(0.4, 0.4);
+    render.cameras = [camPause];
+
+   }
+
+   if (PlayState.instance.curSong == "no friendship") {
+    render = new FlxSprite(320, -300).loadGraphic(Paths.image('menus/PauseMenu/PauseNoFriendship'));
+    add(render);
+    render.scale.set(0.4, 0.4);
+    render.cameras = [camPause];
+   }
+
+   if (PlayState.instance.curSong == "togetheratlastfr") {
+    render = new FlxSprite(250, -350).loadGraphic(Paths.image('menus/PauseMenu/PauseTogetherAtLast'));
+    add(render);
+    render.scale.set(0.4, 0.4);
+    render.cameras = [camPause];
+   }
+
 
 
     // Ajout de la musique de pause
@@ -135,12 +157,5 @@ function selectItem(option:String) {
             persistentDraw = false;
         case "Exit":
             FlxG.switchState(new MainMenuState()); // Retourner au menu principal
-    }
-}
-
-
-function postCreate() {
-
-    if (curSong == "optimistic") {
     }
 }
