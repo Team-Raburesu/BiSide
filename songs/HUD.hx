@@ -67,6 +67,14 @@ function onGamePause(event) {
 	openSubState(new ModSubState('PauseMenu'));
 }
 
-function onGameOver(event:GameOverEvent) {
-  event.character.scrollFactor.set(0, 0);
+
+
+function onGameOver(event:GameOverCreationEvent) {
+  trace("x: " + event.character.x + " - y: " + event.character.y);
+
+  var block:FlxSprite = new FlxSprite(event.character.x, event.character.y).makeGraphic(10, 10, FlxColor.LIME);
+    add(block);
+
+  camFollow.setPosition(event.character.x, event.character.y);
+  camGame.setPosition(event.character.x, event.character.y);
 }
