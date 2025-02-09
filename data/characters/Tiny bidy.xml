@@ -1,6 +1,6 @@
 <!DOCTYPE codename-engine-character>
-<character x="100" y="550" sprite="chibi" camy="100" camx="-150" icon="chibi" color="#48ACEC">
-	<anim name="idle" anim="idle0" x="0" y="0" fps="24" loop="false"/>
+<character x="100" y="550" sprite="chibi" camx="-150" camy="100" icon="chibi" color="#48ACEC">
+	<anim name="idle" anim="idle0" x="0" y="0" fps="15" loop="true"/>
 	<anim name="singDOWN" anim="down0" x="0" y="-45" fps="24" loop="false"/>
 	<anim name="singLEFT" anim="left0" x="25" y="5" fps="24" loop="false"/>
 	<anim name="singRIGHT" anim="right0" x="-45" y="-30" fps="24" loop="false"/>
