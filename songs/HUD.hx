@@ -3,6 +3,7 @@ import flixel.math.FlxRect;
 var leftHealth:FlxSprite;
 var rightHealth:FlxSprite;
 var __healthScale:Float = 0.65;
+var disableHUD:Bool = false; // Variable pour désactiver le HUD
 
 function postCreate() {
 	var leftFillerPath = Paths.image("game/healthbar/filler_right");
@@ -10,6 +11,17 @@ function postCreate() {
 
 	if (curSong == "no friendship") {
 		leftFillerPath = Paths.image("game/healthbar/filler_beni");
+	}
+
+	if (curSong == "loopingchorus") {
+		leftFillerPath = Paths.image("game/healthbar/filler_tini");
+	}
+
+	// Désactive tout le HUD si la chanson est "mySide"
+	if (curSong == "mySide") {
+		disableHUD = true;
+		camHUD.visible = false;
+		return; // Sort de la fonction pour ne pas créer le HUD
 	}
 
 	leftHealth = new FlxSprite(0, -150, leftFillerPath);
@@ -49,7 +61,9 @@ function postCreate() {
 }
 
 function update(elapsed) {
-	leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * (1 - (health / maxHealth)), leftHealth.frameHeight);
+	// Ne met pas à jour le HUD si "mySide" est en cours
+	if (disableHUD)
+		leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * (1 - (health / maxHealth)), leftHealth.frameHeight);
 }
 
 function onGamePause(event) {

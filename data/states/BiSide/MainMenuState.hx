@@ -113,17 +113,15 @@ var isHoveringExit:Bool = false;
 var wigglingExit:Bool = false;
 
 function update(elapsed) {
-
 	if (FlxG.keys.justPressed.ENTER) {
-    usingMouse = false;
-    var selectedItem = menuItems.members[curSelected];
-    
-    if (selectedItem != null) {
-        selectItem();
-    }
-}
+		usingMouse = false;
+		var selectedItem = menuItems.members[curSelected];
 
-	
+		if (selectedItem != null) {
+			selectItem();
+		}
+	}
+
 	FlxG.sound.music.volume = 0.5;
 
 	if (FlxG.keys.justPressed.SEVEN) {
@@ -268,7 +266,19 @@ function switchState() {
 
 	switch (daChoice) {
 		case 'StoryMode':
-			FlxG.switchState(new StoryMenuState());
+			PlayState.loadWeek({
+				name: "storylmao",
+				id: "storylmao",
+				sprite: null,
+				chars: [null, null, null],
+				songs: [
+					for (song in ["my side", "LoopingChorus", "no friendship", "togetheratlastfr"])
+						{name: song, hide: false}
+				],
+				difficulties: ['hard']
+			}, "hard");
+
+			FlxG.switchState(new PlayState());
 		case 'Freeplay':
 			openSubState(new ModSubState("BiSide/FreeplayScreen"));
 			persistentUpdate = !(persistentDraw = true);
@@ -284,27 +294,27 @@ function switchState() {
 }
 
 function changeSelection(change:Int = 0, force:Bool = false) {
-    if (change == 0 && !force)
-        return;
+	if (change == 0 && !force)
+		return;
 
-    hover.play();
-    usingMouse = false;
+	hover.play();
+	usingMouse = false;
 
-    curSelected += change;
+	curSelected += change;
 
-    if (curSelected >= menuItems.length) curSelected = 0; // Loop back to first
-    if (curSelected < 0) curSelected = menuItems.length - 1; // Loop to last
+	if (curSelected >= menuItems.length)
+		curSelected = 0; // Loop back to first
+	if (curSelected < 0)
+		curSelected = menuItems.length - 1; // Loop to last
 
-    for (item in menuItems.members) {
-        if (item.ID == curSelected) {
-            item.animation.play("hover", true);
-        } else {
-            item.animation.play("idle", true);
-        }
-    }
+	for (item in menuItems.members) {
+		if (item.ID == curSelected) {
+			item.animation.play("hover", true);
+		} else {
+			item.animation.play("idle", true);
+		}
+	}
 }
-
-
 
 function updateEyes() {
 	var eyeInitialX = 720;

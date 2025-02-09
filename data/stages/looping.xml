@@ -1,0 +1,10 @@
+<!DOCTYPE codename-engine-stage>
+<stage zoom="0.6" name="stage" folder="stages/tinii/" startCamPosY="800" startCamPosX="500">
+	<sprite name="ChibiBidi"               x="-400" y="300"   sprite="TinyBidi"       scroll="1" scale="1.3" />
+	<girlfriend />
+	<dad  scale="0.7" y="-10"  x="-400"/>
+	<boyfriend  x="700" y="150"/>
+
+	<combo x="460" y="300" />
+	<sprite name="chibiBidiovelray"               x="-400" y="300"   sprite="TinyBidioverlay"       scroll="1" scale="1.3" alpha="0.6" />
+</stage>

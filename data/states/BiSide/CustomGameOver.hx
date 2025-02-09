@@ -88,7 +88,6 @@ function update(elapsed) {
 	}
 }
 
-// Fonction pour stopper la musique proprement
 function stopGameOverMusic() {
 	if (gameOverMusic != null) {
 		gameOverMusic.stop();
@@ -98,7 +97,6 @@ function stopGameOverMusic() {
 	}
 }
 
-// Nettoyage quand on quitte le Game Over (F5, ESC, etc.)
 function destroy() {
 	stopGameOverMusic();
 	super.destroy();
