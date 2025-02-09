@@ -13,6 +13,8 @@ import flixel.util.FlxTimer;
 import flixel.effects.FlxFlicker;
 import hxvlc.flixel.FlxVideoSprite;
 import Sys;
+import flixel.text.FlxTextBorderStyle;
+import flixel.text.FlxTextAlign;
 
 var codenameVersion = Application.current.meta.get('version');
 var snow = new FlxVideoSprite(-100);
@@ -108,9 +110,9 @@ function create() {
 	}
 
 	for (i in 0...difficultyOptions.length) {
-		var text = new FlxText(0, 200 + (i * 50), 0, difficultyOptions[i], 32);
-		text.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
-		text.screenCenter();
+		var text = new FlxText(0, 120 + (i * 150), 0, difficultyOptions[i], 32);
+		text.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 90, FlxColor.WHITE, FlxTextAlign.CENTER);
+		text.screenCenter(FlxAxes.X);
 		text.alpha = 0; // Invisible tant que le menu de difficulté n'est pas affiché
 		add(text);
 		difficultyText.push(text);
@@ -459,9 +461,11 @@ function changeDifficulty(change:Int) {
 function updateDifficultySelection() {
 	for (i in 0...difficultyText.length) {
 		if (i == curDifficulty) {
-			difficultyText[i].color = FlxColor.YELLOW; // Surbrillance
+			// Met uniquement l'option sélectionnée en jaune et plus grande
+			difficultyText[i].color = FlxColor.YELLOW;
 			difficultyText[i].scale.set(1.2, 1.2);
 		} else {
+			// Réinitialise les autres options en blanc et taille normale
 			difficultyText[i].color = FlxColor.WHITE;
 			difficultyText[i].scale.set(1, 1);
 		}
