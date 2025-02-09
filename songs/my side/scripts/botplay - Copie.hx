@@ -8,6 +8,7 @@ var __healthScale:Float = 0.65;
 var comboText:FlxText; // Texte affichant le combo
 
 function postCreate() {
+	if(!downscroll) {
 	var leftFillerPath = Paths.image("stages/tini/filler");
 	var rightFillerPath = Paths.image("stages/tini/right");
 
@@ -16,7 +17,7 @@ function postCreate() {
 	iconP1.visible = false;
 	iconP2.visible = false;
 
-	ui = new FlxSprite(100, 180).loadGraphic(Paths.image('stages/tini/PhoneGameUI'));
+	ui = new FlxSprite(100, 180).loadGraphic(Paths.image('stages/tini/UpscrollPhoneGameUI'));
 	ui.scrollFactor.set(0, 0);
 	ui.cameras = [camHUD];
 	ui.screenCenter();
@@ -28,7 +29,7 @@ function postCreate() {
 	leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
 	leftHealth.updateHitbox();
 	leftHealth.scale.set(0.58, 0.58);
-	leftHealth.y = FlxG.height - leftHealth.height - 636;
+	leftHealth.y = FlxG.height - leftHealth.height - 50;
 	leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
 
 	rightHealth = new FlxSprite(leftHealth.x + leftHealth.width + 5, leftHealth.y, rightFillerPath); // Aligné à gauche
@@ -47,18 +48,62 @@ function postCreate() {
 	comboText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 20, FlxColor.WHITE, FlxTextAlign.CENTER);
 
 	comboText.x = 96;
-	comboText.y = 507;
+	comboText.y = 518;
 	comboText.cameras = [camHUD];
 
 	insert(members.indexOf(iconP1), ui);
 	insert(members.indexOf(iconP1), rightHealth);
 	insert(members.indexOf(iconP1), leftHealth);
 	insert(members.indexOf(iconP1), comboText);
+}
 	// Ajustement en downscroll
 	if (downscroll) {
-		leftHealth.y = FlxG.height - leftHealth.height - 40;
-		rightHealth.y = leftHealth.y;
-		leftHealth.y = 635;
+		var leftFillerPath = Paths.image("stages/tini/filler");
+	var rightFillerPath = Paths.image("stages/tini/right");
+
+	healthBar.visible = false;
+	healthBarBG.visible = false;
+	iconP1.visible = false;
+	iconP2.visible = false;
+
+	ui = new FlxSprite(100, 180).loadGraphic(Paths.image('stages/tini/DownscrollPhoneGameUI'));
+	ui.scrollFactor.set(0, 0);
+	ui.cameras = [camHUD];
+	ui.screenCenter();
+	ui.scale.set(0.58, 0.58);
+
+	// Positionner la barre de vie à gauche
+	leftHealth = new FlxSprite(240, -150, leftFillerPath); // Déplace vers la gauche
+	leftHealth.camera = camHUD;
+	leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
+	leftHealth.updateHitbox();
+	leftHealth.scale.set(0.58, 0.58);
+	leftHealth.y = FlxG.height - leftHealth.height - 135;
+	leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
+
+	rightHealth = new FlxSprite(leftHealth.x + leftHealth.width + 5, leftHealth.y, rightFillerPath); // Aligné à gauche
+	rightHealth.camera = camHUD;
+	rightHealth.setGraphicSize(Std.int(rightHealth.width * __healthScale));
+	rightHealth.updateHitbox();
+	rightHealth.scale.set(0.58, 0.58);
+	rightHealth.onDraw = function(spr:FlxSprite) {
+		spr.setPosition(leftHealth.x, leftHealth.y);
+		spr.draw();
+	};
+	rightHealth.clipRect = new FlxRect(0, 0, rightHealth.frameWidth, rightHealth.frameHeight);
+
+	// Ajout dans le bon ordre
+	comboText = new FlxText(90, 0, 0, "Combo: 0", 32);
+	comboText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 20, FlxColor.WHITE, FlxTextAlign.CENTER);
+
+	comboText.x = 96;
+	comboText.y = 508;
+	comboText.cameras = [camHUD];
+
+	insert(members.indexOf(iconP1), ui);
+	insert(members.indexOf(iconP1), rightHealth);
+	insert(members.indexOf(iconP1), leftHealth);
+	insert(members.indexOf(iconP1), comboText);
 	}
 }
 
