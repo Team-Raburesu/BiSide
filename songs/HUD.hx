@@ -18,9 +18,9 @@ function postCreate() {
 	}
 
 	// Désactive tout le HUD si la chanson est "mySide"
-	if (curSong == "mySide") {
+	if (curSong == "my side") {
 		disableHUD = true;
-		camHUD.visible = false;
+		camHUD.visible = true;
 		return; // Sort de la fonction pour ne pas créer le HUD
 	}
 

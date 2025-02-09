@@ -27,6 +27,10 @@ var locked:FlxSound;
 var cancel:FlxSound;
 var hover:FlxSound;
 var curSelected:Int = 0;
+var difficultyOptions:Array<String> = ["Easy", "Normal", "Hard"];
+var difficultyText:Array<FlxText> = [];
+var curDifficulty:Int = 1; // "Normal" par défaut
+var selectingDifficulty:Bool = false;
 
 function create() {
 	CoolUtil.playMenuSong();
@@ -103,6 +107,14 @@ function create() {
 		});
 	}
 
+	for (i in 0...difficultyOptions.length) {
+		var text = new FlxText(0, 200 + (i * 50), 0, difficultyOptions[i], 32);
+		text.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
+		text.screenCenter();
+		text.alpha = 0; // Invisible tant que le menu de difficulté n'est pas affiché
+		add(text);
+		difficultyText.push(text);
+	}
 	add(menuItems);
 	updateItems();
 }
@@ -113,12 +125,27 @@ var isHoveringExit:Bool = false;
 var wigglingExit:Bool = false;
 
 function update(elapsed) {
+	if (selectingDifficulty) {
+		if (FlxG.keys.justPressed.UP) {
+			changeDifficulty(-1);
+		} else if (FlxG.keys.justPressed.DOWN) {
+			changeDifficulty(1);
+		} else if (FlxG.keys.justPressed.ENTER) {
+			startStoryMode();
+		} else if (FlxG.keys.justPressed.BACK) {
+			closeDifficultyMenu();
+		}
+	}
 	if (FlxG.keys.justPressed.ENTER) {
 		usingMouse = false;
 		var selectedItem = menuItems.members[curSelected];
 
 		if (selectedItem != null) {
-			selectItem();
+			if (optionShit[curSelected] == "StoryMode") {
+				openDifficultyMenu();
+			} else {
+				selectItem();
+			}
 		}
 	}
 
@@ -266,19 +293,7 @@ function switchState() {
 
 	switch (daChoice) {
 		case 'StoryMode':
-			PlayState.loadWeek({
-				name: "storylmao",
-				id: "storylmao",
-				sprite: null,
-				chars: [null, null, null],
-				songs: [
-					for (song in ["my side", "LoopingChorus", "no friendship", "togetheratlastfr"])
-						{name: song, hide: false}
-				],
-				difficulties: ['hard']
-			}, "hard");
-
-			FlxG.switchState(new PlayState());
+			openDifficultyMenu();
 		case 'Freeplay':
 			openSubState(new ModSubState("BiSide/FreeplayScreen"));
 			persistentUpdate = !(persistentDraw = true);
@@ -396,4 +411,78 @@ function selectItem() {
 		});
 		switchState();
 	}
+}
+
+// Ouvrir le menu de sélection de difficulté
+function openDifficultyMenu() {
+	selectingDifficulty = true;
+
+	// Masquer les éléments du menu principal
+	menuItems.visible = false;
+	menutext.visible = false;
+
+	// Afficher les options de difficulté avec un effet de fondu
+	for (text in difficultyText) {
+		FlxTween.tween(text, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+	}
+
+	updateDifficultySelection();
+}
+
+// Fermer le menu de sélection de difficulté
+function closeDifficultyMenu() {
+	selectingDifficulty = false;
+
+	// Réafficher le menu principal
+	menuItems.visible = true;
+	menutext.visible = true;
+
+	// Cacher les options de difficulté avec un effet de fondu
+	for (text in difficultyText) {
+		FlxTween.tween(text, {alpha: 0}, 0.5, {ease: FlxEase.quadOut});
+	}
+}
+
+// Mettre à jour la sélection de la difficulté
+function changeDifficulty(change:Int) {
+	curDifficulty += change;
+
+	if (curDifficulty < 0)
+		curDifficulty = difficultyOptions.length - 1;
+	if (curDifficulty >= difficultyOptions.length)
+		curDifficulty = 0;
+
+	updateDifficultySelection();
+}
+
+// Mettre en surbrillance l'option sélectionnée
+function updateDifficultySelection() {
+	for (i in 0...difficultyText.length) {
+		if (i == curDifficulty) {
+			difficultyText[i].color = FlxColor.YELLOW; // Surbrillance
+			difficultyText[i].scale.set(1.2, 1.2);
+		} else {
+			difficultyText[i].color = FlxColor.WHITE;
+			difficultyText[i].scale.set(1, 1);
+		}
+	}
+}
+
+// Lancer Story Mode avec la difficulté choisie
+function startStoryMode() {
+	var selectedDifficulty = difficultyOptions[curDifficulty].toLowerCase();
+
+	PlayState.loadWeek({
+		name: "storylmao",
+		id: "storylmao",
+		sprite: null,
+		chars: [null, null, null],
+		songs: [
+			for (song in ["my side", "LoopingChorus", "no friendship", "togetheratlastfr"])
+				{name: song, hide: false}
+		],
+		difficulties: ['hard']
+	}, selectedDifficulty);
+
+	FlxG.switchState(new PlayState());
 }
