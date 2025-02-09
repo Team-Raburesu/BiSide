@@ -44,10 +44,10 @@ function postCreate() {
 
 	// Ajout dans le bon ordre
 	comboText = new FlxText(90, 0, 0, "Combo: 0", 32);
-	comboText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 32, FlxColor.WHITE, FlxTextAlign.CENTER);
+	comboText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 20, FlxColor.WHITE, FlxTextAlign.CENTER);
 
-	comboText.x = 93;
-	comboText.y = 170;
+	comboText.x = 96;
+	comboText.y = 507;
 	comboText.cameras = [camHUD];
 
 	insert(members.indexOf(iconP1), ui);
@@ -68,10 +68,15 @@ function update(elapsed) {
 	comboText.text = combo;
 
 	if (combo > 9) {
-		comboText.x = 85;
+		comboText.x = 90;
 	}
 
-	if (combo > 99) {
-		comboText.x = 80;
+	if (combo < 10) {
+		comboText.x = 96;
 	}
 }
+
+	if (combo > 99) {
+		comboText.x = 86;
+	}
+
