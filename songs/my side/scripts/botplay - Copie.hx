@@ -58,6 +58,7 @@ function postCreate() {
 	if (downscroll) {
 		leftHealth.y = FlxG.height - leftHealth.height - 40;
 		rightHealth.y = leftHealth.y;
+		leftHealth.y = 635;
 	}
 }
 
