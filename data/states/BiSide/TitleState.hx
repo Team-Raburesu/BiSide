@@ -9,7 +9,7 @@ function create(){
     XMLUtil.addAnimToSprite(logo, {
         name: "teamlogo",
         anim: "Intro",
-        fps: 24,
+        fps: 20,
         loop: true,
         animType: "loop" , //if you use "loop" then it automatically plays the last added animation
         x: 0, // offsetX
