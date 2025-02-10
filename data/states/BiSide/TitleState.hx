@@ -4,21 +4,38 @@ var steps = 0;
 
 function create(){
 
-    logo = new FlxSprite(0, 20);
-    CoolUtil.loadAnimatedGraphic(logo, Paths.image("menus/titlescreen/logo"));
-    logo.antialiasing = true;
-    add(logo);
-    logo.alpha = 0;
-    logo.scale.set(0.7, 0.7);
-    logo.screenCenter(FlxAxes.X);
 
-    new FlxTimer().start(0.1, function() {
-			FlxTween.tween(logo, {alpha: 1}, 2);
-            FlxTween.tween(logo, {y: 0}, 2, {ease: FlxEase.backInOut});
-            FlxTween.tween(logo.scale, {x: 0.8 ,y:0.8}, 2, {ease: FlxEase.backInOut});
-            
-            new FlxTimer().start(3, function() {
-                 FlxG.switchState(new MainMenuState());
-            });
+    logo = new FunkinSprite(150,100, Paths.image("menus/title/teamlogo"));
+    XMLUtil.addAnimToSprite(logo, {
+        name: "teamlogo",
+        anim: "Intro",
+        fps: 24,
+        loop: true,
+        animType: "loop" , //if you use "loop" then it automatically plays the last added animation
+        x: 0, // offsetX
+        y: 0, // offsetY
+        indices: [],
+        forced: false, // If everytime the animation plays, it should be forced to play
     });
+    logo.playAnim("teamlogo", false);
+    add(logo);
+    logo.updateHitbox(); 
+    logo.antialiasing = true;
+    logo.scale.set(0.6, 0.6);
+
+
+            
+    new FlxTimer().start(2, function() {
+        FlxG.switchState(new MainMenuState());
+    });
+  
+}
+
+
+function update(elapsed:Float) {
+	if (controls.ACCEPT)
+			FlxG.switchState(new MainMenuState());
+
+
+
 }
