@@ -31,7 +31,9 @@ function stepHit(curStep:Int) {
         case 256: bg.alpha = 0;
         boyfriend.alpha = 1;
         boyfriend.x = 900;
+        boyfriend.y = -100;
         dad.x = -100;
+        boyfriend.scale.set(0.65, 0.65);
         defaultCamZoom = 0.6;
         case 386:  
 
