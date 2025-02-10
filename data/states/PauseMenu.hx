@@ -70,6 +70,14 @@ function create() {
         render.cameras = [camPause];
     }
 
+    if (PlayState.instance.curSong == "loopingchorus") {
+        render = new FlxSprite(-350, -420).loadGraphic(Paths.image('menus/PauseMenu/PauseLoopingChorus'));
+        add(render);
+
+        render.scale.set(0.4, 0.4);
+        render.cameras = [camPause];
+    }
+
     // Ajout de la musique de pause
     pauseMusic = FlxG.sound.load(Paths.music("breakfast"), 0, true);
     pauseMusic.persist = false;
