@@ -17,12 +17,7 @@ function postCreate() {
 	if (curSong == "loopingchorus") {
 		leftFillerPath = Paths.image("game/healthbar/filler_tini");
 	}
-	if (curSong == "my side") {
-		disableHUD = false;
-		remove(leftHealth);k
-		remove(rightHealth);
-		remove(healthBar);
-	}
+
 
     leftHealth = new FlxSprite(0, -150, leftFillerPath);
     leftHealth.camera = camHUD;
@@ -49,22 +44,32 @@ function postCreate() {
     healthhBarBG.scale.set(1, 1);
     healthhBarBG.screenCenter();
     healthhBarBG.y = FlxG.height - healthhBarBG.height - 29;
-    healthBarBG.visible = false;    
-
-    insert(members.indexOf(iconP1), rightHealth);
+    healthBarBG.visible = false;  
+	
+		if (curSong == "loopingchorus") {
+	    insert(members.indexOf(iconP1), rightHealth);
     insert(members.indexOf(iconP1), leftHealth);
     insert(members.indexOf(iconP1), healthhBarBG);
+
+	}
+
+	if (curSong == "no friendship") {
+		insert(members.indexOf(iconP1), rightHealth);
+		insert(members.indexOf(iconP1), leftHealth);
+		insert(members.indexOf(iconP1), healthhBarBG);
+	}
+
+	if (curSong == "togetheratlastfr") {
+		insert(members.indexOf(iconP1), rightHealth);
+		insert(members.indexOf(iconP1), leftHealth);
+		insert(members.indexOf(iconP1), healthhBarBG);
+	} //very unoptimized.. but don't have time to fix it
+
 
      if (downscroll){
         leftHealth.y = FlxG.height - leftHealth.height - 40;
     } 
 
-	if (curSong == "my side") {
-		disableHUD = false;
-		remove(leftHealth);k
-		remove(rightHealth);
-		remove(healthBar);
-	}
 
 }
 
