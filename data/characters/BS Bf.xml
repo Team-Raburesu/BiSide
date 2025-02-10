@@ -1,8 +1,8 @@
 <!DOCTYPE codename-engine-character>
-<character x="100" y="400" sprite="miside bf" scale="1.1" camx="330" camy="-140" icon="beef" color="#48ACEC">
+<character x="-50" y="350" sprite="miside bf" scale="1.1" camx="330" camy="-140" icon="beef" color="#48ACEC">
 	<anim name="idle" anim="Idle instance 1" x="0" y="0" fps="24" loop="false"/>
-	<anim name="singDOWN" anim="Down instance 1" x="-24" y="-26" fps="24" loop="false"/>
-	<anim name="singLEFT" anim="Left instance 1" x="21" y="-23" fps="24" loop="false"/>
-	<anim name="singRIGHT" anim="Right instance 1" x="-73" y="-20" fps="24" loop="false"/>
-	<anim name="singUP" anim="Up  instance 1" x="-55" y="-1" fps="24" loop="false"/>
+	<anim name="singDOWN" anim="Down instance 1" x="-38" y="-42" fps="24" loop="false"/>
+	<anim name="singLEFT" anim="Left instance 1" x="5" y="-40" fps="24" loop="false"/>
+	<anim name="singRIGHT" anim="Right instance 1" x="-140" y="-40" fps="24" loop="false"/>
+	<anim name="singUP" anim="Up  instance 1" x="-90" y="0" fps="24" loop="false"/>
 </character>

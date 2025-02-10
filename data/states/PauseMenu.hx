@@ -64,7 +64,7 @@ function create() {
     }
 
     if (PlayState.instance.curSong == "togetheratlastfr") {
-        render = new FlxSprite(250, -350).loadGraphic(Paths.image('menus/PauseMenu/PauseTogetherAtLast'));
+        render = new FlxSprite(-250, -430).loadGraphic(Paths.image('menus/PauseMenu/PauseTogetherAtLast'));
         add(render);
         render.scale.set(0.4, 0.4);
         render.cameras = [camPause];

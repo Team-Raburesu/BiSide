@@ -1,12 +1,12 @@
 <!DOCTYPE codename-engine-character>
 <character x="-160" y="320" sprite="biside gef" scale="1.2" flipX="true" isPlayer="true" icon="geef" gameOverChar="BFDEATH">
 	<anim name="idle" anim="idle0" x="0" y="0" fps="24" loop="false"/>
-	<anim name="singDOWN" anim="down0" x="-15" y="-20" fps="24" loop="false"/>
-	<anim name="singLEFT" anim="right0" x="-31" y="-28" fps="24" loop="false"/>
-	<anim name="singRIGHT" anim="left0" x="3" y="-28" fps="24" loop="false"/>
-	<anim name="singUP" anim="up0" x="-38" y="18" fps="24" loop="false"/>
-	<anim name="singDOWNmiss" anim="downmiss" x="120" y="60" fps="24" loop="false"/>
-	<anim name="singLEFTmiss" anim="rightmiss" x="-60" y="-70" fps="24" loop="false"/>
-	<anim name="singRIGHTmiss" anim="leftmiss" x="90" y="-55" fps="24" loop="false"/>
-	<anim name="singUPmiss" anim="upmiss" x="-10" y="-10" fps="24" loop="false"/>
+	<anim name="singDOWN" anim="down0" x="-30" y="-80" fps="24" loop="false"/>
+	<anim name="singLEFT" anim="right0" x="-50" y="-50" fps="24" loop="false"/>
+	<anim name="singRIGHT" anim="left0" x="30" y="-50" fps="24" loop="false"/>
+	<anim name="singUP" anim="up0" x="-10" y="10" fps="24" loop="false"/>
+	<anim name="singDOWNmiss" anim="downmiss" x="100" y="30" fps="24" loop="false"/>
+	<anim name="singLEFTmiss" anim="rightmiss" x="-90" y="-90" fps="24" loop="false"/>
+	<anim name="singRIGHTmiss" anim="leftmiss" x="105" y="-65" fps="24" loop="false"/>
+	<anim name="singUPmiss" anim="upmiss" x="10" y="-30" fps="24" loop="false"/>
 </character>
