@@ -2,8 +2,9 @@ import flixel.math.FlxRect;
 
 var leftHealth:FlxSprite;
 var rightHealth:FlxSprite;
+
 var __healthScale:Float = 0.65;
-var disableHUD:Bool = false; // Variable pour désactiver le HUD
+var disableHUD:Bool = true; // Variable pour désactiver le HUD
 
 function postCreate() {
 	var leftFillerPath = Paths.image("game/healthbar/filler_right");
@@ -17,54 +18,67 @@ function postCreate() {
 		leftFillerPath = Paths.image("game/healthbar/filler_tini");
 	}
 
-	// Désactive tout le HUD si la chanson est "mySide"
-	if (curSong == "my side") {
-		disableHUD = true;
-		camHUD.visible = true;
-		return; // Sort de la fonction pour ne pas créer le HUD
+
+    leftHealth = new FlxSprite(0, -150, leftFillerPath);
+    leftHealth.camera = camHUD;
+    leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
+    leftHealth.updateHitbox();
+    leftHealth.scale.set(1, 1);
+    leftHealth.screenCenter();
+    leftHealth.y = FlxG.height - leftHealth.height - 46;
+    leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
+
+    rightHealth = new FlxSprite(0, -150, rightFillerPath);
+    rightHealth.camera = camHUD;
+    rightHealth.setGraphicSize(Std.int(rightHealth.width * __healthScale));
+    rightHealth.updateHitbox();
+    rightHealth.scale.set(1, 1);
+    rightHealth.onDraw = function(spr:FlxSprite) {
+        spr.setPosition(leftHealth.x, leftHealth.y);
+        spr.draw();
+    };
+    rightHealth.clipRect = new FlxRect(0, 0, rightHealth.frameWidth, rightHealth.frameHeight);
+
+    var healthhBarBG = new FlxSprite(0, -150, Paths.image("game/healthbar/Healthbar"));
+    healthhBarBG.camera = camHUD;
+    healthhBarBG.scale.set(1, 1);
+    healthhBarBG.screenCenter();
+    healthhBarBG.y = FlxG.height - healthhBarBG.height - 29;
+    healthBarBG.visible = false;  
+	
+		if (curSong == "loopingchorus") {
+	    insert(members.indexOf(iconP1), rightHealth);
+    insert(members.indexOf(iconP1), leftHealth);
+    insert(members.indexOf(iconP1), healthhBarBG);
+
 	}
 
-	leftHealth = new FlxSprite(0, -150, leftFillerPath);
-	leftHealth.camera = camHUD;
-	leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
-	leftHealth.updateHitbox();
-	leftHealth.scale.set(1, 1);
-	leftHealth.screenCenter();
-	leftHealth.y = FlxG.height - leftHealth.height - 46;
-	leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
-
-	rightHealth = new FlxSprite(0, -150, rightFillerPath);
-	rightHealth.camera = camHUD;
-	rightHealth.setGraphicSize(Std.int(rightHealth.width * __healthScale));
-	rightHealth.updateHitbox();
-	rightHealth.scale.set(1, 1);
-	rightHealth.onDraw = function(spr:FlxSprite) {
-		spr.setPosition(leftHealth.x, leftHealth.y);
-		spr.draw();
-	};
-	rightHealth.clipRect = new FlxRect(0, 0, rightHealth.frameWidth, rightHealth.frameHeight);
-
-	var healthhBarBG = new FlxSprite(0, -150, Paths.image("game/healthbar/Healthbar"));
-	healthhBarBG.camera = camHUD;
-	healthhBarBG.scale.set(1, 1);
-	healthhBarBG.screenCenter();
-	healthhBarBG.y = FlxG.height - healthhBarBG.height - 29;
-	healthBarBG.visible = false;
-
-	insert(members.indexOf(iconP1), rightHealth);
-	insert(members.indexOf(iconP1), leftHealth);
-	insert(members.indexOf(iconP1), healthhBarBG);
-
-	if (downscroll) {
-		leftHealth.y = FlxG.height - leftHealth.height - 40;
+	if (curSong == "no friendship") {
+		insert(members.indexOf(iconP1), rightHealth);
+		insert(members.indexOf(iconP1), leftHealth);
+		insert(members.indexOf(iconP1), healthhBarBG);
 	}
+
+	if (curSong == "togetheratlastfr") {
+		insert(members.indexOf(iconP1), rightHealth);
+		insert(members.indexOf(iconP1), leftHealth);
+		insert(members.indexOf(iconP1), healthhBarBG);
+	} //very unoptimized.. but don't have time to fix it
+
+
+     if (downscroll){
+        leftHealth.y = FlxG.height - leftHealth.height - 40;
+    } 
+
+
 }
 
 function update(elapsed) {
-	// Ne met pas à jour le HUD si "mySide" est en cours
-	if (disableHUD)
+			if (disableHUD)
 		leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * (1 - (health / maxHealth)), leftHealth.frameHeight);
+
 }
+
 
 function onGamePause(event) {
 	event.cancel();
