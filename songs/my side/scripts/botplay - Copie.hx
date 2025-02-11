@@ -32,7 +32,7 @@ function postCreate() {
 	leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
 	leftHealth.updateHitbox();
 	leftHealth.scale.set(0.58, 0.58);
-	leftHealth.y = FlxG.height - leftHealth.height - 590;
+	leftHealth.y = FlxG.height - leftHealth.height - 135;
 	leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
 
 	rightHealth = new FlxSprite(leftHealth.x + leftHealth.width + 5, leftHealth.y, rightFillerPath); // Aligné à gauche
@@ -51,7 +51,7 @@ function postCreate() {
 	comboText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 20, FlxColor.WHITE, FlxTextAlign.CENTER);
 
 	comboText.x = 96;
-	comboText.y = 155;
+	comboText.y = 503;
 	comboText.cameras = [camHUD];
 
 	if (downscroll) {
