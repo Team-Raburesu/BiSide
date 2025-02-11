@@ -22,13 +22,13 @@ function create() {
 	camGameOver.alpha = 1;
 	camGameOver.zoom = 0.8;
 
-	var blackBG = new FlxSprite().makeGraphic(FlxG.width + 500, FlxG.height + 500, 0xFF000000);
+	var blackBG = new FlxSprite(-80).loadGraphic(Paths.image('menus/mainmenu/bg'));
 	blackBG.scrollFactor.set();
 	blackBG.alpha = 0;
 	blackBG.screenCenter();
 	blackBG.cameras = [camGameOver];
 	add(blackBG);
-	FlxTween.tween(blackBG, {alpha: 0.5}, 0.4, {ease: FlxEase.quadOut});
+	FlxTween.tween(blackBG, {alpha: 1}, 3, {ease: FlxEase.linear});
 
 	bf = new Character(400, -200, "BFDEATH");
 	add(bf);
