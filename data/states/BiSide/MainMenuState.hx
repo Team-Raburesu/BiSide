@@ -145,6 +145,7 @@ function update(elapsed) {
 		if (selectedItem != null) {
 			if (optionShit[curSelected] == "StoryMode") {
 				openDifficultyMenu();
+				selectItem();
 			} else {
 				selectItem();
 			}
@@ -314,7 +315,8 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 	if (change == 0 && !force)
 		return;
 
-	hover.play();
+	FlxG.sound.play(Paths.sound('menu/scroll'), 0.7);
+
 	usingMouse = false;
 
 	curSelected += change;
