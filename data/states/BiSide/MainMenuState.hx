@@ -165,17 +165,6 @@ function update(elapsed) {
 		persistentUpdate = !(persistentDraw = true);
 	}
 
-	if (controls.BACK || FlxG.mouse.justPressedRight) {
-		cancel.play();
-
-		FlxTween.tween(FlxG.camera, {zoom: 1.2}, 2, {ease: FlxEase.expoOut});
-		FlxG.camera.fade(FlxColor.BLACK, 0.5, false);
-
-		new FlxTimer().start(.75, function(tmr:FlxTimer) {
-			FlxG.switchState(new TitleState());
-		});
-	}
-
 	if (FlxG.mouse.justMoved) {
 		usingMouse = true;
 	}
