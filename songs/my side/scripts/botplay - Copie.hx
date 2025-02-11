@@ -8,20 +8,23 @@ var __healthScale:Float = 0.65;
 var comboText:FlxText; // Texte affichant le combo
 
 function postCreate() {
-	if(!downscroll) {
 	var leftFillerPath = Paths.image("stages/tini/filler");
 	var rightFillerPath = Paths.image("stages/tini/right");
+	var uibar = Paths.image("stages/tini/UpscrollPhoneGameUI");
+	if (downscroll) {
+		uibar = Paths.image("stages/tini/DownscrollPhoneGameUI");
+	}
 
 	healthBar.visible = false;
 	healthBarBG.visible = false;
 	iconP1.visible = false;
 	iconP2.visible = false;
 
-	ui = new FlxSprite(100, 180).loadGraphic(Paths.image('stages/tini/UpscrollPhoneGameUI'));
+	ui = new FlxSprite(0, 0, uibar);
 	ui.scrollFactor.set(0, 0);
 	ui.cameras = [camHUD];
-	ui.screenCenter();
-	ui.scale.set(0.58, 0.58);
+	ui.scale.set(0.975, 0.975);
+	ui.antialiasing = true;
 
 	// Positionner la barre de vie à gauche
 	leftHealth = new FlxSprite(240, -150, leftFillerPath); // Déplace vers la gauche
@@ -29,7 +32,7 @@ function postCreate() {
 	leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
 	leftHealth.updateHitbox();
 	leftHealth.scale.set(0.58, 0.58);
-	leftHealth.y = FlxG.height - leftHealth.height - 50;
+	leftHealth.y = FlxG.height - leftHealth.height - 590;
 	leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
 
 	rightHealth = new FlxSprite(leftHealth.x + leftHealth.width + 5, leftHealth.y, rightFillerPath); // Aligné à gauche
@@ -48,15 +51,18 @@ function postCreate() {
 	comboText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 20, FlxColor.WHITE, FlxTextAlign.CENTER);
 
 	comboText.x = 96;
-	comboText.y = 518;
+	comboText.y = 155;
 	comboText.cameras = [camHUD];
+
+	if (downscroll) {
+		comboText.y = 492;
+		leftHealth.y = FlxG.height - leftHealth.height - 75;
+	}
 
 	insert(members.indexOf(iconP1), ui);
 	insert(members.indexOf(iconP1), rightHealth);
 	insert(members.indexOf(iconP1), leftHealth);
 	insert(members.indexOf(iconP1), comboText);
-	}
-	
 }
 
 function update(elapsed) {
@@ -72,8 +78,6 @@ function update(elapsed) {
 		comboText.x = 96;
 	}
 }
-
-	if (combo > 99) {
-		comboText.x = 86;
-	}
-
+if (combo > 99) {
+	comboText.x = 86;
+}

@@ -50,7 +50,7 @@ function create() {
 	}
 
 	// Initialiser le sprite pour afficher les images
-	photoDisplay = new FlxSprite(FlxG.width - 1200, 100);
+	photoDisplay = new FlxSprite(FlxG.width - 1200, 70);
 	photoDisplay.scale.set(1, 1);
 	photoDisplay.antialiasing = true;
 	add(photoDisplay);
