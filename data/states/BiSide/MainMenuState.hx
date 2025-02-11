@@ -46,6 +46,7 @@ function create() {
 	add(bg);
 	bg.screenCenter();
 	bg.scale.set(0.72, 0.72);
+	bg.scrollFactor.set(0, 0);
 
 	menulogo = new FlxSprite(100, 60).loadGraphic(Paths.image('menus/mainmenu/MainMenuLogo'));
 	add(menulogo);
@@ -108,7 +109,7 @@ function create() {
 			ease: FlxEase.expoOut
 		});
 	}
-
+	moveCamera();
 	for (i in 0...difficultyOptions.length) {
 		var text = new FlxText(0, 120 + (i * 150), 0, difficultyOptions[i], 32);
 		text.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 90, FlxColor.WHITE, FlxTextAlign.CENTER);
@@ -200,8 +201,9 @@ function update(elapsed) {
 	updateHead();
 	updateEyes();
 
-	FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, (FlxG.mouse.screenX - (FlxG.width / 2)) * 0, 1);
-	FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, (FlxG.mouse.screenY - (FlxG.height / 2)) * 0, 1);
+	// Smoothly interpolate the camera position
+	FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, camTargetX, 0.02);
+	FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, camTargetY, 0.02);
 
 	var exitButton = menuItems.members[4];
 	if (FlxG.mouse.overlaps(exitButton)) {
@@ -491,4 +493,24 @@ function startStoryMode() {
 	}, selectedDifficulty);
 
 	FlxG.switchState(new PlayState());
+}
+
+var camTargetX:Float = 0;
+var camTargetY:Float = 0;
+
+function moveCamera() {
+	// Generate random offsets
+	var randomX = FlxG.random.float(-20, 20); // Small left/right movement
+	var randomY = FlxG.random.float(-10, 10); // Small up/down movement
+	var duration = FlxG.random.float(4, 6); // Random smooth duration
+
+	var camTargetX = FlxG.camera.scroll.x + randomX; // Update the camera's target position
+	var camTargetY = FlxG.camera.scroll.y + randomY;
+
+	FlxTween.tween(FlxG.camera.scroll, {x: camTargetX, y: camTargetY}, duration, {
+		ease: FlxEase.sineInOut,
+		onComplete: function(_) {
+			moveCamera(); // Loop the movement
+		}
+	});
 }

@@ -1,11 +1,16 @@
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.text.FlxTextBorderStyle;
+import flixel.text.FlxTextAlign;
 
 var optionShit:Array<String> = ["MySide", "LoopingChorus", "NoFriendship", "TogetherAtLast"];
 var menuItems:FlxTypedGroup<FlxSprite> = new FlxTypedGroup();
 var confirm:FlxSound;
 var usingMouse:Bool = true;
 var photoDisplay:FlxSprite; // Sprite pour afficher l'image sélectionnée
+var difficultyOptions:Array<String> = ["easy", "normal", "hard"];
+var curDifficulty:Int = 1; // Default to "normal"
+var difficultyText = new FlxText(0, 500, 0, "Difficulty: Normal", 32);
 
 function create() {
 	for (i in 0...optionShit.length) {
@@ -60,6 +65,14 @@ function create() {
 	updateItems(); // Met à jour immédiatement l'affichage
 
 	add(menuItems);
+
+	difficultyText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 48, FlxColor.WHITE, FlxTextAlign.CENTER);
+	difficultyText.x = 400;
+	difficultyText.y = 630;
+	add(difficultyText);
+	difficultyText.alpha = 0;
+
+	FlxTween.tween(difficultyText, {alpha: 1, x: 650}, 1, {ease: FlxEase.expoOut});
 }
 
 function update(elapsed) {
@@ -67,6 +80,14 @@ function update(elapsed) {
 		usingMouse = true;
 	}
 
+	// Change difficulty with LEFT and RIGHT keys
+	if (FlxG.keys.justPressed.LEFT) {
+		changeDifficulty(-1);
+	} else if (FlxG.keys.justPressed.RIGHT) {
+		changeDifficulty(1);
+	}
+
+	// Handle mouse selection
 	if (usingMouse) {
 		for (i in menuItems.members) {
 			if (FlxG.mouse.overlaps(i)) {
@@ -80,11 +101,24 @@ function update(elapsed) {
 				i.animation.play("idle", true);
 			}
 		}
-
-		changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
 	}
-	if (controls.BACK)
+
+	// Handle keyboard selection
+	if (FlxG.keys.justPressed.UP) {
+		changeSelection(-1);
+	} else if (FlxG.keys.justPressed.DOWN) {
+		changeSelection(1);
+	}
+
+	// Confirm selection with ENTER
+	if (FlxG.keys.justPressed.ENTER) {
+		usingMouse = false;
+		selectItem();
+	}
+
+	if (controls.BACK) {
 		FlxG.resetState();
+	}
 }
 
 var lastSelected:Int = -1; // -1 signifie qu'aucun élément n'est sélectionné initialement
@@ -94,37 +128,28 @@ function updateItems() {
 		if (spr.ID == curSelected) {
 			spr.animation.play('hover');
 
-			// Vérifie si la sélection a changé
 			if (lastSelected != curSelected || lastSelected == -1) {
-				lastSelected = curSelected; // Met à jour la sélection actuelle
+				lastSelected = curSelected;
 
-				// Annule les tweens existants pour éviter les conflits
-
-				// Mise à jour de l'image affichée
 				var photoPath:String = switch (optionShit[curSelected]) {
 					case "MySide": Paths.image("menus/freeplay/MySidePhotograph");
 					case "LoopingChorus": Paths.image("menus/freeplay/LoopingChorusPhotograph");
 					case "NoFriendship": Paths.image("menus/freeplay/NoFriendshipPhotograph");
 					case "TogetherAtLast": Paths.image("menus/freeplay/TogetherAtLastPhoto");
-					default: null; // Par défaut, aucune image
+					default: null;
 				};
 
 				if (photoPath != null) {
-					// Charger l'image correspondante
 					photoDisplay.loadGraphic(photoPath);
-					photoDisplay.visible = true; // Rendre visible
+					photoDisplay.visible = true;
 					photoDisplay.updateHitbox();
 
-					// Appliquer une rotation et un "bop" d'échelle
-					var randomRotation:Float = FlxG.random.float(5, -5); // Rotation entre -15° et 15°
+					var randomRotation:Float = FlxG.random.float(5, -5);
 					photoDisplay.angle = randomRotation;
 
-					// Animation d'échelle
-
-					photoDisplay.scale.set(1.1, 1.1); // Réinitialiser l'échelle avant le tween
+					photoDisplay.scale.set(1.1, 1.1);
 					FlxTween.tween(photoDisplay.scale, {x: 1, y: 1}, 0.3, {ease: FlxEase.elasticOut});
 				} else {
-					// Cacher le sprite si aucune image n'est sélectionnée
 					photoDisplay.visible = false;
 				}
 			}
@@ -132,6 +157,9 @@ function updateItems() {
 			spr.animation.play("idle", true);
 		}
 	});
+
+	// Update difficulty text
+	difficultyText.text = "Difficulty: " + difficultyOptions[curDifficulty].toUpperCase();
 }
 
 function selectItem() {
@@ -143,19 +171,20 @@ function selectItem() {
 
 function switchState() {
 	var daChoice:String = optionShit[curSelected];
+	var selectedDifficulty:String = difficultyOptions[curDifficulty];
 
 	switch (daChoice) {
 		case 'MySide':
-			PlayState.loadSong("my side", "hard");
+			PlayState.loadSong("my side", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 		case 'LoopingChorus':
-			PlayState.loadSong("LoopingChorus", "hard");
+			PlayState.loadSong("LoopingChorus", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 		case 'NoFriendship':
-			PlayState.loadSong("no friendship", "hard");
+			PlayState.loadSong("no friendship", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 		case 'TogetherAtLast':
-			PlayState.loadSong("togetheratlastfr", "hard");
+			PlayState.loadSong("togetheratlastfr", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 	}
 }
@@ -164,7 +193,6 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 	if (change == 0 && !force)
 		return;
 
-	hover.play();
 	usingMouse = false;
 
 	curSelected += change;
@@ -174,4 +202,18 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 		curSelected = optionShit.length - 1;
 
 	updateItems(); // Mise à jour immédiate
+}
+
+function changeDifficulty(change:Int) {
+	curDifficulty += change;
+
+	if (curDifficulty < 0)
+		curDifficulty = difficultyOptions.length - 1;
+	if (curDifficulty >= difficultyOptions.length)
+		curDifficulty = 0;
+
+	// Update the difficulty text when changing
+	difficultyText.text = "Difficulty: " + difficultyOptions[curDifficulty].toUpperCase();
+
+	updateItems();
 }
