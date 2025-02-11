@@ -11,6 +11,7 @@ function postCreate() {
         c.shader.shadowLength = 45 * ((3 - i) / 2);
         c.shader.flipped = c.flipX;
 		c.shader.blend = 0;
+        boyfriend.y = -180;
     }
 bloomShader = new FunkinShader(Assets.getText(Paths.fragShader("bloom")));
             FlxG.camera.addShader(bloomShader); 
