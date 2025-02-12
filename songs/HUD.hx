@@ -43,6 +43,7 @@ function postCreate() {
 	healthhBarBG.screenCenter();
 	healthhBarBG.y = FlxG.height - healthhBarBG.height - 29;
 	healthBarBG.visible = false;
+	healthBarBG.antialiasing = true;
 
 	if (curSong == "loopingchorus") {
 		insert(members.indexOf(iconP1), rightHealth);

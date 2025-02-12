@@ -58,7 +58,7 @@ function create() {
 	}
 
 	if (PlayState.instance.curSong == "no friendship") {
-		render = new FlxSprite(320, -300).loadGraphic(Paths.image('menus/PauseMenu/PauseNoFriendship'));
+		render = new FlxSprite(-350, -420).loadGraphic(Paths.image('menus/PauseMenu/PauseNoFriendship'));
 		add(render);
 		render.scale.set(0.4, 0.4);
 		render.cameras = [camPause];
@@ -113,6 +113,9 @@ function onSubStateClose() {
 }
 
 function update(elapsed:Float) {
+	    if (pauseMusic.volume < 0.3)
+        pauseMusic.volume += 0.02 * elapsed;
+
 	if (!canSelect)
 		return;
 
@@ -168,6 +171,7 @@ function selectItem(option:String) {
 		case "Resume":
 			blackBarThingie.alpha = 0;
 			close();
+			pauseMusic.volume = 0;
 
 		case "Restart":
 			PlayState.instance.registerSmoothTransition();
