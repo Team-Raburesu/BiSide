@@ -46,6 +46,7 @@ function preStateSwitch() {
 	for (redirectState in redirectStates.keys())
 		if (FlxG.game._requestedState is redirectState)
 			FlxG.game._requestedState = new ModState(redirectStates.get(redirectState));
+	window.setIcon(Image.fromBytes(Assets.getBytes(Paths.image('iconOG'))));
 }
 
 function capture() {

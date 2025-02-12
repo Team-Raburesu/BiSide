@@ -18,7 +18,7 @@ import flixel.text.FlxTextAlign;
 
 var codenameVersion = Application.current.meta.get('version');
 var snow = new FlxVideoSprite(-100);
-var optionShit:Array<String> = ["StoryMode", "Freeplay", "Credits", "Options", "Exit"];
+var optionShit:Array<String> = ["StoryMode", "Freeplay", "Credits", "Options", "Bug_reports", "Exit"];
 var menuItems:FlxTypedGroup<FlxSprite> = new FlxTypedGroup();
 var menuItemsHitboxes:FlxTypedGroup<FlxSprite> = new FlxTypedGroup();
 var menuItem:FunkinSprite;
@@ -98,8 +98,11 @@ function create() {
 			case "Options":
 				menuItem.setPosition(-500, 385);
 				targetX = 100;
+			case "Bug_reports":
+				menuItem.setPosition(-500, 430);
+				targetX = 100;
 			case "Exit":
-				menuItem.setPosition(-500, 450);
+				menuItem.setPosition(-500, 490);
 				targetX = 100;
 		}
 
@@ -166,9 +169,16 @@ function update(elapsed) {
 	}
 
 	if (FlxG.mouse.justMoved) {
-		usingMouse = true;
+		new FlxTimer().start(1, function(tmr:FlxTimer) {
+			usingMouse = true;
+		});
 	}
 
+	if (!FlxG.mouse.justMoved) {
+		new FlxTimer().start(1, function(tmr:FlxTimer) {
+			usingMouse = false;
+		});
+	}
 	if (!selectedSomethin) {
 		if (usingMouse) {
 			for (i in menuItems.members) {
@@ -194,7 +204,7 @@ function update(elapsed) {
 	FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, camTargetX, 0.02);
 	FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, camTargetY, 0.02);
 
-	var exitButton = menuItems.members[4];
+	var exitButton = menuItems.members[5];
 	if (FlxG.mouse.overlaps(exitButton)) {
 		if (!isHoveringExit) {
 			isHoveringExit = true;
@@ -266,7 +276,7 @@ function updateItems() {
 			spr.animation.play('hover');
 		}
 
-		if (curSelected == 4) {
+		if (curSelected == 5) {
 			bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes_frowning'));
 			bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head_frowning'));
 		} else {
@@ -274,7 +284,7 @@ function updateItems() {
 			bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
 		}
 
-		var exitButton = menuItems.members[4];
+		var exitButton = menuItems.members[5];
 		if (!FlxG.mouse.overlaps(exitButton)) {
 			bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
 			bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
@@ -294,9 +304,9 @@ function switchState() {
 		case 'Options':
 			FlxG.switchState(new OptionsMenu());
 		case 'Credits':
-			FlxG.switchState(new ModState("FD/CreditsScreen"));
-		case "Discord":
-			CoolUtil.openURL("https://discord.gg/Zc3QXmru6a");
+			openSubState(new ModSubState("Biside/CreditScreen"));
+		case "Bug_reports":
+			CoolUtil.openURL("https://discord.gg/G5dYK59cHv");
 		case "Exit":
 			Sys.exit();
 	}
