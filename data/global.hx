@@ -12,10 +12,12 @@ import sys.io.File;
 import funkin.backend.utils.NativeAPI;
 import lime.graphics.Image;
 import Sys;
+import funkin.game.Stage;
 
 static var SCREENSHOT_FOLDER = 'screenshots';
 static var _region:Null<Rectangle>;
 static var initialized:Bool = false;
+var mouseSprite:FlxSprite;
 
 static var redirectStates:Map<FlxState, String> = [
 	TitleState => "BiSide/TitleState",
@@ -28,6 +30,13 @@ function new() {
 	if (FlxG.save.data.screenshotAmount == null)
 		FlxG.save.data.screenshotAmount = 0;
 	window.title = "BiSide";
+	
+	// Add mouse cursor initialization
+	FlxG.mouse.load(Paths.image('cursor'), 1);
+	FlxG.mouse.useSystemCursor = false;
+	
+	mouseSprite = new FlxSprite();
+	mouseSprite.loadGraphic(Paths.image('cursor'));
 }
 
 function update() {
@@ -40,6 +49,10 @@ function update() {
 
 	if (FlxG.keys.justPressed.F4)
 		capture();
+		
+	// Update mouse sprite position
+	mouseSprite.x = FlxG.mouse.x;
+	mouseSprite.y = FlxG.mouse.y;
 }
 
 function preStateSwitch() {
@@ -180,4 +193,10 @@ function writeBytesToPath(path:String, data:Bytes):Void {
 
 	if (!FileSystem.exists(path))
 		File.saveBytes(path, data);
+}
+
+// Add destroy function at the end of the file
+function destroy() {
+	FlxG.mouse.visible = true;
+	FlxG.mouse.useSystemCursor = true;
 }
