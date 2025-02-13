@@ -5,7 +5,8 @@ import flixel.text.FlxTextAlign;
 var leftHealth:FlxSprite;
 var rightHealth:FlxSprite;
 var __healthScale:Float = 0.65;
-var comboText:FlxText; // Texte affichant le combo
+var comboText:FlxText;
+var charhud:FlxSprite; // Added variable declaration
 
 function postCreate() {
 	var leftFillerPath = Paths.image("stages/tini/filler");
@@ -26,8 +27,25 @@ function postCreate() {
 	ui.scale.set(0.975, 0.975);
 	ui.antialiasing = true;
 
+	// Create the character sprite
+	charhud = new FlxSprite(0, 0);
+	CoolUtil.loadAnimatedGraphic(charhud, Paths.image("characters/bidibop"));
+	// Add the animation with initial fps
+	charhud.animation.addByPrefix('idle', 'bidibop', 24, true);
+	charhud.animation.play('idle');
+	// Adjust animation speed separately
+	charhud.animation.curAnim.frameRate = 15;
+
+	// Set position
+	charhud.x = 40; // Change this to move horizontally
+	charhud.y = 530; // Change this to move vertically
+	charhud.camera = camHUD;
+	// Set scale
+	charhud.scale.set(0.2, 0.2); // Change these numbers to scale (1.0 = normal size)
+	charhud.updateHitbox(); // Update hitbox after scaling
+
 	// Positionner la barre de vie à gauche
-	leftHealth = new FlxSprite(240, -150, leftFillerPath); // Déplace vers la gauche
+	leftHealth = new FlxSprite(245, -135, leftFillerPath);
 	leftHealth.camera = camHUD;
 	leftHealth.setGraphicSize(Std.int(leftHealth.width * __healthScale));
 	leftHealth.updateHitbox();
@@ -35,7 +53,7 @@ function postCreate() {
 	leftHealth.y = FlxG.height - leftHealth.height - 135;
 	leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * 0.5, leftHealth.frameHeight);
 
-	rightHealth = new FlxSprite(leftHealth.x + leftHealth.width + 5, leftHealth.y, rightFillerPath); // Aligné à gauche
+	rightHealth = new FlxSprite(leftHealth.x + leftHealth.width + 5, leftHealth.y, rightFillerPath);
 	rightHealth.camera = camHUD;
 	rightHealth.setGraphicSize(Std.int(rightHealth.width * __healthScale));
 	rightHealth.updateHitbox();
@@ -46,7 +64,6 @@ function postCreate() {
 	};
 	rightHealth.clipRect = new FlxRect(0, 0, rightHealth.frameWidth, rightHealth.frameHeight);
 
-	// Ajout dans le bon ordre
 	comboText = new FlxText(90, 0, 0, "Combo: 0", 32);
 	comboText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 20, FlxColor.WHITE, FlxTextAlign.CENTER);
 
@@ -56,10 +73,11 @@ function postCreate() {
 
 	if (downscroll) {
 		comboText.y = 492;
-		leftHealth.y = FlxG.height - leftHealth.height - 75;
+		leftHealth.y = FlxG.height - leftHealth.height - 78;
 	}
 
 	insert(members.indexOf(iconP1), ui);
+	insert(members.indexOf(iconP1), charhud); // Added charhud insertion
 	insert(members.indexOf(iconP1), rightHealth);
 	insert(members.indexOf(iconP1), leftHealth);
 	insert(members.indexOf(iconP1), comboText);
