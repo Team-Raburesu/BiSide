@@ -127,6 +127,12 @@ function update(elapsed:Float) {
 	} else if (FlxG.keys.justPressed.ENTER) {
 		selectItem(menuItems[curSelected]);
 	}
+	else if (FlxG.keys.justPressed.ESCAPE) {
+		blackBarThingie.alpha = 0;
+			close();
+			pauseMusic.volume = 0;
+
+	}
 
 	// Mouse controls
 	var mousePos = FlxG.mouse.getScreenPosition(camPause);
