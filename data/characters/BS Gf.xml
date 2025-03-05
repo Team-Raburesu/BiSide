@@ -1,5 +1,5 @@
 <!DOCTYPE codename-engine-character>
-<character x="-160" y="320" sprite="biside gef" scale="1.2" flipX="true" isPlayer="true" icon="geef" gameOverChar="BFDEATH">
+<character x="-160" y="320" sprite="gf/biside gef" scale="1.2" flipX="true" isPlayer="true" icon="geef" gameOverChar="BFDEATH">
 	<anim name="idle" anim="idle0" x="0" y="0" fps="24" loop="false"/>
 	<anim name="singDOWN" anim="down0" x="-30" y="-80" fps="24" loop="false"/>
 	<anim name="singRIGHT" anim="right0" x="-50" y="-50" fps="24" loop="false"/>

@@ -1,5 +1,5 @@
 <!DOCTYPE codename-engine-character>
-<character x="100" y="550" sprite="tini bidi" camx="150" camy="100" icon="Tiny" color="#48ABEC">
+<character x="100" y="550" sprite="broken/broken" camx="150" camy="100" icon="Tiny" color="#48ABEC">
 	<anim name="idle" anim="idle0" x="0" y="0" fps="24" loop="false"/>
 	<anim name="singDOWN" anim="down0" x="-42" y="2" fps="24" loop="false"/>
 	<anim name="singLEFT" anim="left0" x="-7" y="0" fps="24" loop="false"/>
