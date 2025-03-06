@@ -29,7 +29,7 @@ function postCreate() {
 
 	// Create the character sprite
 	charhud = new FlxSprite(0, 0);
-	CoolUtil.loadAnimatedGraphic(charhud, Paths.image("characters/bidibop"));
+	CoolUtil.loadAnimatedGraphic(charhud, Paths.image("characters/bidi/bidibop"));
 	// Add the animation with initial fps
 	charhud.animation.addByPrefix('idle', 'bidibop', 24, true);
 	charhud.animation.play('idle');
