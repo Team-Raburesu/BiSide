@@ -1,17 +1,17 @@
 {
-	"beatsPerMeasure": 4,
 	"opponentModeAllowed": false,
-	"coopAllowed": false,
-	"stepsPerBeat": 4,
-	"bpm": 100,
+	"icon": "tiny",
 	"difficulties": [
 		"HARD"
 	],
-	"needsVoices": true,
 	"parsedColor": -7179779,
-	"displayName": "LoopingChorus",
-	"icon": "tiny",
-	"name": "LoopingChorus",
+	"customValues": {},
 	"color": "#9271FD",
-	"customValues": {}
+	"name": "LoopingChorus",
+	"coopAllowed": false,
+	"stepsPerBeat": 4,
+	"displayName": "Looping Chorus",
+	"beatsPerMeasure": 4,
+	"needsVoices": true,
+	"bpm": 118
 }
