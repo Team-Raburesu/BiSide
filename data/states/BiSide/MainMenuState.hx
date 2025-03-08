@@ -138,8 +138,9 @@ function update(elapsed) {
 			changeDifficulty(1);
 		} else if (FlxG.keys.justPressed.ENTER) {
 			startStoryMode();
-		} else if (FlxG.keys.justPressed.BACK) {
+		} else if (FlxG.keys.justPressed.BACK || FlxG.keys.justPressed.ESCAPE) {
 			closeDifficultyMenu();
+			selectedSomethin = false;
 		}
 	}
 	if (FlxG.keys.justPressed.ENTER) {
@@ -437,15 +438,45 @@ function openDifficultyMenu() {
 // Fermer le menu de sélection de difficulté
 function closeDifficultyMenu() {
 	selectingDifficulty = false;
+	cancel.play();
 
 	// Réafficher le menu principal
 	menuItems.visible = true;
 	menutext.visible = true;
-
-	// Cacher les options de difficulté avec un effet de fondu
-	for (text in difficultyText) {
-		FlxTween.tween(text, {alpha: 0}, 0.5, {ease: FlxEase.quadOut});
+	
+	// Annuler les animations en cours qui pourraient affecter les positions
+	FlxTween.cancelTweensOf(menulogo);
+	FlxTween.cancelTweensOf(menutext);
+	FlxTween.cancelTweensOf(bidyhead);
+	FlxTween.cancelTweensOf(bidyEyes);
+	FlxTween.cancelTweensOf(bidyBody);
+	
+	// Restaurer les éléments à leur position/état d'origine
+	FlxTween.tween(menulogo, {alpha: 1, y: 60}, 0.6, {ease: FlxEase.quartOut});
+	FlxTween.tween(menutext, {x: 0, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
+	FlxTween.tween(bidyhead, {x: 180}, 0.6, {ease: FlxEase.quartOut});
+	FlxTween.tween(bidyEyes, {x: 740, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
+	FlxTween.tween(bidyBody, {x: 500}, 0.6, {ease: FlxEase.quartOut});
+	
+	// Restaurer tous les boutons du menu
+	for (i in 0...menuItems.length) {
+		var menuItem = menuItems.members[i];
+		FlxTween.cancelTweensOf(menuItem);
+		
+		var delay:Float = i * 0.05;
+		FlxTween.tween(menuItem, {x: 100, alpha: 1}, 0.6, {
+			startDelay: delay,
+			ease: FlxEase.quartOut
+		});
 	}
+	
+	// Cacher les options de difficulté
+	for (text in difficultyText) {
+		FlxTween.tween(text, {alpha: 0}, 0.3, {ease: FlxEase.quartOut});
+	}
+	
+	// Restaurer l'état des animations des boutons
+	updateItems();
 }
 
 // Mettre à jour la sélection de la difficulté

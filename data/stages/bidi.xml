@@ -5,7 +5,7 @@
 
 	<girlfriend />
 	<dad />
-	<boyfriend x="0" alpha="0" />
+	<boyfriend x="0" alpha="0"/>
 
 	<combo x="460" y="300" />
 
