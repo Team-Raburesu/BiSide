@@ -2,7 +2,9 @@
 	"opponentModeAllowed": false,
 	"icon": "tiny",
 	"difficulties": [
-		"HARD"
+		"HARD",
+		"NORMAL",
+		"EASY"
 	],
 	"parsedColor": -7179779,
 	"customValues": {},
