@@ -20,7 +20,7 @@ function postCreate() {
 
     	new FlxTimer().start(7, function(tmr:FlxTimer) {
 			dad.alpha = 1;
-            benicutscene.alpha = 0;
+            remove(benicutscene,true);
 		});
 
 
