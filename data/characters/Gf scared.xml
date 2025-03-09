@@ -1,0 +1,12 @@
+<!DOCTYPE codename-engine-character>
+<character x="-160" y="320" sprite="gf scared/ANAYA_SCARED" scale="1.2" flipX="true" isPlayer="true" icon="geef" gameOverChar="BFDEATH">
+	<anim name="idle" anim="idle0" x="0" y="0" fps="24" loop="false"/>
+	<anim name="singDOWN" anim="down0" x="-30" y="-79" fps="24" loop="false"/>
+	<anim name="singRIGHT" anim="right0" x="-50" y="-50" fps="24" loop="false"/>
+	<anim name="singLEFT" anim="left0" x="30" y="-50" fps="24" loop="false"/>
+	<anim name="singUP" anim="up0" x="-10" y="10" fps="24" loop="false"/>
+	<anim name="singDOWNmiss" anim="downmiss" x="100" y="75" fps="24" loop="false"/>
+	<anim name="singLEFTmiss" anim="leftmiss" x="113" y="-3" fps="24" loop="false"/>
+	<anim name="singRIGHTmiss" anim="rightmiss" x="-88" y="-17" fps="24" loop="false"/>
+	<anim name="singUPmiss" anim="upmiss" x="12" y="29" fps="24" loop="false"/>
+</character>
