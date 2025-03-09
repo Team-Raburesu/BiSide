@@ -1,9 +1,8 @@
 <!DOCTYPE codename-engine-character>
-<character x="250" y="300" sprite="Bidi/BidiCrazy" scale="0.68" camy="430"  camx="440" icon="beef" color="#48ACEC">
-	<anim name="idle" anim="EXPORT/idle" x="0" y="0" fps="24" loop="false"/>
-	<anim name="singDOWN" anim="EXPORT/down" x="94" y="0" fps="24" loop="false"/>
-	<anim name="singLEFT" anim="EXPORT/left" x="138" y="32" fps="24" loop="false"/>
-	<anim name="singRIGHT" anim="EXPORT/right" x="-40" y="52" fps="24" loop="false"/>
-	<anim name="singUP" anim="EXPORT/up" x="108" y="68" fps="24" loop="false"/>
-	<anim name="transition" anim="EXPORT/crazy transition" x="-445" y="-591" fps="24" loop="false"/>
+<character x="-230" y="190" sprite="BidiCrazy/CRAZYBIDI" scale="0.68" camy="430"  camx="440" icon="beef" color="#48ACEC">
+	<anim name="idle" anim="idle" x="0" y="0" fps="24" loop="false"/>
+	<anim name="singDOWN" anim="down" x="94" y="0" fps="24" loop="false"/>
+	<anim name="singLEFT" anim="left" x="138" y="32" fps="24" loop="false"/>
+	<anim name="singRIGHT" anim="right" x="-40" y="52" fps="24" loop="false"/>
+	<anim name="singUP" anim="up" x="108" y="68" fps="24" loop="false"/>
 </character>
