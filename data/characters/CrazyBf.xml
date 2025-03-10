@@ -1,8 +1,8 @@
 <!DOCTYPE codename-engine-character>
-<character x="-230" y="190" sprite="BidiCrazy/CRAZYBIDI" scale="0.68" camy="430"  camx="440" icon="beef" color="#48ACEC">
+<character x="-280" y="160" sprite="BidiCrazy/CRAZYBIDI" scale="0.68" camx="440" camy="430" icon="beef" color="#48ACEC">
 	<anim name="idle" anim="idle" x="0" y="0" fps="24" loop="false"/>
-	<anim name="singDOWN" anim="down" x="94" y="0" fps="24" loop="false"/>
-	<anim name="singLEFT" anim="left" x="138" y="32" fps="24" loop="false"/>
-	<anim name="singRIGHT" anim="right" x="-40" y="52" fps="24" loop="false"/>
-	<anim name="singUP" anim="up" x="108" y="68" fps="24" loop="false"/>
+	<anim name="singDOWN" anim="down" x="16" y="-29" fps="24" loop="false"/>
+	<anim name="singLEFT" anim="left" x="37" y="20" fps="24" loop="false"/>
+	<anim name="singRIGHT" anim="right" x="-138" y="-11" fps="24" loop="false"/>
+	<anim name="singUP" anim="up" x="-39" y="49" fps="24" loop="false"/>
 </character>
