@@ -8,7 +8,7 @@ var __healthScale:Float = 0.65;
 var comboText:FlxText;
 var charhud:FlxSprite;
 var customHealth:Float = 1.0; // Start with full health (1.0 = 100%)
-playCutscenes = true;
+
 
 // Adjust these values to fine-tune how much health changes
 var HEALTH_GAIN_PER_HIT:Float = 0.01;   // Small increase when hitting a note
