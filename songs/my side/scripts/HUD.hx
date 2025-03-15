@@ -151,3 +151,23 @@ function update(elapsed) {
         }
     }
 }
+
+function postUpdate() {
+    iconP2.x = 145;
+    iconP2.y = 505;
+    iconP2.scale.set(0.5,0.5);
+
+    if (downscroll) {
+        iconP2.x = 145;
+        iconP2.y = 550;
+        iconP2.scale.set(0.5,0.5);
+    }
+    
+    // Set icon frame based on health percentage
+    // Frame 0 is normal, Frame 1 is losing icon
+    if (customHealth < 0.5) {
+        iconP2.animation.curAnim.curFrame = 1; // Losing icon
+    } else {
+        iconP2.animation.curAnim.curFrame = 0; // Normal icon
+    }
+}
