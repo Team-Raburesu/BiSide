@@ -13,10 +13,12 @@ function postCreate() {
 		c.shader.blend = 0;
         boyfriend.y = -180;
     }
-bloomShader = new FunkinShader(Assets.getText(Paths.fragShader("bloom")));
-            FlxG.camera.addShader(bloomShader); 
-
+    if (!Options.lowMemoryMode) {
+        var bloomShader = new FunkinShader(Assets.getText(Paths.fragShader("bloom")));
+        FlxG.camera.addShader(bloomShader);
+    }
 }
+
 
 function onCountdown(event) {
     // Augmenter la taille du compteur (Ready, Set, Go)
