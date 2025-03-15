@@ -14,7 +14,7 @@ function create() {
 
 function stepHit() {
     switch(curStep) {
-        case 50: 
+        case 70: 
             chair.visible = true;
             insert(members.indexOf(dad), chair);
     }
