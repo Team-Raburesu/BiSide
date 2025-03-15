@@ -16,7 +16,7 @@ function postCreate() {
 
 function stepHit(curStep:Int) {
     switch (curStep) {
-        case 50: FlxTween.tween(cutscene, {alpha: 0}, 1); //change of when it finish
+        case 200: FlxTween.tween(cutscene, {alpha: 0}, 1); //change of when it finish
             
     }
 }
