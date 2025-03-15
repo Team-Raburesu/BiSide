@@ -8,7 +8,9 @@ var __healthScale:Float = 0.65;
 var comboText:FlxText;
 var charhud:FlxSprite;
 var customHealth:Float = 1.0; // Start with full health (1.0 = 100%)
-
+var iconP2OffsetX:Float = 1000;  // Custom X offset for iconP2
+var iconP2OffsetY:Float = 0;  // Custom Y offset for iconP2
+var disableIconBounce:Bool = true; // Set to true to disable icon bouncing
 
 // Adjust these values to fine-tune how much health changes
 var HEALTH_GAIN_PER_HIT:Float = 0.01;   // Small increase when hitting a note
@@ -25,7 +27,7 @@ function postCreate() {
     healthBar.visible = false;
     healthBarBG.visible = false;
     iconP1.visible = false;
-    iconP2.visible = false;
+    iconP2.visible = true;
 
     ui = new FlxSprite(0, 0, uibar);
     ui.scrollFactor.set(0, 0);
@@ -131,5 +133,21 @@ function update(elapsed) {
         comboText.x = 90;
     } else if (combo >= 100) {
         comboText.x = 86;
+    }
+    
+    // Apply custom position to iconP2
+    if (iconP2 != null) {
+        // Store the original position calculation
+        var originalX = iconP2.x;
+        var originalY = iconP2.y;
+        
+        // Override the position with our custom offsets
+        iconP2.x = originalX + iconP2OffsetX;
+        iconP2.y = originalY + iconP2OffsetY;
+        
+        // Disable the bounce animation if needed
+        if (disableIconBounce) {
+            iconP2.scale.set(1, 1);
+        }
     }
 }
