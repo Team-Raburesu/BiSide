@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="menubuttons.png" width="374" height="370">
+	<SubTexture name="ControlsUnSelected" x="0" y="0" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="ControlsSelected" x="0" y="37" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="ExitUnSelected" x="0" y="74" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="ExitSelected" x="0" y="111" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="OptionsUnSelected" x="0" y="148" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="OptionsSelected" x="0" y="185" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="RestartUnSelected" x="0" y="222" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="RestartSelected" x="0" y="259" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="ResumeUnSelected" x="0" y="296" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+	<SubTexture name="ResumeSelected" x="0" y="333" width="374" height="37" frameX="-0" frameY="-0" frameWidth="374" frameHeight="37"/>
+</TextureAtlas>

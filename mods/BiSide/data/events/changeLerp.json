@@ -1,0 +1,9 @@
+{
+    "params": [
+        {
+            "name": "Set Lerp:",
+            "type": "Float(0,5,1,100)",
+            "defaultValue": 0.04
+        }
+    ]
+}

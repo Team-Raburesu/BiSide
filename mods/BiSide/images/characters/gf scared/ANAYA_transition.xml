@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="ANAYA_transition.png">
+	<!-- Created with Adobe Animate version 24.0.7.61 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="spooked transition0000" x="1873" y="3" width="889" height="1286" pivotX="956.85" pivotY="-241.8" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0001" x="971" y="3" width="898" height="1288" frameX="-38" frameY="0" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0002" x="3" y="3" width="964" height="1288"/>
+	<SubTexture name="spooked transition0003" x="3" y="2585" width="802" height="1286" frameX="-65" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0004" x="3" y="2585" width="802" height="1286" frameX="-65" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0005" x="809" y="2585" width="802" height="1286" frameX="-73" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0006" x="809" y="2585" width="802" height="1286" frameX="-73" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0007" x="2674" y="2583" width="799" height="1286" frameX="-68" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0008" x="2674" y="2583" width="799" height="1286" frameX="-68" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0009" x="3569" y="1293" width="798" height="1286" frameX="-66" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0010" x="3569" y="1293" width="798" height="1286" frameX="-66" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0011" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0012" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0013" x="2766" y="1293" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0014" x="2766" y="1293" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0015" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0016" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0017" x="2766" y="1293" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0018" x="2766" y="1293" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0019" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0020" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0021" x="2766" y="1293" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0022" x="2766" y="1293" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0023" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0024" x="2766" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0025" x="3477" y="2583" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0026" x="3569" y="3" width="799" height="1286" frameX="-63" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0027" x="1789" y="2583" width="881" height="1286" frameX="-45" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0028" x="1789" y="2583" width="881" height="1286" frameX="-45" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0029" x="1873" y="1293" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0030" x="1873" y="1293" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0031" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0032" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0033" x="896" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0034" x="896" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0035" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0036" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0037" x="896" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0038" x="896" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0039" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0040" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0041" x="896" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0042" x="896" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0043" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+	<SubTexture name="spooked transition0044" x="3" y="1295" width="889" height="1286" frameX="-47" frameY="-2" frameWidth="964" frameHeight="1288"/>
+</TextureAtlas>

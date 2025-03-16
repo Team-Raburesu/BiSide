@@ -1,0 +1,4 @@
+<!DOCTYPE codename-engine-character>
+<character x="250" y="300" sprite="bidi/bidibop" scale="0.68" camx="-100" icon="beef" color="#48ACEC">
+	<anim name="idle" anim="idle0" x="0" y="0" fps="24" loop="true"/>
+</character>

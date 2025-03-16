@@ -1,0 +1,8 @@
+<!DOCTYPE codename-engine-character>
+<character x="-160" y="180" sprite="Beni/beni" scale="0.7" camy="-110" icon="beni">
+	<anim name="idle" anim="Idle0" x="0" y="0" fps="24" loop="false"/>
+	<anim name="singDOWN" anim="Down0" x="-11" y="14" fps="24" loop="false"/>
+	<anim name="singLEFT" anim="Left0" x="75" y="-15" fps="24" loop="false"/>
+	<anim name="singRIGHT" anim="Right0" x="9" y="119" fps="24" loop="false"/>
+	<anim name="singUP" anim="Up0" x="1" y="94" fps="24" loop="false"/>
+</character>

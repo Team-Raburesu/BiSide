@@ -1,0 +1,13 @@
+<!DOCTYPE codename-engine-stage>
+<stage zoom="0.8" name="stage" folder="stages/bidi/" startCamPosY="900" startCamPosX="1000">
+	<sprite name="bg2"               x="-20" y="180"   sprite="bg"       scroll="1" scale="1.4" />
+	<sprite name="bg"               x="250" y="500"   sprite="bgwardrobe"       scroll="1" scale="1.9" />
+
+	<girlfriend />
+	<dad />
+	<boyfriend x="0" alpha="0"/>
+
+	<combo x="460" y="300" />
+
+
+</stage>
