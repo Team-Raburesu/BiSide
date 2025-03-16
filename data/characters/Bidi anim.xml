@@ -1,4 +1,0 @@
-<!DOCTYPE codename-engine-character>
-<character x="-250" y="240" sprite="BidiCrazy/crazytransition" scale="0.8" camy="-100"  camx="200" icon="beef" color="#48ACEC">
-	<anim name="crazytransition" anim="crazy transition" x="10" y="-20" fps="24" loop="false"/>
-</character>

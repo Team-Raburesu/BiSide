@@ -1,0 +1,5 @@
+import funkin.backend.assets.ModsFolder;
+
+function preStateSwitch()
+    if (ModsFolder.currentModFolder != 'Biside')
+        ModsFolder.switchMod('Biside');

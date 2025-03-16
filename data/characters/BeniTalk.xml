@@ -1,5 +1,0 @@
-<!DOCTYPE codename-engine-character>
-<character x="-160" y="180" sprite="Beni/BeniTalk" scale="0.7" camy="510" camx="415" icon="beni">
-	<anim name="talk" anim="Export/JERK" x="0" y="0" fps="30" loop="false"/>
-
-</character>
