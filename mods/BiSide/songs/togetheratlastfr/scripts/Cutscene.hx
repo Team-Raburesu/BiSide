@@ -37,7 +37,7 @@ function onFocus() {
 
 function stepHit(curStep:Int) {
     switch (curStep) {
-        case 88: FlxTween.tween(cutscene, {alpha: 0}, 1); //change of when it finish
+        case 85: FlxTween.tween(cutscene, {alpha: 0}, 1); //change of when it finish
             
     }
 }
