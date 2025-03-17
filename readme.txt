@@ -54,7 +54,7 @@ BiSide: FNF MiSide is made by Team Raburesu!
 Tsaku + Toonishtragedy + megood_osu (programmers)
 Dayla + Bit + Anoshyton (animators)
 Ethi + .luminatee (musicians)
-MeGood_Osu + SPG64 + MarissTown (charters)
+megood_osu + SPG64 + MarissTown (charters)
 seepylilthing [GF] + snocthehedgehog [Beni] + AaronPKT [Bidi & █████] (voice actors)
 Cherrythousand (chromatic producter)
 Marisss (concept art)
