@@ -25,7 +25,7 @@ I want to keep you with me every day, and live with you every day~
 I know you also want to be with me every day, so I let you to come to our sweet home~
 How is that? Are you happy? That way we can stay together all the time!
 
-The gamebanana release is the only official source for the desktop (PC, Mac, Linux) versions of the mod!
+The gamebanana release is the only official source for the PC versions of the mod!
 
 ﹉﹉﹉﹉﹉﹉﹉﹉﹉﹉୨♡୧﹉﹉﹉﹉﹉﹉﹉﹉﹉﹉
               PERMISSIONS 
