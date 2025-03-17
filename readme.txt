@@ -51,7 +51,7 @@ MUSIC IS ON SOUNDCLOUD IN ETHI_MUSIC'S SETS AND YOUTUBE.
 ﹉﹉﹉﹉﹉﹉﹉﹉﹉﹉୨♡୧﹉﹉﹉﹉﹉﹉﹉﹉﹉﹉
 
 BiSide: FNF MiSide is made by Team Raburesu! 
-Tsaku + Toonishtragedy (programmers)
+Tsaku + Toonishtragedy + megood_osu (programmers)
 Dayla + Bit + Anoshyton (animators)
 Ethi + .luminatee (musicians)
 MeGood_Osu + SPG64 + MarissTown (charters)
