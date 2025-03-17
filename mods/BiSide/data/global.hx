@@ -29,7 +29,7 @@ static var redirectStates:Map<FlxState, String> = [
 function new() {
 	if (FlxG.save.data.screenshotAmount == null)
 		FlxG.save.data.screenshotAmount = 0;
-	window.title = "BiSide";
+	window.title = "BiSide - FNF MiSide";
 	
 	// Add mouse cursor initialization
 	FlxG.mouse.load(Paths.image('cursor'), 1);
