@@ -31,7 +31,7 @@ The gamebanana release is the only official source for the desktop (PC, Mac, Lin
               PERMISSIONS 
 ﹉﹉﹉﹉﹉﹉﹉﹉﹉﹉୨♡୧﹉﹉﹉﹉﹉﹉﹉﹉﹉﹉
 
-Just in case, you have FULL PERMISSION to stream, letsplay, showcase, full combo, etc.! You may use the music and make covers of it if you want! You're free to feature Bidi, Beni, Broken Bidi and 
+Just in case, you have FULL PERMISSION to stream, letsplay, showcase, full combo, etc.! You may use the music and make covers of it if you want! You're free to feature Bidi, Beni, Broken Bidi and █████ in covers but NOT mods unless specifically asked.
 
 If you do make any sort of video, it would be sweet if you linked the mod and spread the word!!
 
