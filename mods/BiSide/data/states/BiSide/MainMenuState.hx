@@ -15,6 +15,7 @@ import hxvlc.flixel.FlxVideoSprite;
 import Sys;
 import flixel.text.FlxTextBorderStyle;
 import flixel.text.FlxTextAlign;
+import funkin.backend.utils.DiscordUtil;
 
 var codenameVersion = Application.current.meta.get('version');
 var snow = new FlxVideoSprite(-100);
@@ -41,6 +42,8 @@ function create() {
 	confirm = FlxG.sound.load(Paths.sound('menu/confirm'));
 	cancel = FlxG.sound.load(Paths.sound('menu/cancel'));
 	hover = FlxG.sound.load(Paths.sound('menu/scroll'));
+
+	DiscordUtil.changePresenceSince("Main Menu", null);
 
 	bg = new FlxSprite(-80).loadGraphic(Paths.image('menus/mainmenu/bg'));
 	add(bg);
@@ -296,71 +299,71 @@ function updateItems() {
 var bugReportUrlOpened:Bool = false;
 
 function selectItem() {
-    selectedSomethin = true;
-    confirm.play();
-    FlxTween.cancelTweensOf(menuItem);
+	selectedSomethin = true;
+	confirm.play();
+	FlxTween.cancelTweensOf(menuItem);
 
-    // Special handling for Bug Reports option
-    if (optionShit[curSelected] == "Bug_reports") {
-        handleBugReports();
-        return; // Exit early to avoid calling switchState
-    }
+	// Special handling for Bug Reports option
+	if (optionShit[curSelected] == "Bug_reports") {
+		handleBugReports();
+		return; // Exit early to avoid calling switchState
+	}
 
-    FlxTween.tween(menulogo, {alpha: 0, y: -100}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(menutext, {x: 200, alpha: 0}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(bidyhead, {x: 900 + bidyhead.x}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(bidyEyes, {x: 1400 + bidyEyes.x, alpha: 0}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(bidyBody, {x: 900 + bidyBody.x}, 1, {ease: FlxEase.expoOut});
+	FlxTween.tween(menulogo, {alpha: 0, y: -100}, 1, {ease: FlxEase.expoOut});
+	FlxTween.tween(menutext, {x: 200, alpha: 0}, 1, {ease: FlxEase.expoOut});
+	FlxTween.tween(bidyhead, {x: 900 + bidyhead.x}, 1, {ease: FlxEase.expoOut});
+	FlxTween.tween(bidyEyes, {x: 1400 + bidyEyes.x, alpha: 0}, 1, {ease: FlxEase.expoOut});
+	FlxTween.tween(bidyBody, {x: 900 + bidyBody.x}, 1, {ease: FlxEase.expoOut});
 
-    for (i in 0...menuItems.length) {
-        var menuItem = menuItems.members[i];
-        var delay:Float = i * 0.05;
+	for (i in 0...menuItems.length) {
+		var menuItem = menuItems.members[i];
+		var delay:Float = i * 0.05;
 
-        var targetX = FlxG.width - 700;
+		var targetX = FlxG.width - 700;
 
-        FlxTween.tween(menuItem, {x: targetX, alpha: 0}, 1, {
-            startDelay: delay,
-            ease: FlxEase.expoOut,
-        });
-    }
-    switchState();
+		FlxTween.tween(menuItem, {x: targetX, alpha: 0}, 1, {
+			startDelay: delay,
+			ease: FlxEase.expoOut,
+		});
+	}
+	switchState();
 }
 
 function handleBugReports() {
-    if (!bugReportUrlOpened) {
-        bugReportUrlOpened = true;
-        CoolUtil.openURL("https://discord.gg/G5dYK59cHv");
-        
-        // Set a small timer to reset the UI state
-        new FlxTimer().start(0.3, function(tmr:FlxTimer) {
-            selectedSomethin = false;
-            bugReportUrlOpened = false; // Reset the flag after a delay
-            
-            // No need to restore UI elements since we didn't animate them away
-            updateItems();
-        }, 1);
-    }
+	if (!bugReportUrlOpened) {
+		bugReportUrlOpened = true;
+		CoolUtil.openURL("https://discord.gg/G5dYK59cHv");
+
+		// Set a small timer to reset the UI state
+		new FlxTimer().start(0.3, function(tmr:FlxTimer) {
+			selectedSomethin = false;
+			bugReportUrlOpened = false; // Reset the flag after a delay
+
+			// No need to restore UI elements since we didn't animate them away
+			updateItems();
+		}, 1);
+	}
 }
 
 function switchState() {
-    var daChoice:String = optionShit[curSelected];
+	var daChoice:String = optionShit[curSelected];
 
-    switch (daChoice) {
-        case 'StoryMode':
-            openDifficultyMenu();
-        case 'Freeplay':
-            openSubState(new ModSubState("BiSide/FreeplayScreen"));
-            persistentUpdate = !(persistentDraw = true);
-        case 'Options':
-            FlxG.switchState(new OptionsMenu());
-        case 'Credits':
-            openSubState(new ModSubState("Biside/CreditScreen"));
-        case "Bug_reports":
-            // Bug reports are now handled in handleBugReports()
-            // This case should never be reached
-        case "Exit":
-            Sys.exit();
-    }
+	switch (daChoice) {
+		case 'StoryMode':
+			openDifficultyMenu();
+		case 'Freeplay':
+			openSubState(new ModSubState("BiSide/FreeplayScreen"));
+			persistentUpdate = !(persistentDraw = true);
+		case 'Options':
+			FlxG.switchState(new OptionsMenu());
+		case 'Credits':
+			openSubState(new ModSubState("Biside/CreditScreen"));
+		case "Bug_reports":
+			// Bug reports are now handled in handleBugReports()
+			// This case should never be reached
+		case "Exit":
+			Sys.exit();
+	}
 }
 
 function changeSelection(change:Int = 0, force:Bool = false) {
@@ -468,38 +471,38 @@ function closeDifficultyMenu() {
 	// Réafficher le menu principal
 	menuItems.visible = true;
 	menutext.visible = true;
-	
+
 	// Annuler les animations en cours qui pourraient affecter les positions
 	FlxTween.cancelTweensOf(menulogo);
 	FlxTween.cancelTweensOf(menutext);
 	FlxTween.cancelTweensOf(bidyhead);
 	FlxTween.cancelTweensOf(bidyEyes);
 	FlxTween.cancelTweensOf(bidyBody);
-	
+
 	// Restaurer les éléments à leur position/état d'origine
 	FlxTween.tween(menulogo, {alpha: 1, y: 60}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(menutext, {x: 0, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(bidyhead, {x: 180}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(bidyEyes, {x: 740, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(bidyBody, {x: 500}, 0.6, {ease: FlxEase.quartOut});
-	
+
 	// Restaurer tous les boutons du menu
 	for (i in 0...menuItems.length) {
 		var menuItem = menuItems.members[i];
 		FlxTween.cancelTweensOf(menuItem);
-		
+
 		var delay:Float = i * 0.05;
 		FlxTween.tween(menuItem, {x: 100, alpha: 1}, 0.6, {
 			startDelay: delay,
 			ease: FlxEase.quartOut
 		});
 	}
-	
+
 	// Cacher les options de difficulté
 	for (text in difficultyText) {
 		FlxTween.tween(text, {alpha: 0}, 0.3, {ease: FlxEase.quartOut});
 	}
-	
+
 	// Restaurer l'état des animations des boutons
 	updateItems();
 }
