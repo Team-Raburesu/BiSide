@@ -175,28 +175,27 @@ function update(elapsed) {
     
     // ...existing update code continues below...
 	if (selectingDifficulty) {
-		if (FlxG.keys.justPressed.UP) {
+		if (FlxG.keys.justPressed.UP)
 			changeDifficulty(-1);
-		} else if (FlxG.keys.justPressed.DOWN) {
+		else if (FlxG.keys.justPressed.DOWN)
 			changeDifficulty(1);
-		} else if (FlxG.keys.justPressed.ENTER) {
+		else if (FlxG.keys.justPressed.ENTER)
 			startStoryMode();
-		} else if (FlxG.keys.justPressed.BACK || FlxG.keys.justPressed.ESCAPE) {
+		else if (FlxG.keys.justPressed.BACK || FlxG.keys.justPressed.ESCAPE) {
 			closeDifficultyMenu();
 			selectedSomethin = false;
 		}
 	}
+
 	if (FlxG.keys.justPressed.ENTER) {
 		usingMouse = false;
 		var selectedItem = menuItems.members[curSelected];
-
 		if (selectedItem != null) {
 			if (optionShit[curSelected] == "StoryMode") {
 				openDifficultyMenu();
 				selectItem();
-			} else {
+			} else
 				selectItem();
-			}
 		}
 	}
 
@@ -213,29 +212,23 @@ function update(elapsed) {
 	}
 
 	if (FlxG.mouse.justMoved) {
-		new FlxTimer().start(1, function(tmr:FlxTimer) {
-			usingMouse = true;
-		});
+		new FlxTimer().start(1, function(_) usingMouse = true);
 	}
 
 	if (!FlxG.mouse.justMoved) {
-		new FlxTimer().start(1, function(tmr:FlxTimer) {
-			usingMouse = false;
-		});
+		new FlxTimer().start(1, function(_) usingMouse = false);
 	}
+
 	if (!selectedSomethin) {
 		if (usingMouse) {
 			for (i in menuItems.members) {
 				if (FlxG.mouse.overlaps(i)) {
 					curSelected = menuItems.members.indexOf(i);
 					updateItems();
-
-					if (FlxG.mouse.justPressed) {
+					if (FlxG.mouse.justPressed)
 						selectItem();
-					}
-				} else {
+				} else
 					i.animation.play("idle", true);
-				}
 			}
 		}
 		changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
@@ -244,7 +237,6 @@ function update(elapsed) {
 	updateHead();
 	updateEyes();
 
-	// Smoothly interpolate the camera position
 	FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, camTargetX, 0.02);
 	FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, camTargetY, 0.02);
 
@@ -253,14 +245,12 @@ function update(elapsed) {
 		if (!isHoveringExit) {
 			isHoveringExit = true;
 			exitHoverCount++;
-
-			if (exitHoverCount >= 6 && !wigglingExit) {
+			if (exitHoverCount >= 6 && !wigglingExit)
 				wiggleExitButton(exitButton);
-			}
 		}
-	} else {
+	} else
 		isHoveringExit = false;
-	}
+
 	if (!FlxG.mouse.overlaps(exitButton)) {
 		bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
 		bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
@@ -584,7 +574,7 @@ function startStoryMode() {
 		sprite: null,
 		chars: [null, null, null],
 		songs: [
-			for (song in ["my side", "LoopingChorus", "no friendship", "togetheratlastfr"])
+			for (song in ["my side", "Looping Chorus", "no friendship", "together at last"])
 				{name: song, hide: false}
 		],
 		difficulties: ['hard']
