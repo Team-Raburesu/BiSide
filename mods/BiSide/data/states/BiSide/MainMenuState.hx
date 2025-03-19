@@ -136,44 +136,49 @@ var isHoveringExit:Bool = false;
 var wigglingExit:Bool = false;
 
 function update(elapsed) {
-    // Check for secret code input
-    if (!selectedSomethin && !selectingDifficulty) {
-        // Check each key press
-        if (FlxG.keys.justPressed.ANY) {
-            var keyString = "";
-            
-            // Convert key press to character
-            if (FlxG.keys.justPressed.S) keyString = "s";
-            else if (FlxG.keys.justPressed.K) keyString = "k";
-            else if (FlxG.keys.justPressed.I) keyString = "i";
-            else if (FlxG.keys.justPressed.B) keyString = "b";
-            else if (FlxG.keys.justPressed.D) keyString = "d";
-            
-            // If it's a relevant key, add to input
-            if (keyString != "") {
-                codeInput += keyString;
-                
-                // Reset timeout timer
-                if (codeTimeout != null) {
-                    codeTimeout.cancel();
-                }
-                
-                // Create new timeout
-                codeTimeout = new FlxTimer().start(2, function(timer) {
-                    codeInput = ""; // Reset code input after timeout
-                });
-                
-                // Check if the code matches
-                if (codeInput == "skibidi") {
-                    confirm.play();
-                    startSecretSong();
-                    codeInput = ""; // Reset code
-                }
-            }
-        }
-    }
-    
-    // ...existing update code continues below...
+	// Check for secret code input
+	if (!selectedSomethin && !selectingDifficulty) {
+		// Check each key press
+		if (FlxG.keys.justPressed.ANY) {
+			var keyString = "";
+
+			// Convert key press to character
+			if (FlxG.keys.justPressed.S)
+				keyString = "s";
+			else if (FlxG.keys.justPressed.K)
+				keyString = "k";
+			else if (FlxG.keys.justPressed.I)
+				keyString = "i";
+			else if (FlxG.keys.justPressed.B)
+				keyString = "b";
+			else if (FlxG.keys.justPressed.D)
+				keyString = "d";
+
+			// If it's a relevant key, add to input
+			if (keyString != "") {
+				codeInput += keyString;
+
+				// Reset timeout timer
+				if (codeTimeout != null) {
+					codeTimeout.cancel();
+				}
+
+				// Create new timeout
+				codeTimeout = new FlxTimer().start(2, function(timer) {
+					codeInput = ""; // Reset code input after timeout
+				});
+
+				// Check if the code matches
+				if (codeInput == "skibidi") {
+					confirm.play();
+					startSecretSong();
+					codeInput = ""; // Reset code
+				}
+			}
+		}
+	}
+
+	// ...existing update code continues below...
 	if (selectingDifficulty) {
 		if (FlxG.keys.justPressed.UP)
 			changeDifficulty(-1);
@@ -605,41 +610,43 @@ function moveCamera() {
 
 // Add this new function to handle the secret song
 function startSecretSong() {
-    selectedSomethin = true;
-    
-    // Create a cool visual effect
-    var flash = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
-    flash.alpha = 0;
-    add(flash);
-    
-    // Flash effect
-   FlxTween.tween(flash, {alpha: 1}, 0.5, {
-        ease: FlxEase.quartOut,
-        onComplete: function(twn) {
-            FlxTween.tween(flash, {alpha: 0}, 0.5, {
-                ease: FlxEase.quartIn,
-                onComplete: function(twn) {
-                  PlayState.loadSong("secret", "hard");
-            FlxG.switchState(new PlayState());
-                }
-            });
-        }
-    });
-    
-    // Hide UI elements with animation
-    FlxTween.tween(menulogo, {alpha: 0, y: -100}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(menutext, {x: 200, alpha: 0}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(bidyhead, {x: 900 + bidyhead.x}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(bidyEyes, {x: 1400 + bidyEyes.x, alpha: 0}, 1, {ease: FlxEase.expoOut});
-    FlxTween.tween(bidyBody, {x: 900 + bidyBody.x}, 1, {ease: FlxEase.expoOut});
-    
-    // Hide menu items
-    for (i in 0...menuItems.length) {
-        var menuItem = menuItems.members[i];
-        var delay:Float = i * 0.05;
-        FlxTween.tween(menuItem, {x: FlxG.width - 700, alpha: 0}, 1, {
-            startDelay: delay,
-            ease: FlxEase.expoOut
-        });
-    }
+	selectedSomethin = true;
+
+	// Noir progressif
+	var blackFade = new FlxSprite().makeGraphic(FlxG.width + 100, FlxG.height + 100, FlxColor.BLACK);
+	blackFade.alpha = 0;
+	blackFade.screenCenter();
+	add(blackFade);
+
+	// Slow down la musique + pitch drop
+	FlxTween.tween(FlxG.sound.music, {pitch: 0.1, volume: 0}, 4, {ease: FlxEase.quadInOut});
+
+	// Menu items tombent et tournent doucement
+	for (i in 0...menuItems.length) {
+		var item = menuItems.members[i];
+		var delay = i * 0.1;
+		FlxTween.tween(item, {
+			y: item.y + 300,
+			angle: FlxG.random.int(-15, 15),
+			x: FlxG.random.int(-40, 50),
+			alpha: 0
+		}, 2, {startDelay: delay, ease: FlxEase.quartIn});
+	}
+
+	// Les éléments du perso tombent aussi
+	FlxTween.tween(bidyBody, {y: bidyBody.y + 300, angle: 15, alpha: 0}, 2, {ease: FlxEase.quartIn});
+	FlxTween.tween(bidyhead, {y: bidyhead.y + 300, angle: -15, alpha: 0}, 2, {ease: FlxEase.quartIn});
+	FlxTween.tween(bidyEyes, {y: bidyEyes.y + 300, alpha: 0}, 2, {ease: FlxEase.quartIn});
+	FlxTween.tween(menulogo, {y: menulogo.y + 300, alpha: 0}, 2, {ease: FlxEase.quartIn});
+	FlxTween.tween(menutext, {y: menutext.y + 300, alpha: 0}, 2, {ease: FlxEase.quartIn});
+
+	// Le fade noir arrive
+	FlxTween.tween(blackFade, {alpha: 1}, 3.5, {
+		ease: FlxEase.quadInOut,
+		onComplete: function(_) {
+			// Lancement du secret après tout
+			PlayState.loadSong("secret", "hard");
+			FlxG.switchState(new PlayState());
+		}
+	});
 }
