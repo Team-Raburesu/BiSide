@@ -34,6 +34,8 @@ var difficultyOptions:Array<String> = ["Easy", "Normal", "Hard"];
 var difficultyText:Array<FlxText> = [];
 var curDifficulty:Int = 1; // "Normal" par défaut
 var selectingDifficulty:Bool = false;
+var codeInput:String = "";
+var codeTimeout:FlxTimer = null;
 
 function create() {
 	CoolUtil.playMenuSong();
@@ -134,6 +136,44 @@ var isHoveringExit:Bool = false;
 var wigglingExit:Bool = false;
 
 function update(elapsed) {
+    // Check for secret code input
+    if (!selectedSomethin && !selectingDifficulty) {
+        // Check each key press
+        if (FlxG.keys.justPressed.ANY) {
+            var keyString = "";
+            
+            // Convert key press to character
+            if (FlxG.keys.justPressed.S) keyString = "s";
+            else if (FlxG.keys.justPressed.K) keyString = "k";
+            else if (FlxG.keys.justPressed.I) keyString = "i";
+            else if (FlxG.keys.justPressed.B) keyString = "b";
+            else if (FlxG.keys.justPressed.D) keyString = "d";
+            
+            // If it's a relevant key, add to input
+            if (keyString != "") {
+                codeInput += keyString;
+                
+                // Reset timeout timer
+                if (codeTimeout != null) {
+                    codeTimeout.cancel();
+                }
+                
+                // Create new timeout
+                codeTimeout = new FlxTimer().start(2, function(timer) {
+                    codeInput = ""; // Reset code input after timeout
+                });
+                
+                // Check if the code matches
+                if (codeInput == "skibidi") {
+                    confirm.play();
+                    startSecretSong();
+                    codeInput = ""; // Reset code
+                }
+            }
+        }
+    }
+    
+    // ...existing update code continues below...
 	if (selectingDifficulty) {
 		if (FlxG.keys.justPressed.UP) {
 			changeDifficulty(-1);
@@ -571,4 +611,45 @@ function moveCamera() {
 			moveCamera(); // Loop the movement
 		}
 	});
+}
+
+// Add this new function to handle the secret song
+function startSecretSong() {
+    selectedSomethin = true;
+    
+    // Create a cool visual effect
+    var flash = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
+    flash.alpha = 0;
+    add(flash);
+    
+    // Flash effect
+   FlxTween.tween(flash, {alpha: 1}, 0.5, {
+        ease: FlxEase.quartOut,
+        onComplete: function(twn) {
+            FlxTween.tween(flash, {alpha: 0}, 0.5, {
+                ease: FlxEase.quartIn,
+                onComplete: function(twn) {
+                  PlayState.loadSong("secret", "hard");
+            FlxG.switchState(new PlayState());
+                }
+            });
+        }
+    });
+    
+    // Hide UI elements with animation
+    FlxTween.tween(menulogo, {alpha: 0, y: -100}, 1, {ease: FlxEase.expoOut});
+    FlxTween.tween(menutext, {x: 200, alpha: 0}, 1, {ease: FlxEase.expoOut});
+    FlxTween.tween(bidyhead, {x: 900 + bidyhead.x}, 1, {ease: FlxEase.expoOut});
+    FlxTween.tween(bidyEyes, {x: 1400 + bidyEyes.x, alpha: 0}, 1, {ease: FlxEase.expoOut});
+    FlxTween.tween(bidyBody, {x: 900 + bidyBody.x}, 1, {ease: FlxEase.expoOut});
+    
+    // Hide menu items
+    for (i in 0...menuItems.length) {
+        var menuItem = menuItems.members[i];
+        var delay:Float = i * 0.05;
+        FlxTween.tween(menuItem, {x: FlxG.width - 700, alpha: 0}, 1, {
+            startDelay: delay,
+            ease: FlxEase.expoOut
+        });
+    }
 }

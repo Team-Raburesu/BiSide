@@ -57,6 +57,12 @@ function postCreate() {
 		insert(members.indexOf(iconP1), healthhBarBG);
 	}
 
+	if (curSong == "secret") {
+		insert(members.indexOf(iconP1), rightHealth);
+		insert(members.indexOf(iconP1), leftHealth);
+		insert(members.indexOf(iconP1), healthhBarBG);
+	}
+
 	if (curSong == "together at last") {
 		insert(members.indexOf(iconP1), rightHealth);
 		insert(members.indexOf(iconP1), leftHealth);
