@@ -6,4 +6,5 @@ function postCreate() {
 	blackbar.cameras = [camHUD];
 	add(blackbar);
 	FlxTween.tween(blackbar, {alpha: 0}, 4, {ease: FlxEase.quadInOut});
+	iconP1.alpha = 0;
 }
