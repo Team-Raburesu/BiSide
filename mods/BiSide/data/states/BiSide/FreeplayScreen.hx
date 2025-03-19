@@ -175,16 +175,16 @@ function switchState() {
 
 	switch (daChoice) {
 		case 'MySide':
-			PlayState.loadSong("my side", selectedDifficulty);
+			PlayState.loadSong("My Side", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 		case 'LoopingChorus':
-			PlayState.loadSong("LoopingChorus", selectedDifficulty);
+			PlayState.loadSong("Looping Chorus", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 		case 'NoFriendship':
-			PlayState.loadSong("no friendship", selectedDifficulty);
+			PlayState.loadSong("No Friendship", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 		case 'TogetherAtLast':
-			PlayState.loadSong("togetheratlastfr", selectedDifficulty);
+			PlayState.loadSong("Together At Last", selectedDifficulty);
 			FlxG.switchState(new PlayState());
 	}
 }

@@ -13,7 +13,7 @@ function postCreate() {
 		leftFillerPath = Paths.image("game/healthbar/filler_beni");
 	}
 
-	if (curSong == "loopingchorus") {
+	if (curSong == "looping chorus") {
 		leftFillerPath = Paths.image("game/healthbar/filler_tini");
 	}
 
@@ -45,7 +45,7 @@ function postCreate() {
 	healthBarBG.visible = false;
 	healthBarBG.antialiasing = true;
 
-	if (curSong == "loopingchorus") {
+	if (curSong == "looping chorus") {
 		insert(members.indexOf(iconP1), rightHealth);
 		insert(members.indexOf(iconP1), leftHealth);
 		insert(members.indexOf(iconP1), healthhBarBG);
@@ -57,7 +57,7 @@ function postCreate() {
 		insert(members.indexOf(iconP1), healthhBarBG);
 	}
 
-	if (curSong == "togetheratlastfr") {
+	if (curSong == "together at last") {
 		insert(members.indexOf(iconP1), rightHealth);
 		insert(members.indexOf(iconP1), leftHealth);
 		insert(members.indexOf(iconP1), healthhBarBG);

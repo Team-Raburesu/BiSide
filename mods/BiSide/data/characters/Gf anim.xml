@@ -1,4 +1,0 @@
-<!DOCTYPE codename-engine-character>
-<character x="-181" y="362" sprite="gf scared/ANAYA_transition" scale="0.7" flipX="true" isPlayer="true" icon="geef" gameOverChar="BFDEATH">
-	<anim name="ANAYA_transition" anim="spooked transition" x="10" y="-20" fps="24" loop="false"/>
-</character>

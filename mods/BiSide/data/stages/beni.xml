@@ -11,5 +11,6 @@
 <sprite name="overlay"       x="-400" y="-50"    sprite="overlay" scale="1.9" scroll="0.2" alpha="0.5" >
 	<property name="blend" type="int" value="0" />    
 	</sprite>
+	<combo x="900" y="700" />
 
 </stage>
