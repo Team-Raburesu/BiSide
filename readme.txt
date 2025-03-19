@@ -105,7 +105,7 @@ The game experience is accompanied by an authentic warm soundtrack, transitionin
 In the world of BiSide, the player will encounter various characters who play a role in the narrative part of the game to varying degrees. Helping the hero, scaring her, or just messing with her.
 
 
-※This game contains intense scenes. It is not recommended for those with weak hearts.
+※This mod contains intense scenes. It is not recommended for those with weak hearts.
 - Bidi ♪(´▽｀)
 
 ##################################################################################
@@ -126,3 +126,5 @@ In the world of BiSide, the player will encounter various characters who play a 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⡇⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠙⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⠿⠛⠀⠀⠀⠀⠀⠈⠛⠛⠿⠿⠟⠛⠉⠀⠀⠀⠀⠈⠛⠛⠿⠿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ##################################################################################
+
+Hey.. want a fun joke? type skibidi in the main menu. you'll thank us later!
