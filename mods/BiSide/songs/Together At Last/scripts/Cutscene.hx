@@ -13,17 +13,13 @@ function create() {
 		cutscene.volume = 100;
 	});
 	cutscene.load(Assets.getPath(Paths.video("togetheratlastfr")));
-	insert(1000, cutscene);
+	add(cutscene);
 	cutscene.play();
 	cutscene.cameras = [camHUD];
 	if (FlxG.signals.focusGained.has(cutscene.resume)) {
 		FlxG.signals.focusGained.remove(cutscene.resume);
 	}
 	camZoomingInterval = 999;
-	healthBarBG.visible = false;
-    healthBar.visible = false;
-    iconP2.visible = false;
-    iconP1.visible = false;
 }
 
 function onGamePause() {
