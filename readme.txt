@@ -17,7 +17,7 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠻⠿⠿⠿⠿⠿⠿⠿⠀⠀⠀⠀⠀⠙⠿⢿⣿⣿⠿⠛⠁⠀⠀⠀⠀⠀⠙⠿⢿⣿⣿⡿⠟⠉⠀⠀⠀⠀⠀⠀
 
 ‪‪❤︎‬ Hi! My name is Bidi!
-Thanks for downloadin Biside : FNF MiSide
+Thanks for downloading Biside : FNF MiSide
 Every day, you will come to see me, help me with chores, cook for me, and buy me gifts.
 
 You are so nice! I love you!
