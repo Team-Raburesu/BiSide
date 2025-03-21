@@ -67,6 +67,7 @@ function postCreate() {
 		insert(members.indexOf(iconP1), rightHealth);
 		insert(members.indexOf(iconP1), leftHealth);
 		insert(members.indexOf(iconP1), healthhBarBG);
+		
 	} // very unoptimized.. but don't have time to fix it
 
 	if (downscroll) {

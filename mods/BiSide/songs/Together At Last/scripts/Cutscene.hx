@@ -8,19 +8,29 @@ function onCountdown(event)
 
 
 function create() {
+
 	cutscene.bitmap.onFormatSetup.add(function() {
 		cutscene.alpha = 1;
 		cutscene.volume = 100;
 	});
 	cutscene.load(Assets.getPath(Paths.video("togetheratlastfr")));
-	add(cutscene);
+	insert(1200, cutscene);
 	cutscene.play();
 	cutscene.cameras = [camHUD];
 	if (FlxG.signals.focusGained.has(cutscene.resume)) {
 		FlxG.signals.focusGained.remove(cutscene.resume);
 	}
 	camZoomingInterval = 999;
+	
+function postcreate(){
+
+	healthBarBG.visible = false;
+healthbar.visible = false;
+iconP2.visible = false;
+iconP1.visible = false; }
+
 }
+
 
 function onGamePause() {
 	cutscene.pause();
