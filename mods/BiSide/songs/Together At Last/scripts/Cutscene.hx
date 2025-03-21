@@ -40,7 +40,7 @@ function onFocus() {
 
 function stepHit(curStep:Int) {
 	switch (curStep) {
-		case 90:
+		case 80:
 			FlxTween.tween(cutscene, {alpha: 0}, 1); // change of when it finish
 			camZoomingInterval = 2;
 	}
