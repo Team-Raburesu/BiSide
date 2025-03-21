@@ -1,13 +1,13 @@
 <!DOCTYPE codename-engine-character>
 <character x="535" y="310" sprite="gf/ANAYA_SCARED" scale="0.7" flipX="true" isPlayer="true" icon="geef" gameOverChar="BFDEATH">
 	<anim name="idle" anim="EXPORT/idle" x="0" y="0" fps="24" loop="false"/>
-	<anim name="singDOWN" anim="EXPORT/down" x="-25" y="26" fps="24" loop="false"/>
-	<anim name="singRIGHT" anim="EXPORT/right" x="-11" y="0" fps="24" loop="false"/>
-	<anim name="singLEFT" anim="EXPORT/left" x="1" y="0" fps="24" loop="false"/>
+	<anim name="singDOWN" anim="EXPORT/down" x="-75" y="-26" fps="24" loop="false"/>
+	<anim name="singRIGHT" anim="EXPORT/right" x="-11" y="-1" fps="24" loop="false"/>
+	<anim name="singLEFT" anim="EXPORT/left" x="1" y="-1" fps="24" loop="false"/>
 	<anim name="singUP" anim="EXPORT/up" x="-10" y="10" fps="24" loop="false"/>
-	<anim name="singDOWNmiss" anim="EXPORT/missdown" x="990" y="35" fps="24" loop="false"/>
+	<anim name="singDOWNmiss" anim="EXPORT/missdown" x="990" y="-21" fps="24" loop="false"/>
 	<anim name="singLEFTmiss" anim="EXPORT/missleft" x="1072" y="-3" fps="24" loop="false"/>
 	<anim name="singRIGHTmiss" anim="EXPORT/missright" x="1068" y="3" fps="24" loop="false"/>
-	<anim name="singUPmiss" anim="EXPORT/missup" x="1095" y="30" fps="24" loop="false"/>
+	<anim name="singUPmiss" anim="EXPORT/missup" x="1095" y="18" fps="24" loop="false"/>
 	<anim name="scared" anim="EXPORT/spooked transition" x="0" y="0" fps="24" loop="false"/>
 </character>
