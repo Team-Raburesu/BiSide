@@ -64,14 +64,14 @@ function create() {
 		render.cameras = [camPause];
 	}
 
-	if (PlayState.instance.curSong == "togetheratlastfr") {
+	if (PlayState.instance.curSong == "together at last") {
 		render = new FlxSprite(-250, -430).loadGraphic(Paths.image('menus/PauseMenu/PauseTogetherAtLast'));
 		add(render);
 		render.scale.set(0.4, 0.4);
 		render.cameras = [camPause];
 	}
 
-	if (PlayState.instance.curSong == "loopingchorus") {
+	if (PlayState.instance.curSong == "looping chorus") {
 		render = new FlxSprite(-350, -420).loadGraphic(Paths.image('menus/PauseMenu/PauseLoopingChorus'));
 		add(render);
 

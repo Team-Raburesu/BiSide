@@ -7,9 +7,10 @@ function onCountdown(event)
 	event.cancel();
 
 
-function postCreate() {
+function create() {
 	cutscene.bitmap.onFormatSetup.add(function() {
 		cutscene.alpha = 1;
+		cutscene.volume = 100;
 	});
 	cutscene.load(Assets.getPath(Paths.video("togetheratlastfr")));
 	add(cutscene);
