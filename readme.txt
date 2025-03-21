@@ -58,7 +58,7 @@ megood_osu + SPG64 + MarissTown (charters)
 seepylilthing [GF] + snocthehedgehog [Beni] + AaronPKT [Bidi & █████] (voice actors)
 Cherrythousand (chromatic producter)
 Marisss (concept art)
-Cloudie (background artist)
+Cloudiethecat3 (background artist)
 Toonishtragedy (artist)
 
 ***THESE CREDITS APPLY TO V1***
