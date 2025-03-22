@@ -80,7 +80,7 @@ function create() {
 	bidyEyes.antialiasing = true;
 
 	for (i in 0...optionShit.length) {
-		menuItem = new FunkinSprite(0, 250);
+		menuItem = new FunkinSprite(0, 200);
 		menuItem.frames = Paths.getSparrowAtlas('menus/mainmenu/menubuttons');
 		menuItem.animation.addByPrefix('idle', optionShit[i] + 'UnSelected', 8, true);
 		menuItem.animation.addByPrefix('hover', optionShit[i] + 'Selected', 8, true);
@@ -91,7 +91,7 @@ function create() {
 		
 		menuItem.x = -500;
 		menuItem.y += menuItem.height + 45 * i;
-		if(i == 5) menuItem.y += 10;
+		if(i == 5) menuItem.y += 20;
 
 		var delay:Float = i * 0.05;
 		FlxTween.tween(menuItem, {x: 100}, 1, {
