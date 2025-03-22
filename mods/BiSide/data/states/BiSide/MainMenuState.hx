@@ -91,6 +91,7 @@ function create() {
 		
 		menuItem.x = -500;
 		menuItem.y += menuItem.height + 45 * i;
+		if(i == 5) menuItem.y += 10;
 
 		var delay:Float = i * 0.05;
 		FlxTween.tween(menuItem, {x: 100}, 1, {
