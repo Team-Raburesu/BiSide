@@ -115,8 +115,13 @@ function create() {
 		text.alpha = 0; // Invisible tant que le menu de difficulté n'est pas affiché
 		text.antialiasing = true;
 		add(text);
-
-		if (i == 1) text.x -= 50;
+		switch(i)
+		{
+			case 0:
+				text.x += 40;
+			case 1:
+				text.x -= 30;
+		}
 		difficultyText.push(text);
 	}
 	add(menuItems);

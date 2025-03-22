@@ -12,7 +12,7 @@
 	"name": "looping-chorus",
 	"coopAllowed": false,
 	"stepsPerBeat": 4,
-	"displayName": "looping-chorus",
+	"displayName": "Looping Chorus",
 	"beatsPerMeasure": 4,
 	"needsVoices": true,
 	"bpm": 118

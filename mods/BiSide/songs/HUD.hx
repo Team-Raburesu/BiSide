@@ -9,12 +9,12 @@ function postCreate() {
 	var leftFillerPath = Paths.image("game/healthbar/filler_right");
 	var rightFillerPath  = Paths.image("game/healthbar/filler_left");
 
-	if (curSong == "no-friendship") {
-		leftFillerPath = Paths.image("game/healthbar/filler_beni");
-	}
-
-	if (curSong == "looping-chorus") {
-		leftFillerPath = Paths.image("game/healthbar/filler_tini");
+	switch (curSong)
+	{
+		case 'no-friendship':
+			leftFillerPath = Paths.image("game/healthbar/filler_beni");
+		case 'looping-chorus':
+			leftFillerPath = Paths.image("game/healthbar/filler_tini");
 	}
 
 	leftHealth = new FlxSprite(0, -150, leftFillerPath);
@@ -45,30 +45,15 @@ function postCreate() {
 	healthBarBG.visible = false;
 	healthBarBG.antialiasing = true;
 
-	if (curSong == "looping chorus") {
-		insert(members.indexOf(iconP1), rightHealth);
-		insert(members.indexOf(iconP1), leftHealth);
-		insert(members.indexOf(iconP1), healthhBarBG);
+	switch (curSong)
+	{
+		case 'my-side':
+			// since this song has no healthbar, we leave this empty.
+		default:
+			insert(members.indexOf(iconP1), rightHealth);
+			insert(members.indexOf(iconP1), leftHealth);
+			insert(members.indexOf(iconP1), healthhBarBG);
 	}
-
-	if (curSong == "no friendship") {
-		insert(members.indexOf(iconP1), rightHealth);
-		insert(members.indexOf(iconP1), leftHealth);
-		insert(members.indexOf(iconP1), healthhBarBG);
-	}
-
-	if (curSong == "secret") {
-		insert(members.indexOf(iconP1), rightHealth);
-		insert(members.indexOf(iconP1), leftHealth);
-		insert(members.indexOf(iconP1), healthhBarBG);
-	}
-
-	if (curSong == "together at last") {
-		insert(members.indexOf(iconP1), rightHealth);
-		insert(members.indexOf(iconP1), leftHealth);
-		insert(members.indexOf(iconP1), healthhBarBG);
-		
-	} // very unoptimized.. but don't have time to fix it
 
 	if (downscroll) {
 		leftHealth.y = FlxG.height - leftHealth.height - 40;
