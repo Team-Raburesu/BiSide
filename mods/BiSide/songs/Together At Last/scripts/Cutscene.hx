@@ -31,10 +31,17 @@ iconP1.visible = false; }
 
 }
 
+function onGameOver(e) {
+    cutscene.pause();
+    cutscene.remove();
+    return true;
+}
 
 function onGamePause() {
 	cutscene.pause();
 }
+
+
 
 function onSubstateClose() {
 	if (paused) {
@@ -50,8 +57,8 @@ function onFocus() {
 
 function stepHit(curStep:Int) {
 	switch (curStep) {
-		case 80:
-			FlxTween.tween(cutscene, {alpha: 0}, 1); // change of when it finish
+		case 70:
+			FlxTween.tween(cutscene, {alpha: 0}, 0.5); // change of when it finish
 			camZoomingInterval = 2;
 	}
 }

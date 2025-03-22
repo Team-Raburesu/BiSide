@@ -40,8 +40,9 @@ function stepHit(curStep:Int) {
 }
 
 function onGameOver(e) {
-	cutscene.remove();
-	cutscene.pause();
+    cutscene.pause();
+    cutscene.remove();
+    return true; // Allows the game over to proceed
 }
 
 function update(elapsed:Float) {
