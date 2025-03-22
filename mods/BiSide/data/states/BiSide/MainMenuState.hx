@@ -79,7 +79,7 @@ function create() {
 	bidyEyes.antialiasing = true;
 
 	for (i in 0...optionShit.length) {
-		menuItem = new FunkinSprite(0, 0);
+		menuItem = new FunkinSprite(0, 250);
 		menuItem.frames = Paths.getSparrowAtlas('menus/mainmenu/menubuttons');
 		menuItem.animation.addByPrefix('idle', optionShit[i] + 'UnSelected', 8, true);
 		menuItem.animation.addByPrefix('hover', optionShit[i] + 'Selected', 8, true);
@@ -87,32 +87,12 @@ function create() {
 		menuItems.add(menuItem);
 		menuItem.scale.set(1, 1);
 		menuItem.antialiasing = true;
-
-		var targetX:Int = 0;
-
-		switch (optionShit[i]) {
-			case "StoryMode":
-				menuItem.setPosition(-500, 250);
-				targetX = 100;
-			case "Freeplay":
-				menuItem.setPosition(-500, 295);
-				targetX = 100;
-			case "Credits":
-				menuItem.setPosition(-500, 340);
-				targetX = 100;
-			case "Options":
-				menuItem.setPosition(-500, 385);
-				targetX = 100;
-			case "Bug_reports":
-				menuItem.setPosition(-500, 430);
-				targetX = 100;
-			case "Exit":
-				menuItem.setPosition(-500, 490);
-				targetX = 100;
-		}
+		
+		menuItem.x = -500;
+		menuItem.y += menuItem.height + 40 * i;
 
 		var delay:Float = i * 0.05;
-		FlxTween.tween(menuItem, {x: targetX}, 1, {
+		FlxTween.tween(menuItem, {x: 100}, 1, {
 			startDelay: delay,
 			ease: FlxEase.expoOut
 		});
@@ -230,10 +210,8 @@ function update(elapsed) {
 				if (FlxG.mouse.overlaps(i)) {
 					curSelected = menuItems.members.indexOf(i);
 					updateItems();
-					if (FlxG.mouse.justPressed)
-						selectItem();
-				} else
-					i.animation.play("idle", true);
+					if (FlxG.mouse.justPressed){selectItem();}
+				}
 			}
 		}
 		changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
@@ -313,6 +291,8 @@ function updateItems() {
 	menuItems.forEach(function(spr:FunkinSprite) {
 		if (spr.ID == curSelected) {
 			spr.animation.play('hover');
+		} else {
+			spr.animation.play('idle');
 		}
 
 		if (curSelected == 5) {
@@ -394,8 +374,7 @@ function switchState() {
 		case 'Credits':
 			openSubState(new ModSubState("Biside/CreditScreen"));
 		case "Bug_reports":
-			// Bug reports are now handled in handleBugReports()
-			// This case should never be reached
+			
 		case "Exit":
 			Sys.exit();
 	}
@@ -503,25 +482,21 @@ function closeDifficultyMenu() {
 	selectingDifficulty = false;
 	cancel.play();
 
-	// Réafficher le menu principal
 	menuItems.visible = true;
 	menutext.visible = true;
 
-	// Annuler les animations en cours qui pourraient affecter les positions
 	FlxTween.cancelTweensOf(menulogo);
 	FlxTween.cancelTweensOf(menutext);
 	FlxTween.cancelTweensOf(bidyhead);
 	FlxTween.cancelTweensOf(bidyEyes);
 	FlxTween.cancelTweensOf(bidyBody);
 
-	// Restaurer les éléments à leur position/état d'origine
 	FlxTween.tween(menulogo, {alpha: 1, y: 60}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(menutext, {x: 0, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(bidyhead, {x: 180}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(bidyEyes, {x: 740, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
 	FlxTween.tween(bidyBody, {x: 500}, 0.6, {ease: FlxEase.quartOut});
 
-	// Restaurer tous les boutons du menu
 	for (i in 0...menuItems.length) {
 		var menuItem = menuItems.members[i];
 		FlxTween.cancelTweensOf(menuItem);
@@ -579,7 +554,7 @@ function startStoryMode() {
 		sprite: null,
 		chars: [null, null, null],
 		songs: [
-			for (song in ["my side", "Looping Chorus", "no friendship", "together at last"])
+			for (song in ["my-side", "looping-chorus", "no-friendship", "together-at-last"])
 				{name: song, hide: false}
 		],
 		difficulties: ['hard']

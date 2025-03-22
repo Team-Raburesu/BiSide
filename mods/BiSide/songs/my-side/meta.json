@@ -1,0 +1,19 @@
+{
+	"beatsPerMeasure": 3,
+	"opponentModeAllowed": true,
+	"coopAllowed": false,
+	"stepsPerBeat": 4,
+	"bpm": 190,
+	"difficulties": [
+		"Easy",
+		"Normal",
+		"Hard"
+	],
+	"needsVoices": true,
+	"parsedColor": -14635036,
+	"displayName": "my-side",
+	"icon": "chibi",
+	"name": "my-side",
+	"color": "#20AFE4",
+	"customValues": {}
+}

@@ -9,12 +9,12 @@ function postCreate() {
 	var leftFillerPath = Paths.image("game/healthbar/filler_right");
 	var rightFillerPath = Paths.image("game/healthbar/filler_left");
 
-	if (curSong == "no friendship") {
-		leftFillerPath = Paths.image("game/healthbar/filler_beni");
-	}
-
-	if (curSong == "looping chorus") {
-		leftFillerPath = Paths.image("game/healthbar/filler_tini");
+	switch(curSong)
+	{
+		case 'no-friendship':
+			leftFillerPath = Paths.image("game/healthbar/filler_beni");
+		case 'looping-chorus':
+			leftFillerPath = Paths.image("game/healthbar/filler_tini");
 	}
 
 	leftHealth = new FlxSprite(0, -150, leftFillerPath);

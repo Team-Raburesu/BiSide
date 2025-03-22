@@ -1,0 +1,18 @@
+{
+	"beatsPerMeasure": 4,
+	"opponentModeAllowed": true,
+	"coopAllowed": true,
+	"stepsPerBeat": 4,
+	"bpm": 130,
+	"difficulties": [
+		"Easy",
+		"Normal",
+		"Hard"
+	],
+	"needsVoices": false,
+	"parsedColor": -15862061,
+	"displayName": "together-at-last",
+	"icon": "beef",
+	"name": "together-at-last",
+	"color": "#0DF6D3"
+}

@@ -50,34 +50,10 @@ function create() {
 	pauselogo.scale.set(0.72, 0.72);
 	pauselogo.cameras = [camPause];
 
-	if (PlayState.instance.curSong == "my side") {
-		render = new FlxSprite(-350, -420).loadGraphic(Paths.image('menus/PauseMenu/PauseMySide'));
-		add(render);
-		render.scale.set(0.4, 0.4);
-		render.cameras = [camPause];
-	}
-
-	if (PlayState.instance.curSong == "no friendship") {
-		render = new FlxSprite(-350, -420).loadGraphic(Paths.image('menus/PauseMenu/PauseNoFriendship'));
-		add(render);
-		render.scale.set(0.4, 0.4);
-		render.cameras = [camPause];
-	}
-
-	if (PlayState.instance.curSong == "together at last") {
-		render = new FlxSprite(-250, -430).loadGraphic(Paths.image('menus/PauseMenu/PauseTogetherAtLast'));
-		add(render);
-		render.scale.set(0.4, 0.4);
-		render.cameras = [camPause];
-	}
-
-	if (PlayState.instance.curSong == "looping chorus") {
-		render = new FlxSprite(-350, -420).loadGraphic(Paths.image('menus/PauseMenu/PauseLoopingChorus'));
-		add(render);
-
-		render.scale.set(0.4, 0.4);
-		render.cameras = [camPause];
-	}
+	render = new FlxSprite(-350, -420).loadGraphic(Paths.image('menus/PauseMenu/' + PlayState.instance.curSong));
+	render.scale.set(0.4, 0.4);
+	render.cameras = [camPause];
+	add(render);
 
 	// Ajout de la musique de pause
 	pauseMusic = FlxG.sound.load(Paths.music("breakfast"), 0, true);

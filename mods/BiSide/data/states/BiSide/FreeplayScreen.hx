@@ -3,7 +3,7 @@ import flixel.tweens.FlxTween;
 import flixel.text.FlxTextBorderStyle;
 import flixel.text.FlxTextAlign;
 
-var optionShit:Array<String> = ["MySide", "LoopingChorus", "NoFriendship", "TogetherAtLast"];
+var optionShit:Array<String> = ["my-side", "looping-chorus", "no-friendship", "together-at-last"];
 var menuItems:FlxTypedGroup<FlxSprite> = new FlxTypedGroup();
 var confirm:FlxSound;
 var usingMouse:Bool = true;
@@ -17,41 +17,25 @@ var rightArrow:FlxText;
 function create() {
 	for (i in 0...optionShit.length) {
 		confirm = FlxG.sound.load(Paths.sound('menu/confirm'));
-		menuItem = new FunkinSprite(0, 0);
+		menuItem = new FunkinSprite(0, 250);
 		menuItem.frames = Paths.getSparrowAtlas('menus/freeplay/menubuttons');
-		menuItem.animation.addByPrefix('idle', optionShit[i] + 'UnSelected', 8, true);
-		menuItem.animation.addByPrefix('hover', optionShit[i] + 'Selected', 8, true);
+		menuItem.animation.addByPrefix('idle', optionShit[i] + '-UnSelected', 8, true);
+		menuItem.animation.addByPrefix('hover', optionShit[i] + '-Selected', 8, true);
 		menuItem.ID = i;
 		menuItems.add(menuItem);
-		menuItem.scale.set(1, 1);
 		menuItem.antialiasing = true;
 		menuItem.alpha = 1;
 
-		var targetX:Int = 0;
-
-		switch (optionShit[i]) {
-			case "MySide":
-				menuItem.setPosition(-500, 250);
-				targetX = 100;
-			case "LoopingChorus":
-				menuItem.setPosition(-500, 295);
-				targetX = 100;
-			case "NoFriendship":
-				menuItem.setPosition(-500, 340);
-				targetX = 100;
-			case "TogetherAtLast":
-				menuItem.setPosition(-500, 385);
-				targetX = 100;
-		}
+		menuItem.x = -500;
+		menuItem.y += menuItem.height + 40 * i;
 
 		var delay:Float = i * 0.05;
-		FlxTween.tween(menuItem, {x: targetX}, 1, {
+		FlxTween.tween(menuItem, {x: 100}, 1, {
 			startDelay: delay,
 			ease: FlxEase.expoOut
 		});
 	}
 
-	// Initialiser le sprite pour afficher les images
 	photoDisplay = new FlxSprite(FlxG.width - 1200, 70);
 	photoDisplay.scale.set(1, 1);
 	photoDisplay.antialiasing = true;
@@ -62,9 +46,8 @@ function create() {
 
 	trace(optionShit);
 
-	curSelected = 0; // Sélectionne "MySide" par défaut
-	lastSelected = -1; // Force l'update au premier affichage
-	updateItems(); // Met à jour immédiatement l'affichage
+	curSelected = 0; 
+	lastSelected = -1;
 
 	add(menuItems);
 
@@ -136,18 +119,14 @@ function update(elapsed) {
         }
     }
 
-    // Handle mouse selection
+	updateItems();
     if (usingMouse) {
         for (i in menuItems.members) {
             if (FlxG.mouse.overlaps(i)) {
                 curSelected = menuItems.members.indexOf(i);
-                updateItems();
-
                 if (FlxG.mouse.justPressed) {
                     selectItem();
                 }
-            } else {
-                i.animation.play("idle", true);
             }
         }
     }
@@ -180,14 +159,7 @@ function updateItems() {
 			if (lastSelected != curSelected || lastSelected == -1) {
 				lastSelected = curSelected;
 
-				var photoPath:String = switch (optionShit[curSelected]) {
-					case "MySide": Paths.image("menus/freeplay/MySidePhotograph");
-					case "LoopingChorus": Paths.image("menus/freeplay/LoopingChorusPhotograph");
-					case "NoFriendship": Paths.image("menus/freeplay/NoFriendshipPhotograph");
-					case "TogetherAtLast": Paths.image("menus/freeplay/TogetherAtLastPhoto");
-					default: null;
-				};
-
+				var photoPath:String = Paths.image("menus/freeplay/" + optionShit[curSelected]); 
 				if (photoPath != null) {
 					photoDisplay.loadGraphic(photoPath);
 					photoDisplay.visible = true;
@@ -214,7 +186,6 @@ function updateItems() {
 function selectItem() {
 	selectedSomethin = true;
 	confirm.play();
-	updateItems(); // S'assurer que l'image est correcte avant de changer d'état
 	switchState();
 }
 
@@ -222,20 +193,8 @@ function switchState() {
 	var daChoice:String = optionShit[curSelected];
 	var selectedDifficulty:String = difficultyOptions[curDifficulty];
 
-	switch (daChoice) {
-		case 'MySide':
-			PlayState.loadSong("My Side", selectedDifficulty);
-			FlxG.switchState(new PlayState());
-		case 'LoopingChorus':
-			PlayState.loadSong("Looping Chorus", selectedDifficulty);
-			FlxG.switchState(new PlayState());
-		case 'NoFriendship':
-			PlayState.loadSong("No Friendship", selectedDifficulty);
-			FlxG.switchState(new PlayState());
-		case 'TogetherAtLast':
-			PlayState.loadSong("Together At Last", selectedDifficulty);
-			FlxG.switchState(new PlayState());
-	}
+	PlayState.loadSong(optionShit[curSelected], selectedDifficulty);
+	FlxG.switchState(new PlayState());
 }
 
 function changeSelection(change:Int = 0, force:Bool = false) {
@@ -243,14 +202,12 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 		return;
 
 	usingMouse = false;
-
+	FlxG.sound.play(Paths.sound('menu/scroll'), 0.7);
 	curSelected += change;
 	if (curSelected >= optionShit.length)
 		curSelected = 0;
 	if (curSelected < 0)
 		curSelected = optionShit.length - 1;
-
-	updateItems(); // Mise à jour immédiate
 }
 
 function changeDifficulty(change:Int) {
@@ -274,6 +231,4 @@ function changeDifficulty(change:Int) {
 			FlxTween.tween(difficultyText.scale, {x: 1, y: 1}, 0.1, {ease: FlxEase.quadIn});
 		}
 	});
-
-	updateItems();
 }
