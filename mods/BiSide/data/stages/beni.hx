@@ -7,7 +7,8 @@ function postCreate() {
         i++;
 
         c.shader = new CustomShader("shadow");
-        c.shader.color = [1.6, 280 / 255, 0, 0.33 * ((3 - i) / 2)];
+        c.shader.color = [0.533, 0.366, 0, 0.33 * ((3 - i) / 2)];
+
         c.shader.shadowLength = 45 * ((3 - i) / 2);
         c.shader.flipped = c.flipX;
 		c.shader.blend = 0;
