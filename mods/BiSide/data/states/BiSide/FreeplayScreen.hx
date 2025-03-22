@@ -11,8 +11,9 @@ var photoDisplay:FlxSprite; // Sprite pour afficher l'image sélectionnée
 var difficultyOptions:Array<String> = ["easy", "normal", "hard"];
 var curDifficulty:Int = 1; // Default to "normal"
 var difficultyText = new FlxText(0, 500, 0, "Difficulty: Normal", 32);
-var leftArrow:FlxText;
-var rightArrow:FlxText;
+
+var leftArrow:FlxSprite;
+var rightArrow:FlxSprite;
 
 function create() {
 	for (i in 0...optionShit.length) {
@@ -53,20 +54,29 @@ function create() {
 
 	difficultyText.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 48, FlxColor.WHITE, FlxTextAlign.CENTER);
 	difficultyText.x = 650; // Center the text
-	difficultyText.y = 630;
+	difficultyText.y = 620;
 	add(difficultyText);
 	difficultyText.alpha = 0;
 
-	// Add arrow text indicators properly positioned
-	leftArrow = new FlxText(0, 630, 0, "<-", 48);
-	leftArrow.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 48, FlxColor.WHITE, FlxTextAlign.CENTER);
-	leftArrow.x = 580; // Position to the left of the text
+	leftArrow = new FlxSprite(550, difficultyText.y - 10);
+	leftArrow.frames = Paths.getSparrowAtlas('menus/arrow_LEFT');
+	leftArrow.animation.addByPrefix('press', 'pressed', 1, false);
+	leftArrow.animation.addByPrefix('nopress', 'unpressed', 1, false);
+	leftArrow.scale.set(0.1, 0.1);
+	leftArrow.updateHitbox();
+	leftArrow.antialiasing = true;
+	leftArrow.animation.play('nopress');
 	add(leftArrow);
 	leftArrow.alpha = 0;
 
-	rightArrow = new FlxText(0, 630, 0, "->", 48);
-	rightArrow.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 48, FlxColor.WHITE, FlxTextAlign.CENTER);
-	rightArrow.x = 1120; // Position to the right of the text
+	rightArrow = new FlxSprite(1140, difficultyText.y - 10);
+	rightArrow.frames = Paths.getSparrowAtlas('menus/arrow_RIGHT');
+	rightArrow.animation.addByPrefix('press', 'pressed', 1, false);
+	rightArrow.animation.addByPrefix('nopress', 'unpressed', 1, false);
+	rightArrow.scale.set(0.1, 0.1);
+	rightArrow.updateHitbox();
+	rightArrow.antialiasing = true;
+	rightArrow.animation.play('nopress');
 	add(rightArrow);
 	rightArrow.alpha = 0;
 
@@ -80,44 +90,28 @@ function update(elapsed) {
         usingMouse = true;
     }
 
-    // Change difficulty with LEFT and RIGHT keys
     if (FlxG.keys.justPressed.LEFT) {
         changeDifficulty(-1);
     } else if (FlxG.keys.justPressed.RIGHT) {
         changeDifficulty(1);
     }
 
-    // Improve click detection for difficulty arrows
-    if (FlxG.mouse.justPressed) {
-        // Get mouse position
-        var mouseX = FlxG.mouse.x;
-        var mouseY = FlxG.mouse.y;
-        
-        // Check if mouse is over left arrow
-        if (mouseX >= leftArrow.x && mouseX <= leftArrow.x + leftArrow.width &&
-            mouseY >= leftArrow.y && mouseY <= leftArrow.y + leftArrow.height) {
-            changeDifficulty(-1);
-            FlxG.sound.play(Paths.sound('menu/scroll'));
-            
-            // Visual feedback with safe tweening
-            FlxTween.cancelTweensOf(leftArrow, ["color"]);
-            leftArrow.color = FlxColor.WHITE;
-            FlxTween.color(leftArrow, 0.1, FlxColor.WHITE, FlxColor.YELLOW, {ease: FlxEase.circOut});
-            FlxTween.color(leftArrow, 0.1, FlxColor.YELLOW, FlxColor.WHITE, {ease: FlxEase.circIn, startDelay: 0.1});
+	if (FlxG.mouse.overlaps(leftArrow) || FlxG.mouse.overlaps(rightArrow))
+	{
+        if (FlxG.mouse.overlaps(leftArrow)) {
+			leftArrow.animation.play('press');
+			if (FlxG.mouse.justPressed) changeDifficulty(-1);
         } 
-        // Check if mouse is over right arrow
-        else if (mouseX >= rightArrow.x && mouseX <= rightArrow.x + rightArrow.width &&
-                 mouseY >= rightArrow.y && mouseY <= rightArrow.y + rightArrow.height) {
-            changeDifficulty(1);
-            FlxG.sound.play(Paths.sound('menu/scroll'));
-            
-            // Visual feedback with safe tweening
-            FlxTween.cancelTweensOf(rightArrow, ["color"]);
-            rightArrow.color = FlxColor.WHITE;
-            FlxTween.color(rightArrow, 0.1, FlxColor.WHITE, FlxColor.YELLOW, {ease: FlxEase.circOut});
-            FlxTween.color(rightArrow, 0.1, FlxColor.YELLOW, FlxColor.WHITE, {ease: FlxEase.circIn, startDelay: 0.1});
+        else if (FlxG.mouse.overlaps(rightArrow)) {
+			rightArrow.animation.play('press');
+			if (FlxG.mouse.justPressed) changeDifficulty(1);
         }
-    }
+	}
+	else
+	{
+		leftArrow.animation.play('nopress');
+		rightArrow.animation.play('nopress');
+	}
 
 	updateItems();
     if (usingMouse) {
@@ -131,14 +125,12 @@ function update(elapsed) {
         }
     }
 
-    // Handle keyboard selection
     if (FlxG.keys.justPressed.UP) {
         changeSelection(-1);
     } else if (FlxG.keys.justPressed.DOWN) {
         changeSelection(1);
     }
 
-    // Confirm selection with ENTER
     if (FlxG.keys.justPressed.ENTER) {
         usingMouse = false;
         selectItem();
@@ -211,6 +203,7 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 }
 
 function changeDifficulty(change:Int) {
+	FlxG.sound.play(Paths.sound('menu/scroll'));
 	curDifficulty += change;
 
 	if (curDifficulty < 0)
