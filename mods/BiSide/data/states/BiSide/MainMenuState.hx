@@ -32,6 +32,7 @@ var hover:FlxSound;
 var curSelected:Int = 0;
 var difficultyOptions:Array<String> = ["Easy", "Normal", "Hard"];
 var difficultyText:Array<FlxText> = [];
+var diffIMGS:Array<FlxSprite> = [];
 var curDifficulty:Int = 1; // "Normal" par défaut
 var selectingDifficulty:Bool = false;
 var codeInput:String = "";
@@ -99,11 +100,22 @@ function create() {
 	}
 	moveCamera();
 	for (i in 0...difficultyOptions.length) {
-		var text = new FlxText(0, 120 + (i * 150), 0, difficultyOptions[i], 32);
+		var lol = new FlxSprite(0, 50).loadGraphic(Paths.image('menus/' + difficultyOptions[i].toLowerCase()));
+		lol.scale.set(0.6, 0.6);
+		lol.updateHitbox();
+		lol.antialiasing = false;
+		lol.x += (lol.width * i) + 70;
+		lol.alpha = 0;
+		add(lol);
+		diffIMGS.push(lol);
+
+		var text = new FlxText(120 + (i * 400), 470, 0, difficultyOptions[i], 32);
 		text.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 90, FlxColor.WHITE, FlxTextAlign.CENTER);
-		text.screenCenter(FlxAxes.X);
 		text.alpha = 0; // Invisible tant que le menu de difficulté n'est pas affiché
+		text.antialiasing = true;
 		add(text);
+
+		if (i == 1) text.x -= 50;
 		difficultyText.push(text);
 	}
 	add(menuItems);
@@ -160,9 +172,9 @@ function update(elapsed) {
 
 	// ...existing update code continues below...
 	if (selectingDifficulty) {
-		if (FlxG.keys.justPressed.UP)
+		if (FlxG.keys.justPressed.LEFT)
 			changeDifficulty(-1);
-		else if (FlxG.keys.justPressed.DOWN)
+		else if (FlxG.keys.justPressed.RIGHT)
 			changeDifficulty(1);
 		else if (FlxG.keys.justPressed.ENTER)
 			startStoryMode();
@@ -474,6 +486,10 @@ function openDifficultyMenu() {
 		FlxTween.tween(text, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
 	}
 
+	for (lol in diffIMGS) {
+		FlxTween.tween(lol, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});		
+	}
+
 	updateDifficultySelection();
 }
 
@@ -511,6 +527,10 @@ function closeDifficultyMenu() {
 	// Cacher les options de difficulté
 	for (text in difficultyText) {
 		FlxTween.tween(text, {alpha: 0}, 0.3, {ease: FlxEase.quartOut});
+	}
+
+	for (lol in diffIMGS) {
+		FlxTween.tween(lol, {alpha: 0}, 0.3, {ease: FlxEase.quadOut});		
 	}
 
 	// Restaurer l'état des animations des boutons
