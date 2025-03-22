@@ -90,7 +90,7 @@ function create() {
 		menuItem.antialiasing = true;
 		
 		menuItem.x = -500;
-		menuItem.y += menuItem.height + 40 * i;
+		menuItem.y += menuItem.height + 45 * i;
 
 		var delay:Float = i * 0.05;
 		FlxTween.tween(menuItem, {x: 100}, 1, {
