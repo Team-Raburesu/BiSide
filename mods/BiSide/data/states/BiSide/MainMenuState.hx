@@ -101,11 +101,11 @@ function create() {
 	}
 	moveCamera();
 	for (i in 0...difficultyOptions.length) {
-		var lol = new FlxSprite(0, 50).loadGraphic(Paths.image('menus/' + difficultyOptions[i].toLowerCase()));
-		lol.scale.set(0.6, 0.6);
+		var lol = new FlxSprite(0, 100).loadGraphic(Paths.image('menus/' + difficultyOptions[i].toLowerCase()));
+		lol.scale.set(0.5, 0.5);
 		lol.updateHitbox();
 		lol.antialiasing = false;
-		lol.x += (lol.width * i) + 70;
+		lol.x += ((lol.width + 50) * i) + 120;
 		lol.alpha = 0;
 		add(lol);
 		diffIMGS.push(lol);
@@ -133,9 +133,47 @@ var exitHoverCount:Int = 0;
 var isHoveringExit:Bool = false;
 var wigglingExit:Bool = false;
 
+var openedCredit:Bool = false;
+var credit:FlxSprite;
+
+function openDaCredits() {
+	credit = new FlxSprite(600, 60).loadGraphic(Paths.image('menus/credits'));
+	add(credit);
+	credit.scale.set(0.2, 0.2);
+
+	FlxTween.tween(credit, {x: FlxG.width / 2 - credit.width / 2, y: FlxG.height / 2 - credit.height / 2}, 1.4, {ease: FlxEase.expoOut});
+	FlxTween.tween(credit.scale, {x: 1, y: 1}, 1.4, {ease: FlxEase.expoOut,
+		onComplete: function(twn:FlxTween)
+		{
+			openedCredit = true;
+		},
+		onUpdate: function(twn:FlxTween)
+		{
+			credit.updateHitbox();
+		}
+	});
+}
+
+function closeDaCredit() {
+	openedCredit = false;
+	FlxTween.tween(credit.scale, {x: 0.01, y: 0.01}, 0.5, {ease: FlxEase.expoOut,
+		onUpdate: function(twn:FlxTween)
+		{
+			credit.screenCenter();
+		},
+		onComplete: function(twn:FlxTween)
+		{
+			credit.destroy();
+			selectedSomethin = false;
+		}
+	});
+
+	revertMenu();
+}
+
 function update(elapsed) {
 	// Check for secret code input
-	if (!selectedSomethin && !selectingDifficulty) {
+	if (!selectedSomethin && !selectingDifficulty && !openedCredit) {
 		// Check each key press
 		if (FlxG.keys.justPressed.ANY) {
 			var keyString = "";
@@ -184,13 +222,17 @@ function update(elapsed) {
 			changeDifficulty(1);
 		else if (FlxG.keys.justPressed.ENTER)
 			startStoryMode();
-		else if (FlxG.keys.justPressed.BACK || FlxG.keys.justPressed.ESCAPE) {
+		else if (controls.BACK) {
 			closeDifficultyMenu();
 			selectedSomethin = false;
 		}
 	}
 
-	if (FlxG.keys.justPressed.ENTER) {
+	if (openedCredit && controls.BACK) {
+		closeDaCredit();
+	}
+
+	if (FlxG.keys.justPressed.ENTER && !openedCredit) {
 		usingMouse = false;
 		var selectedItem = menuItems.members[curSelected];
 		if (selectedItem != null) {
@@ -215,14 +257,14 @@ function update(elapsed) {
 	}
 
 	if (FlxG.mouse.justMoved) {
-		new FlxTimer().start(1, function(_) usingMouse = true);
-	}
-
-	if (!FlxG.mouse.justMoved) {
-		new FlxTimer().start(1, function(_) usingMouse = false);
+		usingMouse = true;
+	} else {
+		usingMouse = false;
 	}
 
 	if (!selectedSomethin) {
+		updateHead();
+		updateEyes();
 		if (usingMouse) {
 			for (i in menuItems.members) {
 				if (FlxG.mouse.overlaps(i)) {
@@ -234,9 +276,6 @@ function update(elapsed) {
 		}
 		changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
 	}
-
-	updateHead();
-	updateEyes();
 
 	FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, camTargetX, 0.02);
 	FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, camTargetY, 0.02);
@@ -336,61 +375,55 @@ function selectItem() {
 	confirm.play();
 	FlxTween.cancelTweensOf(menuItem);
 
-	// Special handling for Bug Reports option
-	if (optionShit[curSelected] == "Bug_reports") {
-		handleBugReports();
-		return; // Exit early to avoid calling switchState
+	switch (optionShit[curSelected])
+	{
+		case 'Bug_reports':
+			if (!bugReportUrlOpened) {
+				bugReportUrlOpened = true;
+				CoolUtil.openURL("https://discord.gg/G5dYK59cHv");
+		
+				// Set a small timer to reset the UI state
+				new FlxTimer().start(0.3, function(tmr:FlxTimer) {
+					selectedSomethin = false;
+					bugReportUrlOpened = false; // Reset the flag after a delay
+		
+					// No need to restore UI elements since we didn't animate them away
+					updateItems();
+				}, 1);
+			}
+			return;
+		default:
+			// changed the x property of the tweens so it would be much easier to deal with the transitions
+			FlxTween.tween(menulogo, {y: -260, alpha: 0}, 0.5, {ease: FlxEase.expoOut});
+			FlxTween.tween(menutext, {x: 1000, alpha: 0}, 0.5, {ease: FlxEase.expoOut});
+			FlxTween.tween(bidyhead, {x: 1080, alpha: 0}, 0.5, {ease: FlxEase.expoOut});
+			FlxTween.tween(bidyEyes, {x: 1640, alpha: 0}, 0.5, {ease: FlxEase.expoOut});
+			FlxTween.tween(bidyBody, {x: 1400, alpha: 0}, 0.5, {ease: FlxEase.expoOut});
+
+			for (item in menuItems.members) {
+				var delay:Float = item.ID * 0.05;
+		
+				FlxTween.tween(item, {x: 1000, alpha: 0}, 1, {
+					startDelay: delay,
+					ease: FlxEase.expoOut,
+				});
+			}
 	}
-
-	FlxTween.tween(menulogo, {alpha: 0, y: -100}, 1, {ease: FlxEase.expoOut});
-	FlxTween.tween(menutext, {x: 200, alpha: 0}, 1, {ease: FlxEase.expoOut});
-	FlxTween.tween(bidyhead, {x: 900 + bidyhead.x}, 1, {ease: FlxEase.expoOut});
-	FlxTween.tween(bidyEyes, {x: 1400 + bidyEyes.x, alpha: 0}, 1, {ease: FlxEase.expoOut});
-	FlxTween.tween(bidyBody, {x: 900 + bidyBody.x}, 1, {ease: FlxEase.expoOut});
-
-	for (i in 0...menuItems.length) {
-		var menuItem = menuItems.members[i];
-		var delay:Float = i * 0.05;
-
-		var targetX = FlxG.width - 700;
-
-		FlxTween.tween(menuItem, {x: targetX, alpha: 0}, 1, {
-			startDelay: delay,
-			ease: FlxEase.expoOut,
-		});
-	}
-	switchState();
+	switchState(optionShit[curSelected]);
 }
 
-function handleBugReports() {
-	if (!bugReportUrlOpened) {
-		bugReportUrlOpened = true;
-		CoolUtil.openURL("https://discord.gg/G5dYK59cHv");
-
-		// Set a small timer to reset the UI state
-		new FlxTimer().start(0.3, function(tmr:FlxTimer) {
-			selectedSomethin = false;
-			bugReportUrlOpened = false; // Reset the flag after a delay
-
-			// No need to restore UI elements since we didn't animate them away
-			updateItems();
-		}, 1);
-	}
-}
-
-function switchState() {
-	var daChoice:String = optionShit[curSelected];
-
+function switchState(daChoice:String) {
 	switch (daChoice) {
 		case 'StoryMode':
 			openDifficultyMenu();
 		case 'Freeplay':
 			openSubState(new ModSubState("BiSide/FreeplayScreen"));
-			persistentUpdate = !(persistentDraw = true);
+			persistentUpdate = false;
+			persistentDraw = true;
 		case 'Options':
 			FlxG.switchState(new OptionsMenu());
 		case 'Credits':
-			openSubState(new ModSubState("Biside/CreditScreen"));
+			openDaCredits();
 		case "Bug_reports":
 			
 		case "Exit":
@@ -499,6 +532,24 @@ function openDifficultyMenu() {
 	updateDifficultySelection();
 }
 
+function revertMenu() {
+	FlxTween.tween(menulogo, {y: 60, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
+	FlxTween.tween(menutext, {x: 0, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
+	FlxTween.tween(bidyhead, {x: 180, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
+	FlxTween.tween(bidyEyes, {x: 740, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
+	FlxTween.tween(bidyBody, {x: 500, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
+
+	for (item in menuItems.members) {
+		item.x = -500;
+
+		var delay:Float = item.ID * 0.05;
+		FlxTween.tween(item, {x: 100, alpha: 1}, 0.5, {
+			startDelay: delay,
+			ease: FlxEase.expoOut,
+		});
+	}
+}
+
 // Fermer le menu de sélection de difficulté
 function closeDifficultyMenu() {
 	selectingDifficulty = false;
@@ -507,18 +558,7 @@ function closeDifficultyMenu() {
 	menuItems.visible = true;
 	menutext.visible = true;
 
-	FlxTween.cancelTweensOf(menulogo);
-	FlxTween.cancelTweensOf(menutext);
-	FlxTween.cancelTweensOf(bidyhead);
-	FlxTween.cancelTweensOf(bidyEyes);
-	FlxTween.cancelTweensOf(bidyBody);
-
-	FlxTween.tween(menulogo, {alpha: 1, y: 60}, 0.6, {ease: FlxEase.quartOut});
-	FlxTween.tween(menutext, {x: 0, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
-	FlxTween.tween(bidyhead, {x: 180}, 0.6, {ease: FlxEase.quartOut});
-	FlxTween.tween(bidyEyes, {x: 740, alpha: 1}, 0.6, {ease: FlxEase.quartOut});
-	FlxTween.tween(bidyBody, {x: 500}, 0.6, {ease: FlxEase.quartOut});
-
+	revertMenu();
 	for (i in 0...menuItems.length) {
 		var menuItem = menuItems.members[i];
 		FlxTween.cancelTweensOf(menuItem);
