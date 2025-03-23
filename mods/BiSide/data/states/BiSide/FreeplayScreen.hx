@@ -88,7 +88,9 @@ function create() {
 function update(elapsed) {
     if (FlxG.mouse.justMoved) {
         usingMouse = true;
-    }
+    } else {
+		usingMouse = false;
+	}
 
     if (FlxG.keys.justPressed.LEFT) {
         changeDifficulty(-1);
