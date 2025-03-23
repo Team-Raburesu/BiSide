@@ -85,7 +85,6 @@ function create() {
 // Add this new function to handle returning from submenus
 function onSubStateClose() {
 	canSelect = true; // Re-enable selection when returning from submenu
-	persistentDraw = true;
 }
 
 function update(elapsed:Float) {
@@ -149,12 +148,13 @@ function changeSelection(change:Int) {
 }
 
 function selectItem(option:String) {
+	FlxG.camera.setFilters([]);
+	PlayState.instance.camHUD.setFilters([]);
 	switch (option) {
 		case "Resume":
 			blackBarThingie.alpha = 0;
 			close();
 			pauseMusic.volume = 0;
-
 		case "Restart":
 			PlayState.instance.registerSmoothTransition();
 			FlxG.resetState();

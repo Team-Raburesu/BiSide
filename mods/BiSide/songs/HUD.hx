@@ -61,12 +61,7 @@ function postCreate() {
 }
 
 function update(elapsed) {
-	if (disableHUD)
-		leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * (1 - (health / maxHealth)), leftHealth.frameHeight);
-	if (persistentDraw) {
-		camHUD.removeShader(blur);
-		FlxG.camera.removeShader(blur);
-	}
+	if (disableHUD) leftHealth.clipRect = new FlxRect(0, 0, leftHealth.frameWidth * (1 - (health / maxHealth)), leftHealth.frameHeight);
 }
 
 function onGamePause(event) {
