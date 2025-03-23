@@ -38,9 +38,13 @@ var selectingDifficulty:Bool = false;
 var codeInput:String = "";
 var codeTimeout:FlxTimer = null;
 
+var mouseTrackerX:Float = 0;
+var mouseTrackerY:Float = 0;
+
 function create() {
 	CoolUtil.playMenuSong();
 	FlxG.mouse.visible = true;
+	instance = this;
 
 	confirm = FlxG.sound.load(Paths.sound('menu/confirm'));
 	cancel = FlxG.sound.load(Paths.sound('menu/cancel'));
@@ -99,7 +103,7 @@ function create() {
 			ease: FlxEase.expoOut
 		});
 	}
-	moveCamera();
+	//moveCamera();
 	for (i in 0...difficultyOptions.length) {
 		var lol = new FlxSprite(0, 100).loadGraphic(Paths.image('menus/' + difficultyOptions[i].toLowerCase()));
 		lol.scale.set(0.5, 0.5);
@@ -112,7 +116,7 @@ function create() {
 
 		var text = new FlxText(120 + (i * 400), 470, 0, difficultyOptions[i], 32);
 		text.setFormat(Paths.font("MPLUSRounded1c-Bold.ttf"), 90, FlxColor.WHITE, FlxTextAlign.CENTER);
-		text.alpha = 0; // Invisible tant que le menu de difficulté n'est pas affiché
+		text.alpha = 0;
 		text.antialiasing = true;
 		add(text);
 		switch(i)
@@ -164,7 +168,6 @@ function closeDaCredit() {
 		onComplete: function(twn:FlxTween)
 		{
 			credit.destroy();
-			selectedSomethin = false;
 		}
 	});
 
@@ -172,6 +175,10 @@ function closeDaCredit() {
 }
 
 function update(elapsed) {
+	if (FlxG.mouse.x != mouseTrackerX && FlxG.mouse.y != mouseTrackerY){
+        usingMouse = true;
+    }
+
 	// Check for secret code input
 	if (!selectedSomethin && !selectingDifficulty && !openedCredit) {
 		// Check each key press
@@ -246,54 +253,38 @@ function update(elapsed) {
 
 	FlxG.sound.music.volume = 0.5;
 
+	if (!selectedSomethin) {
+		updateHead();
+		updateEyes();
+		for (i in menuItems.members) {
+			if (FlxG.mouse.overlaps(i) && usingMouse) {
+				curSelected = menuItems.members.indexOf(i);
+				updateItems();
+				if (FlxG.mouse.justPressed){selectItem();}
+			}
+		}
+
+		if (controls.UP_P || controls.DOWN_P) {
+			usingMouse = false;
+			mouseTrackerX = FlxG.mouse.x;
+			mouseTrackerY = FlxG.mouse.y;
+			changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
+		}
+	}
+
+	if (FlxG.mouse.x != mouseTrackerX && FlxG.mouse.y != mouseTrackerY){
+        usingMouse = true;
+    }
+
+	/*
 	if (FlxG.keys.justPressed.SEVEN) {
 		persistentUpdate = !(persistentDraw = true);
 		openSubState(new EditorPicker());
 	}
-
+	*/
 	if (controls.SWITCHMOD) {
 		openSubState(new ModSwitchMenu());
 		persistentUpdate = !(persistentDraw = true);
-	}
-
-	if (FlxG.mouse.justMoved) {
-		usingMouse = true;
-	} else {
-		usingMouse = false;
-	}
-
-	if (!selectedSomethin) {
-		updateHead();
-		updateEyes();
-		if (usingMouse) {
-			for (i in menuItems.members) {
-				if (FlxG.mouse.overlaps(i)) {
-					curSelected = menuItems.members.indexOf(i);
-					updateItems();
-					if (FlxG.mouse.justPressed){selectItem();}
-				}
-			}
-		}
-		changeSelection((controls.UP_P ? -1 : 0) + (controls.DOWN_P ? 1 : 0) - FlxG.mouse.wheel);
-	}
-
-	FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, camTargetX, 0.02);
-	FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, camTargetY, 0.02);
-
-	var exitButton = menuItems.members[5];
-	if (FlxG.mouse.overlaps(exitButton)) {
-		if (!isHoveringExit) {
-			isHoveringExit = true;
-			exitHoverCount++;
-			if (exitHoverCount >= 6 && !wigglingExit)
-				wiggleExitButton(exitButton);
-		}
-	} else
-		isHoveringExit = false;
-
-	if (!FlxG.mouse.overlaps(exitButton)) {
-		bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
-		bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
 	}
 }
 
@@ -359,12 +350,6 @@ function updateItems() {
 			bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
 			bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
 		}
-
-		var exitButton = menuItems.members[5];
-		if (!FlxG.mouse.overlaps(exitButton)) {
-			bidyEyes.loadGraphic(Paths.image('menus/mainmenu/bidi/Eyes'));
-			bidyhead.loadGraphic(Paths.image('menus/mainmenu/bidi/Head'));
-		}
 	});
 }
 
@@ -417,7 +402,9 @@ function switchState(daChoice:String) {
 		case 'StoryMode':
 			openDifficultyMenu();
 		case 'Freeplay':
-			openSubState(new ModSubState("BiSide/FreeplayScreen"));
+			var frplay = new ModSubState("BiSide/FreeplayScreen");
+			frplay.closeCallback = revertMenu; // Set the callback
+			openSubState(frplay);
 			persistentUpdate = false;
 			persistentDraw = true;
 		case 'Options':
@@ -436,11 +423,7 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 		return;
 
 	FlxG.sound.play(Paths.sound('menu/scroll'), 0.7);
-
-	usingMouse = false;
-
 	curSelected += change;
-
 	if (curSelected >= menuItems.length)
 		curSelected = 0; // Loop back to first
 	if (curSelected < 0)
@@ -453,6 +436,7 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 			item.animation.play("idle", true);
 		}
 	}
+	updateItems();
 }
 
 function updateEyes() {
@@ -537,7 +521,12 @@ function revertMenu() {
 	FlxTween.tween(menutext, {x: 0, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
 	FlxTween.tween(bidyhead, {x: 180, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
 	FlxTween.tween(bidyEyes, {x: 740, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
-	FlxTween.tween(bidyBody, {x: 500, alpha: 1}, 0.5, {ease: FlxEase.expoOut});
+	FlxTween.tween(bidyBody, {x: 500, alpha: 1}, 0.5, {ease: FlxEase.expoOut,
+		onComplete: function(twn:FlxTween)
+		{
+			selectedSomethin = false;
+		}
+	});
 
 	for (item in menuItems.members) {
 		item.x = -500;
@@ -550,7 +539,6 @@ function revertMenu() {
 	}
 }
 
-// Fermer le menu de sélection de difficulté
 function closeDifficultyMenu() {
 	selectingDifficulty = false;
 	cancel.play();

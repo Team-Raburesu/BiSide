@@ -17,6 +17,10 @@ var render:FunkinSprite;
 var canSelect:Bool = false;
 public var shouldShowHUD = false;
 
+var mouseTrackerX:Float = 0;
+var mouseTrackerY:Float = 0;
+var usingMouse:Bool = true;
+
 function create() {
 	// Configuration de l'état pause
 	FlxG.state.persistentUpdate = false;
@@ -68,7 +72,7 @@ function create() {
 		item.animation.addByPrefix("idle", menuItems[index] + "UnSelected", 24, true);
 		item.animation.addByPrefix("hover", menuItems[index] + "Selected", 24, true);
 		item.playAnim("idle", true);
-
+		item.ID = index;
 		item.scale.set(1, 1);
 		item.updateHitbox();
 		item.x = 120;
@@ -88,54 +92,49 @@ function onSubStateClose() {
 }
 
 function update(elapsed:Float) {
-	    if (pauseMusic.volume < 0.3)
-        pauseMusic.volume += 0.02 * elapsed;
+	if (pauseMusic.volume < 0.3) pauseMusic.volume += 0.02 * elapsed;
 
 	if (!canSelect)
 		return;
 
 	// Keyboard controls
 	if (FlxG.keys.justPressed.UP) {
+		usingMouse = false;
+		mouseTrackerX = FlxG.mouse.x;
+		mouseTrackerY = FlxG.mouse.y;
 		changeSelection(-1);
 	} else if (FlxG.keys.justPressed.DOWN) {
+		usingMouse = false;
+		mouseTrackerX = FlxG.mouse.x;
+		mouseTrackerY = FlxG.mouse.y;
 		changeSelection(1);
-	} else if (FlxG.keys.justPressed.ENTER) {
-		selectItem(menuItems[curSelected]);
 	}
 	else if (FlxG.keys.justPressed.ESCAPE) {
+		FlxG.camera.setFilters([]);
+		PlayState.instance.camHUD.setFilters([]);
 		blackBarThingie.alpha = 0;
-			close();
-			pauseMusic.volume = 0;
-
+		close();
+		pauseMusic.volume = 0;
 	}
-
-	// Mouse controls
-	var mousePos = FlxG.mouse.getScreenPosition(camPause);
-	var hoveredItem = -1;
 
 	for (i in 0...itemArray.length) {
 		var item = itemArray[i].sprite;
-		if (item.overlapsPoint(mousePos)) {
-			hoveredItem = i;
-			if (FlxG.mouse.justPressed) {
-				curSelected = i;
+		if (FlxG.mouse.overlaps(item) || curSelected == item.ID) {
+			curSelected = item.ID;
+			changeSelection(0);
+			if ((FlxG.mouse.justPressed && usingMouse) || controls.ACCEPT) {
 				selectItem(menuItems[curSelected]);
 			}
 			break;
 		}
+		else {
+			item.animation.play("idle");
+		}
 	}
 
-	if (hoveredItem != -1 && hoveredItem != curSelected) {
-		changeSelection(hoveredItem - curSelected);
-	}
-
-	// Update menu item animations
-	for (item in itemArray) {
-		var isSelected = itemArray.indexOf(item) == curSelected;
-		item.sprite.playAnim(isSelected ? "hover" : "idle");
-		var targetScale:Float = isSelected ? 1 : 1;
-		item.sprite.scale.set(CoolUtil.fpsLerp(item.sprite.scale.x, targetScale, item.lerp), CoolUtil.fpsLerp(item.sprite.scale.y, targetScale, item.lerp));
-	}
+	if (FlxG.mouse.x != mouseTrackerX && FlxG.mouse.y != mouseTrackerY){
+        usingMouse = true;
+    }
 }
 
 function changeSelection(change:Int) {
@@ -145,6 +144,16 @@ function changeSelection(change:Int) {
 		curSelected = menuItems.length - 1;
 	if (curSelected >= menuItems.length)
 		curSelected = 0;
+
+	for (i in 0...itemArray.length) {
+		var item = itemArray[i].sprite;
+		if (FlxG.mouse.overlaps(item) || curSelected == item.ID) {
+			item.animation.play("hover");
+		}
+		else {
+			item.animation.play("idle");
+		}
+	}
 }
 
 function selectItem(option:String) {

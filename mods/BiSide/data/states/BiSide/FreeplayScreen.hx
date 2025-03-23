@@ -15,6 +15,11 @@ var difficultyText = new FlxText(0, 500, 0, "Difficulty: Normal", 32);
 var leftArrow:FlxSprite;
 var rightArrow:FlxSprite;
 
+var mouseTrackerX:Float = 0;
+var mouseTrackerY:Float = 0;
+
+var selSmth:Bool = false;
+
 function create() {
 	for (i in 0...optionShit.length) {
 		confirm = FlxG.sound.load(Paths.sound('menu/confirm'));
@@ -44,8 +49,6 @@ function create() {
 	photoDisplay.alpha = 0;
 	FlxTween.tween(photoDisplay, {alpha: 1}, 1);
 	FlxTween.tween(photoDisplay, {x: FlxG.width - 650}, 1, {ease: FlxEase.expoOut});
-
-	trace(optionShit);
 
 	curSelected = 0; 
 	lastSelected = -1;
@@ -86,60 +89,83 @@ function create() {
 }
 
 function update(elapsed) {
-    if (FlxG.mouse.justMoved) {
-        usingMouse = true;
-    } else {
-		usingMouse = false;
-	}
-
-    if (FlxG.keys.justPressed.LEFT) {
-        changeDifficulty(-1);
-    } else if (FlxG.keys.justPressed.RIGHT) {
-        changeDifficulty(1);
-    }
-
-	if (FlxG.mouse.overlaps(leftArrow) || FlxG.mouse.overlaps(rightArrow))
-	{
-        if (FlxG.mouse.overlaps(leftArrow)) {
-			leftArrow.animation.play('press');
-			if (FlxG.mouse.justPressed) changeDifficulty(-1);
-        } 
-        else if (FlxG.mouse.overlaps(rightArrow)) {
-			rightArrow.animation.play('press');
-			if (FlxG.mouse.justPressed) changeDifficulty(1);
-        }
-	}
-	else
-	{
-		leftArrow.animation.play('nopress');
-		rightArrow.animation.play('nopress');
-	}
-
 	updateItems();
-    if (usingMouse) {
-        for (i in menuItems.members) {
-            if (FlxG.mouse.overlaps(i)) {
-                curSelected = menuItems.members.indexOf(i);
-                if (FlxG.mouse.justPressed) {
-                    selectItem();
-                }
-            }
-        }
-    }
+	if (!selSmth)
+	{
+		if (FlxG.keys.justPressed.ENTER) {
+			selectItem();
+		}
+	
+		if (controls.BACK) {
+			FlxTween.tween(photoDisplay, {x: 930, alpha: 0}, 1, {ease: FlxEase.expoOut});
+			FlxTween.tween(difficultyText, {alpha: 0, x: 950}, 0.5, {ease: FlxEase.expoOut});
+			FlxTween.tween(leftArrow, {alpha: 0, x: 850}, 0.5, {ease: FlxEase.expoOut});
+			for (item in menuItems.members)
+			{
+				FlxTween.tween(item, {alpha: 0, x: 400}, 0.5, {ease: FlxEase.expoOut});			
+			}
+			FlxTween.tween(rightArrow, {alpha: 0, x: 1440}, 0.5, {ease: FlxEase.expoOut, onComplete: function(twn:FlxTween)
+				{
+					close();
+				}
+			});
+		}
 
-    if (FlxG.keys.justPressed.UP) {
-        changeSelection(-1);
-    } else if (FlxG.keys.justPressed.DOWN) {
-        changeSelection(1);
-    }
+		if (FlxG.keys.justPressed.LEFT) {
+			usingMouse = false;
+			mouseTrackerX = FlxG.mouse.x;
+			mouseTrackerY = FlxG.mouse.y;
+			changeDifficulty(-1);
+		} else if (FlxG.keys.justPressed.RIGHT) {
+			usingMouse = false;
+			mouseTrackerX = FlxG.mouse.x;
+			mouseTrackerY = FlxG.mouse.y;
+			changeDifficulty(1);
+		}
 
-    if (FlxG.keys.justPressed.ENTER) {
-        usingMouse = false;
-        selectItem();
-    }
+		if (FlxG.keys.justPressed.UP) {
+			usingMouse = false;
+			mouseTrackerX = FlxG.mouse.x;
+			mouseTrackerY = FlxG.mouse.y;
+			changeSelection(-1);
+		} else if (FlxG.keys.justPressed.DOWN) {
+			usingMouse = false;
+			mouseTrackerX = FlxG.mouse.x;
+			mouseTrackerY = FlxG.mouse.y;
+			changeSelection(1);
+		}
 
-    if (controls.BACK) {
-        FlxG.resetState();
+		if (usingMouse) {
+			for (i in menuItems.members) {
+				if (FlxG.mouse.overlaps(i) && usingMouse) {
+					curSelected = menuItems.members.indexOf(i);
+					if (FlxG.mouse.justPressed) {
+						selectItem();
+					}
+				}
+			}
+	
+			if (FlxG.mouse.overlaps(leftArrow) || FlxG.mouse.overlaps(rightArrow))
+			{
+				if (FlxG.mouse.overlaps(leftArrow)) {
+					leftArrow.animation.play('press');
+					if (FlxG.mouse.justPressed) changeDifficulty(-1);
+				} 
+				else if (FlxG.mouse.overlaps(rightArrow)) {
+					rightArrow.animation.play('press');
+					if (FlxG.mouse.justPressed) changeDifficulty(1);
+				}
+			}
+			else
+			{
+				leftArrow.animation.play('nopress');
+				rightArrow.animation.play('nopress');
+			}
+		}
+	}
+	
+	if (FlxG.mouse.x != mouseTrackerX && FlxG.mouse.y != mouseTrackerY){
+        usingMouse = true;
     }
 }
 
@@ -178,7 +204,7 @@ function updateItems() {
 }
 
 function selectItem() {
-	selectedSomethin = true;
+	selSmth = true;
 	confirm.play();
 	switchState();
 }
@@ -195,7 +221,6 @@ function changeSelection(change:Int = 0, force:Bool = false) {
 	if (change == 0 && !force)
 		return;
 
-	usingMouse = false;
 	FlxG.sound.play(Paths.sound('menu/scroll'), 0.7);
 	curSelected += change;
 	if (curSelected >= optionShit.length)
